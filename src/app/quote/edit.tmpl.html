@@ -1,0 +1,26 @@
+<div class="quote-edit">
+    <form class="form-horizontal" name="quoteForm">
+        <fieldset>
+            <legend>Quote</legend>
+            <div class="control-group">
+                <label class="control-label" for="inputAuthor">Author</label>
+
+                <div class="controls">
+                    <input type="text" id="inputAuthor" placeholder="Author of the quote" ng-model="quote.author">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputQuote">Quote</label>
+
+                <div class="controls">
+                    <textarea id="inputQuote" class="input-xxlarge" placeholder="The text of the quote"
+                              ng-model="quote.text"></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <a class="btn btn-primary" ng-click="save()" ng-disabled="quoteForm.$invalid">Save changes</a>
+                <a class="btn" href="#/quote">Cancel</a>
+            </div>
+        </fieldset>
+    </form>
+</div>

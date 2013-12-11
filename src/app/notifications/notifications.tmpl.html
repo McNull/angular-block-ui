@@ -1,0 +1,8 @@
+<div>
+    <ul class="unstyled">
+        <li ng-repeat="message in notifications.messages" class="alert alert-{{ message.type }}">
+            <a class="close" ng-click="notifications.remove(message)">x</a>
+            {{ message.text }}
+        </li>
+    </ul>
+</div>

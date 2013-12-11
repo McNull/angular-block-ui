@@ -1,0 +1,23 @@
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+
+    .nav-collapse-phone {
+        overflow: hidden;
+        clear: both;
+        height: auto;
+    }
+
+    .nav-collapse-phone > .nav {
+        width: 100%;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .nav-collapse-phone > .nav > li {
+        float: none !important;
+    }
+
+    .nav-collapse-phone.collapsed {
+        height: 0;
+    }
+}

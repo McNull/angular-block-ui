@@ -1,0 +1,18 @@
+<div class="navbar text-select-disable">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="btn hidden-desktop hidden-tablet pull-right"
+               ng-click="toggleCollapse()">
+                <i class="icon-list"></i>
+            </a>
+            <a href="#" class="brand">Angular Drag</a>
+            <div class="nav-collapse-phone" ng-class="{ collapsed: navItems.isCollapsed }">
+                <ul class="nav">
+                    <li ng-repeat="navItem in navItems" ng-class="{ active: navItem.isActive }">
+                        <a ng-href="{{ navItem.url }}" ng-click="collapseNavItems()">{{ navItem.text }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

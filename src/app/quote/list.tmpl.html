@@ -1,0 +1,16 @@
+<div class="quote-list">
+    <h1>Quotes</h1>
+    <p>Famous quotes by unfamous people.</p>
+
+    <ul class="unstyled">
+        <li class="quote-list-row" ng-repeat="quote in quotes" ng-click="edit(quote)">
+            <blockquote>
+                <p>{{ quote.text }}</p>
+                <small>{{ quote.author }}</small>
+            </blockquote>
+
+        </li>
+    </ul>
+
+    <a href="#/quote/create" class="btn">Add Quote</a>
+</div>

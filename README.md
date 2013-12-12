@@ -1,4 +1,3 @@
-angular-init
+angular-block-ui
 ============
 
-AngularJS boilerplate project

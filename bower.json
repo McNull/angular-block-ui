@@ -1,10 +1,10 @@
 {
-  "name": "angular-init",
+  "name": "angular-block-ui",
   "version": "0.0.0",
   "authors": [
     "Null McNull <no@spam.org>"
   ],
-  "description": "AngularJS boilerplate project",
+  "description": "AngularJS Block UI module",
   "license": "MIT",
   "ignore": [
     "**/.*",

@@ -31,7 +31,7 @@ module.exports = function (grunt) {
 
       gruntConfig.html2js[taskname] = {
         src: ['src/' + areaname + '/**/*.tmpl.html'],
-        dest: 'tmp/' + areaname + '/templates-app.js'
+        dest: 'tmp/' + areaname + '/templates-' + areaname + '.js'
       };
 
       gruntConfig.ngmin[taskname] = {

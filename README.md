@@ -31,6 +31,8 @@ BlockUI service methods
 #### start
 The start method will start the user interface block. Because multiple user interface elements can request a user interface block at the same time, the service keeps track of the number of start calls. Each call to start() will increase the count and every call to stop() will decrease the value. Whenever the count reaches 0 the block will end.
 
+*Note: By default the block is immediately active after calling this method, but to prevent trashing the user interface everytime a button is pressed, the block is visible after a short delay. This behaviour can be modified in the configuration.*
+
 **Arguments:**
 
 * **message** (string)
@@ -44,6 +46,16 @@ The reset will force a unblock by setting the block count to 0.
 
 #### message
 Allows the message shown in the overlay to be updated while to block is active.
+
+BlockUI overlay template
+========================
+
+The html and styling of the builtin template is kept barebone. It consist of two divs (overlay and message):
+
+    <div ng-show="blockCount > 0" class="block-ui-overlay" ng-class="{ 'block-ui-visible': blocking }"></div>
+    <div ng-show="blocking" class="block-ui-message">{{ message }}</div>
+
+A custom template can be specified in the module configuration.
 
 BlockUI module configuration
 ============================

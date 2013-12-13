@@ -1,3 +1,5 @@
+<div class="span8 offset2">
+
 <div class="hero-unit">
 
     <h1 class="hidden-phone">
@@ -9,10 +11,141 @@
     </h2>
 
     <p class="lead">
-        An AngularJS module to block the user interface.
+        A simple AngularJS module that allows you to block user interaction on AJAX requests. 
     </p>
 
     <p>
         <a class="btn btn-primary btn-large" href="#/documentation">Documentation »</a>
     </p>
+</div>
+
+<h4>Dependencies</h4>
+
+<p>Besides AngularJS (~1.2.4), none. </p>
+
+<h4>Usage</h4>
+
+<p>The blockUI module exposes a service by the same name. Access to the service is gained by injecting it into your controller or directive:</p>
+
+<pre><code>angular.module('myApp').controller('MyController', function($scope, blockUI) {
+  // A function called from user interface, which performs an async operation.
+  $scope.onSave = function(item) {
+
+    // Block the user interface
+    blockUI.start();
+
+    // Perform the async operation    
+    item.$save(function() {
+
+      // Unblock the user interface
+      blockUI.stop();
+
+    });
+  };
+});
+</code></pre>
+
+<h1>BlockUI service methods</h1>
+
+<h4>start</h4>
+
+<p>The start method will start the user interface block. Because multiple user interface elements can request a user interface block at the same time, the service keeps track of the number of start calls. Each call to start() will increase the count and every call to stop() will decrease the value. Whenever the count reaches 0 the block will end.</p>
+
+<p><em>Note: By default the block is immediately active after calling this method, but to prevent trashing the user interface everytime a button is pressed, the block is visible after a short delay. This behaviour can be modified in the configuration.</em></p>
+
+<p><strong>Arguments:</strong></p>
+
+<ul>
+<li><strong>message</strong> (string)
+Indicates the message to be shown in the overlay. If none is provided, the default message from the configuration is used.</li>
+</ul>
+
+<h4>stop</h4>
+
+<p>This will decrease the block count. The block will end if the count is 0.</p>
+
+<h4>reset</h4>
+
+<p>The reset will force a unblock by setting the block count to 0.</p>
+
+<h4>message</h4>
+
+<p>Allows the message shown in the overlay to be updated while to block is active.</p>
+
+<h1>BlockUI overlay template</h1>
+
+<p>The html and styling of the builtin template is kept barebone. It consist of two divs (overlay and message):</p>
+
+<pre><code>&lt;div ng-show=&quot;blockCount &gt; 0&quot; class=&quot;block-ui-overlay&quot; ng-class=&quot;{ 'block-ui-visible': blocking }&quot;&gt;&lt;/div&gt;
+&lt;div ng-show=&quot;blocking&quot; class=&quot;block-ui-message&quot;&gt;{{ message }}&lt;/div&gt;
+</code></pre>
+
+<p>A custom template can be specified in the module configuration.</p>
+
+<h1>BlockUI module configuration</h1>
+
+<p>The configuration of the BlockUI module can be modified via the <strong>blockUIConfigProvider</strong> during the config phase of your Angular application:</p>
+
+<pre><code>angular.module('myApp').config(function(blockUIConfigProvider) {
+
+  // Change the default overlay message
+  blockUIConfigProvider.message('Please stop clicking!');
+
+  // Change the default delay to 100ms before the blocking is visible
+  blockUIConfigProvider.delay(100);
+
+});
+</code></pre>
+
+<h3>Methods</h3>
+
+<h4>message</h4>
+
+<p>Changes the default message to be used when no message has been provided to the <em>start</em> method of the service. Default value is <em>&#8216;Loading &#8230;&#8217;</em>.</p>
+
+<pre><code>// Change the default overlay message
+blockUIConfigProvider.message('Please wait');
+</code></pre>
+
+<h4>delay</h4>
+
+<p>Specifies the amount in milliseconds before the block is visible to the user. By delaying a visible block your application will appear more responsive. The default value is <em>500</em>.</p>
+
+<pre><code>// Change the default delay to 100ms before the blocking is visible
+blockUIConfigProvider.delay(100);
+</code></pre>
+
+<h4>template</h4>
+
+<p>Specifies a custom template to use as the overlay.</p>
+
+<pre><code>// Provide a custom template to use
+blockUIConfigProvider.template('&lt;div class=&quot;block-ui-overlay&quot;&gt;{{ message }}&lt;/div&gt;');
+</code></pre>
+
+<h4>templateUrl</h4>
+
+<p>Specifies a url to retrieve the template from. <em>The current release only works with pre-cached templates, which means that this url should be known in the $templateCache service of Angular. If you&#8217;re using the grunt with html2js or angular-templates, which I highly recommend, you&#8217;re already set.</em></p>
+
+<pre><code>// Provide the custom template via a url
+blockUIConfigProvider.templateUrl('my-templates/block-ui-overlay.html');
+</code></pre>
+
+<h4>onLocationChange</h4>
+
+<p>By default the BlockUI module will start a block whenever a <em>$locationChangeStart</em> event is fired. You can set this value to <em>false</em> if you don&#8217;t want this behaviour.</p>
+
+<pre><code>// Disable blocking on location change
+blockUIConfigProvider.onLocationChange(false);
+</code></pre>
+
+<h4>resetOnException</h4>
+
+<p>By default the BlockUI module will reset the block count and hide the overlay whenever an exception has occured. You can set this value to <em>false</em> if you don&#8217;t want this behaviour.</p>
+
+<pre><code>// Disable clearing block whenever an exception has occured
+blockUIConfigProvider.resetOnException(false);
+</code></pre>
+
+
 </div>

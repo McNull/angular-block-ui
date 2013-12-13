@@ -23,4 +23,6 @@ angular.module('myApp', ['ngRoute', 'ngResource', 'templates-app', 'blockUI'], n
         redirectTo: '/'
     });
 
+}).config(function(blockUIConfigProvider) {
+    blockUIConfigProvider.message('Fun with config');
 });

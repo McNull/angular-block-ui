@@ -1,9 +1,52 @@
 (function(angular) {
-  var m = angular.module('blockUI', ['templates-angularBlockUI']);
+  angular.module('blockUI', ['templates-angularBlockUI']);
 
-  m.factory('blockUI', function($document, $templateCache, $rootScope, $compile, $timeout) {
+  angular.module('blockUI').provider('blockUIConfig', function() {
 
-    var $overlay, $scope, defaultMessage = "Loading ...", delay = 500, startPromise;
+    var config = {
+      templateUrl: 'angular-block-ui/angular-block-ui.tmpl.html',
+      delay: 0,
+      message: "Loading ...",
+      onLocationChange: true      
+    };
+
+    this.templateUrl = function(url) {
+      config.templateUrl = url;
+    };
+
+    this.template = function(template) {
+      config.template = template;
+    };
+
+    this.delay = function(delay) {
+      config.delay = delay;
+    };
+
+    this.message = function(message) {
+      config.message = message;
+    };
+
+    this.onLocationChange = function(onLocationChange) {
+      config.onLocationChange = onLocationChange;
+    };
+
+    this.$get = ['$templateCache', function($templateCache) {
+
+      if(!config.template) {
+        config.template = $templateCache.get(config.templateUrl);
+      }
+
+      return config;
+    }];
+
+  });
+
+  // By forcing the injection of the blockUI service we ensure that it's initialized at application start.
+  angular.module('blockUI').run(function(blockUI) {});
+
+  angular.module('blockUI').factory('blockUI', function(blockUIConfig, $document, $templateCache, $rootScope, $compile, $timeout) {
+
+    var $overlay, $scope, startPromise;
 
     initScope();
     initOverlay();
@@ -15,20 +58,19 @@
       $scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
         if ($scope.blockCount > 0) {
           event.preventDefault();
-        } else {
+        } else if (blockUIConfig.onLocationChange) {
           start();
         }
       });
 
-      $scope.$on('$locationChanged', function() {
-        stop();
+      $scope.$on('$locationChangeSuccess', function() {
+        if(blockUIConfig.onLocationChange) { stop(); }
       });
     }
 
     function initOverlay() {
       var $body = $document.find('body');
-      var template = $templateCache.get('angular-block-ui/angular-block-ui.tmpl.html');
-      var $overlay = angular.element(template);
+      var $overlay = angular.element(blockUIConfig.template);
 
       $compile($overlay)($scope);
 
@@ -36,7 +78,7 @@
     }
 
     function start(message) {
-      $scope.message = message || defaultMessage;
+      $scope.message = message || blockUIConfig.message;
 
       $scope.blockCount++;
 
@@ -44,7 +86,7 @@
         startPromise = $timeout(function() {
           startPromise = null;
           $scope.blocking = true;
-        }, delay);
+        }, blockUIConfig.delay);
       }
     }
 

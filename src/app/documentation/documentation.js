@@ -35,4 +35,9 @@ angular.module('myApp').controller('DocumentationController', function($scope, b
     }, 4000);
   };
 
+  $scope.withError = function() {
+    blockUI.start();
+
+    throw new Error('Oh dear');
+  };
 });

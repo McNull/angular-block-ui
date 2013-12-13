@@ -1,43 +1,71 @@
 (function(angular) {
   angular.module('blockUI', ['templates-angularBlockUI']);
 
-  angular.module('blockUI').provider('blockUIConfig', function() {
+  angular.module('blockUI').config(function($provide) {
 
     var config = {
       templateUrl: 'angular-block-ui/angular-block-ui.tmpl.html',
       delay: 0,
       message: "Loading ...",
-      onLocationChange: true      
+      onLocationChange: true,
+      resetOnException: true
     };
 
-    this.templateUrl = function(url) {
-      config.templateUrl = url;
-    };
+    $provide.provider('blockUIConfig', function() {
 
-    this.template = function(template) {
-      config.template = template;
-    };
+      this.templateUrl = function(url) {
+        config.templateUrl = url;
+      };
 
-    this.delay = function(delay) {
-      config.delay = delay;
-    };
+      this.template = function(template) {
+        config.template = template;
+      };
 
-    this.message = function(message) {
-      config.message = message;
-    };
+      this.delay = function(delay) {
+        config.delay = delay;
+      };
 
-    this.onLocationChange = function(onLocationChange) {
-      config.onLocationChange = onLocationChange;
-    };
+      this.message = function(message) {
+        config.message = message;
+      };
 
-    this.$get = ['$templateCache', function($templateCache) {
+      this.onLocationChange = function(enabled) {
+        config.onLocationChange = enabled;
+      };
 
-      if(!config.template) {
-        config.template = $templateCache.get(config.templateUrl);
+      this.resetOnException = function(enabled) {
+        config.resetOnException = enabled;
+      };
+
+      this.$get = ['$templateCache',
+        function($templateCache) {
+
+          if (!config.template) {
+            config.template = $templateCache.get(config.templateUrl);
+          }
+
+          return config;
+        }
+      ];
+
+    }); // blockUIConfig
+
+    $provide.decorator('$exceptionHandler', ['$delegate', '$injector',
+      function($delegate, $injector) {
+        return function(exception, cause) {
+
+          if(config.resetOnException) {
+            var blockUI = $injector.get('blockUI');
+
+            if(blockUI) {
+              blockUI.reset();
+            }
+          }
+
+          $delegate(exception, cause);
+        };
       }
-
-      return config;
-    }];
+    ]);
 
   });
 
@@ -64,7 +92,9 @@
       });
 
       $scope.$on('$locationChangeSuccess', function() {
-        if(blockUIConfig.onLocationChange) { stop(); }
+        if (blockUIConfig.onLocationChange) {
+          stop();
+        }
       });
     }
 
@@ -82,7 +112,7 @@
 
       $scope.blockCount++;
 
-      if(!startPromise) {
+      if (!startPromise) {
         startPromise = $timeout(function() {
           startPromise = null;
           $scope.blocking = true;
@@ -90,16 +120,20 @@
       }
     }
 
-    function stop() {
-
-      if(startPromise) {
+    function cancelTimeout() {
+      if (startPromise) {
         $timeout.cancel(startPromise);
         startPromise = null;
       }
+    }
 
+    function stop() {
+
+      cancelTimeout();
+      
       $scope.blockCount = Math.max(0, --$scope.blockCount);
 
-      if($scope.blockCount === 0) {
+      if ($scope.blockCount === 0) {
         $scope.blocking = false;
       }
     }
@@ -109,7 +143,9 @@
     }
 
     function reset() {
+      cancelTimeout();
       $scope.blockCount = 0;
+      $scope.blocking = false;
     }
 
     return {

@@ -1,6 +1,7 @@
 {
   "name": "angular-block-ui",
   "version": "0.0.1",
+  "keywords": ["angular", "angularjs", "block", "block-ui", "blockui"],
   "authors": [
     "Null McNull <no@spam.org>"
   ],

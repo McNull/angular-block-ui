@@ -1,0 +1,107 @@
+<div class="row-fluid">
+  <div class="span6">
+    <h1>Angular - BlockUI Examples</h1>
+    <p>The module blocks the user interface automatically on http request done by Angular but you can still perform blocking manually. Below are some examples on how to do this.</p>
+  </div>
+</div>
+<div class="row-fluid">
+  <div class="span6">
+    <h2>Start and stop block</h2>
+    <p>
+      Start the block manually and stop it after 2 seconds.
+    </p>
+    <p>
+      <a href="" class="btn" ng-click="startBlock()">Demo</a>
+    </p>
+    <pre><code>blockUI.start(); 
+$timeout(function() { 
+  blockUI.stop(); 
+}, 2000);</code></pre>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span6">
+    <h2>Block with custom message</h2>
+    <p>
+      Start the block and display a custom message.
+    </p>
+    <div class="alert alert-info">
+      <p>Note: the default message can be specified in the configuration.</p>
+    </div>
+    <p>
+      <a href="" class="btn" ng-click="startBlockWithMessage()">Demo</a>
+    </p>
+    <pre><code>blockUI.start("My custom message");
+
+$timeout(function() {
+  blockUI.stop();
+}, 2000);</code></pre>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span6">
+    <h2>Update messages</h2>
+    <p>
+      Start the block and modify the displayed message.
+    </p>
+    <p>
+      <a href="" class="btn" ng-click="startBlockUpdateMessage()">Demo</a>
+    </p>
+    <pre><code>blockUI.start();
+
+$timeout(function() {
+  blockUI.message('Still loading ...');
+}, 1000);
+
+$timeout(function() {
+  blockUI.message('Almost there ...');
+}, 2000);
+
+$timeout(function() {
+  blockUI.message('Cleaning up ...');
+}, 3000);
+
+$timeout(function() {
+  blockUI.stop();
+}, 4000);</code></pre>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span6">
+    <h2>Reset on exception</h2>
+    <p>
+      Example that hides the block whenever an uncaught exception has occured.
+    </p>
+    <p>
+      <a href="" class="btn" ng-click="resetOnError()">Demo</a>
+    </p>
+    <pre><code>blockUI.start();
+
+$timeout(function() {
+  throw new Error('Oh dear!');
+  blockUI.stop(); // Stop will never be called
+}, 1000);</code></pre>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div class="span6">
+    <h2>Block on HTTP requests</h2>
+    <p>
+      Example that blocks whenever a http request is fired.
+    </p>
+    <div class="alert alert-info">
+      Note: The block isn't shown if the server response time is less than the delay set in the configuration.
+    </div>
+    <p>
+      <a href="" class="btn" ng-click="withHttpRequest()">Demo</a>
+    </p>
+    <pre><code>$http.get('/api/quote/').then(function(data) {
+  console.log(data);
+});</code></pre>
+  </div>
+</div>
+

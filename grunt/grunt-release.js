@@ -60,6 +60,19 @@ module.exports = function (grunt) {
         ]
       };
 
+      ///////////////////////////////////////
+      // Package tasks
+
+      gruntConfig.copy[taskname + 'Package'] = {
+        files: [
+          { expand: true, flatten: true, src: ['dist/' + areaname + '/**/*'], dest: 'package/' + areaname }
+        ]
+      };
+
+      grunt.registerTask('package:' + taskname, ['build', 'test-single', 'copy:' + taskname + 'Package']);
+
+      ///////////////////////////////////////
+
       return this;
     },
 
@@ -78,12 +91,18 @@ module.exports = function (grunt) {
         grunt.registerTask(area, [ 'clean:' + area, 'html2js:' + area, 'ngmin:' + area, 'uglify:' + area, 'cssmin:' + area, 'copy:' + area ]);
       });
 
-      var buildTasks = [ 'clean:tmp', 'vendor', /* areas */ 'ejs', 'clean:postBuild', 'test' ];
+      var buildTasks = [ 'clean:tmp', 'vendor', /* areas */ 'ejs', 'clean:postBuild'];
       var args = [2, 0].concat(areas);
       Array.prototype.splice.apply(buildTasks, args);
 
       grunt.registerTask('build', buildTasks);
       grunt.registerTask('default', 'build');
+
+      // var packageTasks = _.map(areas, function(area) {
+      //   return 'copy:' + area + 'Package';
+      // });
+
+      // grunt.registerTask('package', ['build', 'test-single'].concat(packageTasks));
     },
 
     getConfig: function() {

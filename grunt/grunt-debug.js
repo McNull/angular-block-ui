@@ -15,8 +15,11 @@ module.exports = function (grunt) {
         dest: 'dist/'
       }
     },
-    html2js: {}
+    html2js: {},
+    concat: {}
   };
+
+  var projectFiles = gruntCommon.getProjectFiles();
 
   var areas = [];
 
@@ -50,6 +53,27 @@ module.exports = function (grunt) {
         ]
       };
 
+      ///////////////////////////////////////
+      // Package tasks
+
+      var areaJsGlobs = projectFiles[taskname].js;
+
+      gruntConfig.concat[taskname + 'Js'] = {
+        src: gruntCommon.expandGlobs(areaJsGlobs, 'src').concat(['<%= html2js.' + taskname + '.dest %>']),
+        dest: 'package/' + areaname + '/' + areaname + '.js'
+      };
+
+      var areaCssGlobs = projectFiles[taskname].css;
+
+      gruntConfig.concat[taskname + 'Css'] = {
+        src: gruntCommon.expandGlobs(areaCssGlobs, 'src'),
+        dest: 'package/' + areaname + '/' + areaname + '.css'
+      };
+
+      grunt.registerTask('package:' + taskname, ['build', 'test-single', 'concat:' + taskname + 'Css', 'concat:' + taskname + 'Js']);
+
+      ///////////////////////////////////////
+      
       return this;
     },
     registerTasks: function() {
@@ -57,7 +81,8 @@ module.exports = function (grunt) {
       gruntCommon.registerTasks();
 
       grunt.loadNpmTasks('grunt-contrib-copy');
-      grunt.loadNpmTasks('grunt-html2js');    
+      grunt.loadNpmTasks('grunt-contrib-concat');
+      grunt.loadNpmTasks('grunt-html2js');
 
       grunt.registerTask('vendor', [ 'clean:vendor', 'copy:vendor' ]);
 

@@ -19,13 +19,19 @@
 
 <div class="span6">
 
+<h1>angular-block-ui</h1>
+
+<p>A simple AngularJS module that allows you to block user interaction on AJAX requests. Blocking is done automatically for each http request and/or manually via an injectable service.</p>
+
 <h4>Dependencies</h4>
 
 <p>Besides AngularJS (~1.2.4), none. </p>
 
 <h4>Usage</h4>
 
-<p>The blockUI module exposes a service by the same name. Access to the service is gained by injecting it into your controller or directive:</p>
+<p>By default the module will block the user interface on each pending request made from the browser. This behavior can be modified in the configuration.</p>
+
+<p>It&#8217;s also possible to do the blocking manually. The blockUI module exposes a service by the same name. Access to the service is gained by injecting it into your controller or directive:</p>
 
 <pre><code>angular.module('myApp').controller('MyController', function($scope, blockUI) {
   // A function called from user interface, which performs an async operation.
@@ -109,10 +115,13 @@ blockUIConfigProvider.message('Please wait');
 
 <h4>delay</h4>
 
-<p>Specifies the amount in milliseconds before the block is visible to the user. By delaying a visible block your application will appear more responsive. The default value is <em>500</em>.</p>
+<p>Specifies the amount in milliseconds before the block is visible to the user. By delaying a visible block your application will appear more responsive. The default value is <em>250</em>.</p>
 
-<pre><code>// Change the default delay to 100ms before the blocking is visible
+<pre><code>// Change the default delay to 100ms before the blocking is visible ...
 blockUIConfigProvider.delay(100);
+
+// ... or completely remove the delay
+blockUIConfigProvider.delay(1);
 </code></pre>
 
 <h4>template</h4>
@@ -131,12 +140,12 @@ blockUIConfigProvider.template('&lt;div class=&quot;block-ui-overlay&quot;&gt;{{
 blockUIConfigProvider.templateUrl('my-templates/block-ui-overlay.html');
 </code></pre>
 
-<h4>onLocationChange</h4>
+<h4>autoBlock</h4>
 
-<p>By default the BlockUI module will start a block whenever a <em>$locationChangeStart</em> event is fired. You can set this value to <em>false</em> if you don&#8217;t want this behaviour.</p>
+<p>By default the BlockUI module will start a block whenever the Angular <em>$http</em> service has an pending request. If you don&#8217;t want this behaviour and want to do all the blocking manually you can change this value to <em>false</em>.</p>
 
-<pre><code>// Disable blocking on location change
-blockUIConfigProvider.onLocationChange(false);
+<pre><code>// Disable automatically blocking of the user interface
+blockUIConfigProvider.autoBlock(false);
 </code></pre>
 
 <h4>resetOnException</h4>
@@ -146,8 +155,5 @@ blockUIConfigProvider.onLocationChange(false);
 <pre><code>// Disable clearing block whenever an exception has occured
 blockUIConfigProvider.resetOnException(false);
 </code></pre>
-
-
-<!-- </div> -->
 
 </div>

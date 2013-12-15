@@ -1,7 +1,7 @@
 {
-  "name": "angular-init",
-  "version": "0.0.0",
-  "description": "AngularJS boilerplate project",
+  "name": "angular-block-ui",
+  "version": "0.0.1",
+  "description": "A simple AngularJS module that allows you to block user interaction on AJAX requests. Blocking is done automatically for each http request and/or manually via an injectable service.",
   "main": "grunt",
   "scripts": {
     "test": "grunt test"
@@ -9,7 +9,7 @@
   "keywords": [
     "angular",
     "angularjs",
-    "boilerplate"
+    "blockUI"
   ],
   "author": "Null McNull",
   "license": "BSD-2-Clause",

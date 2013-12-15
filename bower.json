@@ -12,6 +12,8 @@
     "**/.*",
     "*.sublime-project",
     "gruntfile.js",
+    "package.json",
+    "package.sh",
     "node_modules",
     "vendor",
     "dist",

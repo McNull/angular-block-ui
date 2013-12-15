@@ -1,16 +1,22 @@
 #!/usr/bin/env node
+
 var config = require('./lib/config');
 
 var express = require('express');
 var app = express();
 
-app.use(express.logger());                                  // Log requests to the console
-app.use(express.bodyParser());                              // Extract the data from the body of the request
-app.use(function noCache(req, res, next){
+app.use(express.logger()); // Log requests to the console
+app.use(express.bodyParser()); // Extract the data from the body of the request
+app.use(function noCache(req, res, next) {
   res.header("Cache-Control", "no-cache, no-store, must-revalidate");
   res.header("Pragma", "no-cache");
-  res.header("Expires",0);
+  res.header("Expires", 0);
   next();
+});
+app.use(function(req, res, next) {
+  setTimeout(function() {
+    next();
+  }, config.server.delay);
 });
 
 require('./lib/routes/quotes').addRoutes(app, config);

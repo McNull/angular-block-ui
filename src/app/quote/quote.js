@@ -47,7 +47,7 @@ angular.module('myApp')
     
   })
 
-  .controller('QuoteEditController', function ($scope, model, $location, notifications) {
+  .controller('QuoteEditController', function ($scope, model, $location, notifications, blockUI) {
 
     $scope.quote = model;
 
@@ -57,7 +57,6 @@ angular.module('myApp')
           notifications.add("Quote saved.", 'info', 1);
           $location.path('/quote');
         });
-
       }
     }
 

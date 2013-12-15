@@ -46,7 +46,7 @@ var files = {
     test: [
       'vendor/angular/angular.js',
       'vendor/angular-resource/angular-resource.min.js',
-      'vendor/angular-route/angular-route.min.js'
+      'vendor/angular-route/angular-route.min.js',
       'vendor/angular-mocks/angular-mocks.js',
       'vendor/lodash/dist/lodash.min.js'
     ],

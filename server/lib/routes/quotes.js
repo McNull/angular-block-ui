@@ -8,7 +8,11 @@ module.exports.addRoutes = function(app, config) {
   var quotes = util.readJsonSync(dataFilepath);
 
   app.get('/api/quote', function(req, res) {
-    res.json(quotes);
+
+    //setTimeout(function() {
+      res.json(quotes);  
+    //}, 2000);
+    
   });
 
   app.get('/api/quote/random', function(req, res) {

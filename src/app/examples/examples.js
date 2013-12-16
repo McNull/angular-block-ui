@@ -6,7 +6,7 @@ angular.module('myApp').constant('examplesRoutes', {
 });
 
 angular.module('myApp').controller('ExamplesController', function($scope, blockUI, $timeout, $http) {
-
+// blockUI.start();
   $scope.startBlock = function() {
     blockUI.start();
 

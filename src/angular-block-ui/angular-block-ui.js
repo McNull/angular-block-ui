@@ -37,29 +37,20 @@
         _config.resetOnException = enabled;
       };
 
-      this.$get = ['$templateCache',
-        function($templateCache) {
-
-          if (!_config.template) {
-            _config.template = $templateCache.get(_config.templateUrl);
-          }
-
-          return _config;
-        }
-      ];
-
+      this.$get = function() {
+        return _config;
+      };
+      
     }); // blockUIConfig
 
     $provide.decorator('$exceptionHandler', ['$delegate', '$injector',
       function($delegate, $injector) {
+        var blockUI;
+
         return function(exception, cause) {
-
           if (_config.resetOnException) {
-            var blockUI = $injector.get('blockUI');
-
-            if (blockUI) {
-              blockUI.reset();
-            }
+            blockUI = blockUI || $injector.get('blockUI');
+            blockUI.reset();
           }
 
           $delegate(exception, cause);
@@ -115,43 +106,44 @@
     $httpProvider.interceptors.push('blockUIHttpInterceptor');
   });
 
+  angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig) {
 
-  angular.module('blockUI').factory('blockUI', function(blockUIConfig, $document, $rootScope, $timeout, $compile) {
+    return {
+      restrict: 'A',
+      templateUrl: blockUIConfig.template ? undefined : blockUIConfig.templateUrl,
+      template: blockUIConfig.template,
+      link: function($scope, $element, $attrs) {
+        $scope.state = blockUI.state();
 
-    var $overlay, $scope, startPromise, stopPromise;
+        var i = 0; // Skip the initial location change
 
-    initScope();
-    initOverlay();
+        $scope.$on('$locationChangeStart', function(event) {
+          if (i++ && $scope.state.blockCount > 0) {
+            event.preventDefault();
+          }
+        });
+      }
+    };
 
-    function initScope() {
-      $scope = $rootScope.$new();
-      $scope.blockCount = 0;
+  });
 
-      $scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
-        if ($scope.blockCount > 0) {
-          event.preventDefault();
-        }
-      });
-    }
+  angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout) {
 
-    function initOverlay() {
-      var $body = $document.find('body');
-      var $overlay = angular.element(blockUIConfig.template);
-
-      $compile($overlay)($scope);
-
-      $body.append($overlay);
-    }
+    var state = { 
+      blockCount: 0, 
+      message: blockUIConfig.message,
+      blocking: false
+    }, startPromise, stopPromise;
 
     function start(message) {
-      $scope.message = message || blockUIConfig.message;
+      state.message = message || blockUIConfig.message;
 
-      $scope.blockCount++;
+      state.blockCount++;
 
       if (!startPromise) {
         startPromise = $timeout(function() {
           startPromise = null;
-          $scope.blocking = true;
+          state.blocking = true;
         }, blockUIConfig.delay);
       }
     }
@@ -164,33 +156,35 @@
     }
 
     function stop() {
-      $scope.blockCount = Math.max(0, --$scope.blockCount);
+      state.blockCount = Math.max(0, --state.blockCount);
 
-      if ($scope.blockCount === 0) {
+      if (state.blockCount === 0) {
         cancelStartTimeout();
-        $scope.blocking = false;
+        state.blocking = false;
       }
     }
 
     function message(message) {
-      $scope.message = message;
+      state.message = message;
     }
 
     function reset() {
       cancelStartTimeout();
-      $scope.blockCount = 0;
-      $scope.blocking = false;
+      state.blockCount = 0;
+      state.blocking = false;
     }
 
     return {
+      state: function() { return state; },
       start: start,
       stop: stop,
       message: message,
       reset: reset
     };
   });
-
-  // By forcing the injection of the blockUI service we ensure that it's initialized at application start.
-  angular.module('blockUI').run(function(blockUI) {});
+  
+  angular.module('blockUI').run(function($document) {
+    $document.find('body').append('<div block-ui></div>');
+  });
 
 })(angular);

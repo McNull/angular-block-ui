@@ -28,7 +28,7 @@ angular.module('myApp', ['ngRoute', 'ngResource', 'templates-app', 'blockUI'], n
   });
 
 }).config(function(blockUIConfigProvider) {
-  // blockUIConfigProvider.message('Fun with config');
+  //blockUIConfigProvider.message('Fun with config');
   // blockUIConfigProvider.autoBlock(false);
   //blockUIConfigProvider.template('<div class="block-ui-overlay">{{ message }}</div>');
 });

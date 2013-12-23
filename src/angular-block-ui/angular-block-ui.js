@@ -115,12 +115,13 @@
       link: function($scope, $element, $attrs) {
         $scope.state = blockUI.state();
 
-        var i = 0; // Skip the initial location change
-
-        $scope.$on('$locationChangeStart', function(event) {
-          if (i++ && $scope.state.blockCount > 0) {
-            event.preventDefault();
-          }
+        var fn = $scope.$on('$viewContentLoaded', function($event) {
+          fn();
+          $scope.$on('$locationChangeStart', function(event) {
+            if ($scope.state.blockCount > 0) {
+              event.preventDefault();
+            }
+          });          
         });
       }
     };

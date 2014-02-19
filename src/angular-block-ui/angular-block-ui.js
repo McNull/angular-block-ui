@@ -134,7 +134,7 @@
       blockCount: 0, 
       message: blockUIConfig.message,
       blocking: false
-    }, startPromise, stopPromise;
+    }, startPromise, stopPromise, doneCallbacks = [];
 
     function start(message) {
       state.message = message || blockUIConfig.message;
@@ -160,8 +160,7 @@
       state.blockCount = Math.max(0, --state.blockCount);
 
       if (state.blockCount === 0) {
-        cancelStartTimeout();
-        state.blocking = false;
+        reset(true);
       }
     }
 
@@ -169,10 +168,22 @@
       state.message = message;
     }
 
-    function reset() {
+    function reset(executeCallbacks) {
       cancelStartTimeout();
       state.blockCount = 0;
       state.blocking = false;
+
+      try {
+        if(executeCallbacks) {
+          angular.forEach(doneCallbacks, function(cb) { cb(); });
+        }
+      } finally {
+        doneCallbacks.length = 0;
+      }
+    }
+
+    function done(fn) {
+      doneCallbacks.push(fn);
     }
 
     return {
@@ -180,7 +191,8 @@
       start: start,
       stop: stop,
       message: message,
-      reset: reset
+      reset: reset,
+      done: done
     };
   });
   

@@ -1,6 +1,6 @@
 {
   "name": "angular-block-ui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple AngularJS module that allows you to block user interaction on AJAX requests. Blocking is done automatically for each http request and/or manually via an injectable service.",
   "main": "grunt",
   "scripts": {
@@ -12,7 +12,7 @@
     "blockUI"
   ],
   "author": "Null McNull",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "devDependencies": {
     "bower": "~1.2.7",
     "karma-chrome-launcher": "~0.1.0",

@@ -105,3 +105,24 @@ $timeout(function() {
   </div>
 </div>
 
+<div class="row-fluid">
+  <div class="span6">
+    <h2>Callback queue</h2>
+    <p>
+      Execute callback when the block ui has been finished.
+    </p>
+    <p>
+      <a href="" class="btn" ng-click="executeWhenDone()">Demo</a>
+    </p>
+<pre><code>blockUI.start();
+
+blockUI.done(function() {
+  $window.alert('BlockUI has finished.');
+});
+
+$timeout(function() {
+  blockUI.stop();
+}, 1000);</code></pre>
+  </div>
+</div>
+

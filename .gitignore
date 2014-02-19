@@ -6,3 +6,5 @@ karma/karma.conf.js
 .idea/*
 *.sublime-project
 *.sublime-workspace
+
+.DS_Store

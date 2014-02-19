@@ -18,5 +18,10 @@
     "id": 4,
     "author": "Null McNull",
     "text": "expect(this.isGreat()).toBe(true)"
+  },
+  {
+    "id": 5,
+    "author": "Groucho Marx",
+    "text": "I refuse to join any club that would have me as a member."
   }
 ]

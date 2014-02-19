@@ -5,7 +5,7 @@ angular.module('myApp').constant('examplesRoutes', {
     }
 });
 
-angular.module('myApp').controller('ExamplesController', function($scope, blockUI, $timeout, $http) {
+angular.module('myApp').controller('ExamplesController', function($scope, blockUI, $timeout, $http, $window) {
 // blockUI.start();
   $scope.startBlock = function() {
     blockUI.start();
@@ -61,4 +61,16 @@ angular.module('myApp').controller('ExamplesController', function($scope, blockU
     });
   };
 
+  $scope.executeWhenDone = function() {
+
+    blockUI.start();
+
+    blockUI.done(function() {
+      $window.alert('BlockUI has finished.');
+    });
+
+    $timeout(function() {
+      blockUI.stop();
+    }, 1000);
+  };
 });

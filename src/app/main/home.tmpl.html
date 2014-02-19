@@ -78,6 +78,17 @@ Indicates the message to be shown in the overlay. If none is provided, the defau
 
 <p>Allows the message shown in the overlay to be updated while to block is active.</p>
 
+<h4>done</h4>
+
+<p>Queues a callback function to be called when the block has finished. This can be useful whenever you wish to redirect the user to a different location while there are still pending AJAX requests.</p>
+
+<p><strong>Arguments:</strong></p>
+
+<ul>
+<li><strong>callback</strong> (function)
+The callback function to queue.</li>
+</ul>
+
 <h1>BlockUI overlay template</h1>
 
 <p>The html and styling of the builtin template is kept barebone. It consist of two divs (overlay and message):</p>
@@ -155,5 +166,4 @@ blockUIConfigProvider.autoBlock(false);
 <pre><code>// Disable clearing block whenever an exception has occured
 blockUIConfigProvider.resetOnException(false);
 </code></pre>
-
 </div>

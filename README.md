@@ -49,6 +49,14 @@ The reset will force a unblock by setting the block count to 0.
 #### message
 Allows the message shown in the overlay to be updated while to block is active.
 
+#### done
+Queues a callback function to be called when the block has finished. This can be useful whenever you wish to redirect the user to a different location while there are still pending AJAX requests.
+
+**Arguments:**
+
+* **callback** (function)
+The callback function to queue.
+
 BlockUI overlay template
 ========================
 

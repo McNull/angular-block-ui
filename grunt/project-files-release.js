@@ -41,14 +41,16 @@ var files = {
       'vendor/angular/angular.min.js',
       'vendor/angular-resource/angular-resource.min.js',
       'vendor/angular-route/angular-route.min.js',
-      'vendor/lodash/dist/lodash.min.js'
+      'vendor/lodash/dist/lodash.min.js',
+      'vendor/showdown/compressed/showdown.js'
     ],
     test: [
       'vendor/angular/angular.js',
       'vendor/angular-resource/angular-resource.min.js',
       'vendor/angular-route/angular-route.min.js',
       'vendor/angular-mocks/angular-mocks.js',
-      'vendor/lodash/dist/lodash.min.js'
+      'vendor/lodash/dist/lodash.min.js',
+      'vendor/showdown/compressed/showdown.js'
     ],
     css: [
       'vendor/bootstrap-css/css/bootstrap.min.css',

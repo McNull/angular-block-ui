@@ -1,4 +1,4 @@
-angular.module('myApp', ['ngRoute', 'ngResource', 'templates-app', 'blockUI'], null).value('navItems', [{
+angular.module('myApp', ['ngRoute', 'ngResource', 'templates-app', 'blockUI', 'showdown'], null).value('navItems', [{
   text: 'Home',
   url: '#/'
 }, {
@@ -28,6 +28,11 @@ angular.module('myApp', ['ngRoute', 'ngResource', 'templates-app', 'blockUI'], n
   });
 
 }).config(function(blockUIConfigProvider) {
+  // blockUIConfigProvider.requestFilter(function(config) {
+  //   if(config.url.match(/^\/api\/quote($|\/).*/)) {
+  //     return false;
+  //   }
+  // });
   //blockUIConfigProvider.message('Fun with config');
   // blockUIConfigProvider.autoBlock(false);
   //blockUIConfigProvider.template('<div class="block-ui-overlay">{{ message }}</div>');

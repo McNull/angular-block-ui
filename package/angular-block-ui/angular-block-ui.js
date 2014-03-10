@@ -9,7 +9,8 @@
       delay: 250,
       message: "Loading ...",
       autoBlock: true,
-      resetOnException: true
+      resetOnException: true,
+      requestFilter: angular.noop
     };
 
     $provide.provider('blockUIConfig', function() {
@@ -36,6 +37,10 @@
 
       this.resetOnException = function(enabled) {
         _config.resetOnException = enabled;
+      };
+
+      this.requestFilter = function(filter) {
+        _config.requestFilter = filter;
       };
 
       this.$get = function() {
@@ -79,9 +84,19 @@
 
         return {
           request: function(config) {
+
+            
             if (_config.autoBlock) {
-              injectBlockUI();
-              blockUI.start();
+
+              // Don't block excluded requests
+
+              if(_config.requestFilter(config) === false) {
+                // Tag the config so we don't unblock this request
+                config.$_noBlock = true;
+              } else {
+                injectBlockUI();
+                blockUI.start();  
+              }
             }
 
             return config;
@@ -90,7 +105,10 @@
           requestError: error,
 
           response: function(response) {
-            if (_config.autoBlock) {
+
+            // Check if the response is tagged to ignore
+
+            if (_config.autoBlock && !response.config.$_noBlock) {
               injectBlockUI();
               blockUI.stop();
             }

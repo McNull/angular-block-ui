@@ -26,6 +26,9 @@ module.exports = function(grunt) {
       grunt.registerTask('ejs', ['clean:render', 'render:index', 'render:karmaConf']);
       grunt.registerTask('test-single', ['render:karmaConf', 'karma:single']);
       grunt.registerTask('test', ['build', 'render:karmaConf', 'karma:unit']);
+      grunt.registerTask('postBuild', 'Executed after build', function() {
+        grunt.log.writeln('This task can be overwritten.');
+      });
     },
     expandGlobs: function(globs, cwd) {
       

@@ -5,8 +5,22 @@ A simple AngularJS module that allows you to block user interaction on AJAX requ
 #### Dependencies
 Besides AngularJS (~1.2.4), none.  
 
+#### Installation
+Either copy the contents of the `package` directory of the [Github](https://github.com/McNull/angular-block-ui) project or install with _bower_ from the command line (**recommended**):
+    
+    bower install angular-block-ui
+
+Include both the JS and CSS file in your html:
+
+    <link rel="stylesheet" href="path-to-block-ui/angular-block-ui.min.css"/>
+    <!-- After AngularJS -->
+	<script src="path-to-block-ui/angular-block-ui.min.js"></script>
+Create a dependency on `blockUI` in your main Angular module:
+
+    angular.module('myApp', ['blockUI'])
+
 #### Usage
-By default the module will block the user interface on each pending request made from the browser. This behavior can be modified in the configuration.
+By default the module will block the user interface on each pending request made from the browser. This behaviour can be modified in the configuration.
  
 It's also possible to do the blocking manually. The blockUI module exposes a service by the same name. Access to the service is gained by injecting it into your controller or directive:
 
@@ -31,9 +45,9 @@ BlockUI service methods
 =======================
 
 #### start
-The start method will start the user interface block. Because multiple user interface elements can request a user interface block at the same time, the service keeps track of the number of start calls. Each call to start() will increase the count and every call to stop() will decrease the value. Whenever the count reaches 0 the block will end.
+The start method will start the user interface block. Because multiple user interface elements can request a user interface block at the same time, the service keeps track of the number of start calls. Each call to `start()` will increase the count and every call to `stop()` will decrease the value. Whenever the count reaches 0 the block will end.
 
-*Note: By default the block is immediately active after calling this method, but to prevent trashing the user interface everytime a button is pressed, the block is visible after a short delay. This behaviour can be modified in the configuration.*
+*Note: By default the block is immediately active after calling this method, but to prevent trashing the user interface each time a button is pressed, the block is visible after a short delay. This behaviour can be modified in the configuration.*
 
 **Arguments:**
 
@@ -60,7 +74,7 @@ The callback function to queue.
 BlockUI overlay template
 ========================
 
-The html and styling of the builtin template is kept barebone. It consist of two divs (overlay and message):
+The html and styling of the builtin template is kept bare bone. It consist of two divs (overlay and message):
 
     <div ng-show="blockCount > 0" class="block-ui-overlay" ng-class="{ 'block-ui-visible': blocking }"></div>
     <div ng-show="blocking" class="block-ui-message">{{ message }}</div>
@@ -118,7 +132,19 @@ By default the BlockUI module will start a block whenever the Angular *$http* se
     blockUIConfigProvider.autoBlock(false);
 
 #### resetOnException
-By default the BlockUI module will reset the block count and hide the overlay whenever an exception has occured. You can set this value to *false* if you don't want this behaviour.
+By default the BlockUI module will reset the block count and hide the overlay whenever an exception has occurred. You can set this value to *false* if you don't want this behaviour.
 
-    // Disable clearing block whenever an exception has occured
+    // Disable clearing block whenever an exception has occurred
     blockUIConfigProvider.resetOnException(false);
+    
+#### requestFilter
+Allows you to specify a filter function to exclude certain ajax requests from blocking the user interface. The function is passed the [Angular request config object](http://docs.angularjs.org/api/ng/service/$http). The blockUI service will ignore requests when the function returns `false`.
+
+	// Tell the blockUI service to ignore certain requests
+    blockUIConfigProvider.requestFilter(function(config) {
+    
+      // If the request starts with '/api/quote' ...
+      if(config.url.match(/^\/api\/quote($|\/).*/)) {
+        return false; // ... don't block it.
+      }
+    });

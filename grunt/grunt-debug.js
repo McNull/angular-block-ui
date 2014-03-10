@@ -94,6 +94,8 @@ module.exports = function (grunt) {
       var args = [1, 0].concat(areas);
       Array.prototype.splice.apply(buildTasks, args);
 
+      buildTasks.push('postBuild');
+      
       grunt.registerTask('build', buildTasks);
       grunt.registerTask('default', 'build');
 

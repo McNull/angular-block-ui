@@ -1,7 +1,13 @@
 {
   "name": "angular-block-ui",
-  "version": "0.0.3",
-  "keywords": ["angular", "angularjs", "block", "block-ui", "blockui"],
+  "version": "0.0.4",
+  "keywords": [
+    "angular",
+    "angularjs",
+    "block",
+    "block-ui",
+    "blockui"
+  ],
   "authors": [
     "Null McNull <no@spam.org>"
   ],
@@ -31,6 +37,7 @@
     "angular-route": "~1.2.4",
     "angular-resource": "~1.2.4",
     "lodash": "~2.4.1",
-    "angular-mocks": "~1.2.4"
+    "angular-mocks": "~1.2.4",
+    "showdown": "~0.3.1"
   }
 }

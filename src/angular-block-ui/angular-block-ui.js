@@ -1,7 +1,8 @@
+/* Copyright (c) 2013-2014, Null McNull https://github.com/McNull, LICENSE: MIT */
 (function(angular) {
   angular.module('blockUI', ['templates-angularBlockUI']);
 
-  angular.module('blockUI').config(function($provide, $httpProvider) {
+  angular.module('blockUI').config(['$provide', '$httpProvider', function($provide, $httpProvider) {
 
     var _config = {
       templateUrl: 'angular-block-ui/angular-block-ui.tmpl.html',
@@ -122,9 +123,9 @@
     ]);
 
     $httpProvider.interceptors.push('blockUIHttpInterceptor');
-  });
+  }]);
 
-  angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig) {
+  angular.module('blockUI').directive('blockUi', ['blockUI', 'blockUIConfig', function(blockUI, blockUIConfig) {
 
     return {
       restrict: 'A',
@@ -144,9 +145,9 @@
       }
     };
 
-  });
+  }]);
 
-  angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout) {
+  angular.module('blockUI').factory('blockUI', ['blockUIConfig', '$timeout', function(blockUIConfig, $timeout) {
 
     var state = { 
       blockCount: 0, 
@@ -212,10 +213,21 @@
       reset: reset,
       done: done
     };
-  });
+  }]);
   
-  angular.module('blockUI').run(function($document) {
+  angular.module('blockUI').run(['$document', function($document) {
     $document.find('body').append('<div block-ui></div>');
-  });
+  }]);
 
 })(angular);
+
+angular.module('templates-angularBlockUI', ['angular-block-ui/angular-block-ui.tmpl.html']);
+
+angular.module("angular-block-ui/angular-block-ui.tmpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("angular-block-ui/angular-block-ui.tmpl.html",
+    "<div ng-show=\"state.blockCount > 0\" class=\"block-ui-overlay\" ng-class=\"{ 'block-ui-visible': state.blocking }\"></div>\n" +
+    "<div ng-show=\"state.blocking\" class=\"block-ui-message-container\">\n" +
+    "  <div class=\"block-ui-message\">{{ state.message }}</div>  \n" +
+    "</div>\n" +
+    "");
+}]);

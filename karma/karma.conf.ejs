@@ -27,7 +27,7 @@ files = files.concat(helpers.getIncludes('test', 'vendor', '.'))
 
     // test results reporter to use‰‰
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress'],
+    reporters: ['dots', 'growl'],
 
     // web server port
     port: 9876,
@@ -59,6 +59,6 @@ files = files.concat(helpers.getIncludes('test', 'vendor', '.'))
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: true
+    singleRun: false
   });
 };

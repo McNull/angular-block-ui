@@ -38,6 +38,7 @@
     "grunt-contrib-uglify": "~0.2.4",
     "grunt-contrib-cssmin": "~0.6.2",
     "grunt-karma": "~0.6.2",
-    "grunt-shell": "~0.5.0"
+    "grunt-shell": "~0.5.0",
+    "karma-growl-reporter": "~0.1.1"
   }
 }

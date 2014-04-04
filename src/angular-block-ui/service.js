@@ -1,4 +1,4 @@
-angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout) {
+angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils) {
 
   function BlockUI(id) {
 
@@ -76,11 +76,7 @@ angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout) {
     };
   }
 
-  var bodyBlock = new BlockUI('main');
-
-  var instances = bodyBlock.instances = [];
-
-  instances.main = bodyBlock;
+  var instances = [];
 
   instances.add = function(id) {
     instances[id] = new BlockUI(id);
@@ -107,19 +103,39 @@ angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout) {
   };
   
   instances.locate = function(request) {
+
+    var result = [];
+
+    // Add function wrappers that will be executed on every item
+    // in the array.
+    
+    blockUIUtils.forEachFnHook(result, 'start');
+    blockUIUtils.forEachFnHook(result, 'stop');
+
     var i = instances.length;
 
-    while(--i) {
+    while(i--) {
       var instance = instances[i];
-      var pattern = instance.pattern();
+      var pattern = instance._pattern;
 
       if(pattern && pattern.test(request.url)) {
-        return instance;
+        result.push(instance);
       }
     }
 
-    return bodyBlock;
+    if(result.length === 0) {
+      result.push(mainBlock);
+    }
+
+    return result;
   };
 
-  return bodyBlock;
+  // Propagate the reset to all instances
+
+  blockUIUtils.forEachFnHook(instances, 'reset');
+
+  var mainBlock = instances.add('main');
+  mainBlock.instances = instances;
+
+  return mainBlock;
 });

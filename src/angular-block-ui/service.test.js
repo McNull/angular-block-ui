@@ -109,7 +109,65 @@ describe('block-ui-service', function () {
 
     }); // remove
 
-    describe('start', function() {
+    describe('locate', function() {
+
+      it('should return the main blockUI', function() {
+        
+        var result = blockUI.instances.locate({ url: '/api/quotes/123' });
+        
+        expect(result.length).toBe(1);
+        expect(result[0]).toBe(blockUI);
+
+      });
+
+      it('should return the blockUI with the matching pattern', function() {
+
+        var myInstance = blockUI.instances.add('myInstance');
+        myInstance.pattern(/^\/api\/quotes\/123/);
+
+        var result = blockUI.instances.locate({ url: '/api/quotes/123' });
+
+        expect(result.length).toBe(1);
+        expect(result[0]).toBe(myInstance);
+
+      });
+
+      it('should return multiple blockUI that match the pattern', function() {
+
+        var myInstance1 = blockUI.instances.add('myInstance1');
+        var myInstance2 = blockUI.instances.add('myInstance2');
+
+        myInstance1.pattern(/^\/api\/quotes\/\d+/);
+        myInstance2.pattern(/^\/api\/quotes\/123/);
+
+        var result = blockUI.instances.locate({ url: '/api/quotes/123' });
+
+        expect(result.length).toBe(2);
+
+        expect(result.indexOf(myInstance1)).not.toBe(-1);
+        expect(result.indexOf(myInstance2)).not.toBe(-1);
+
+      });
+
+      it('should return the main blockUI if none match the pattern', function() {
+
+        var myInstance1 = blockUI.instances.add('myInstance1');
+        var myInstance2 = blockUI.instances.add('myInstance2');
+
+        myInstance1.pattern(/^\/api\/quotes\/\d+/);
+        myInstance2.pattern(/^\/api\/quotes\/123/);
+
+        var result = blockUI.instances.locate({ url: '/api/users/123' });
+
+        expect(result.length).toBe(1);
+        expect(result[0]).toBe(blockUI);
+      
+      });
+    });
+
+  }); // instances
+
+  describe('start', function() {
 
       it('should increase the block count', function() {
 
@@ -172,8 +230,4 @@ describe('block-ui-service', function () {
       });
 
     }); // stop
-
-    
-  });
-
 });

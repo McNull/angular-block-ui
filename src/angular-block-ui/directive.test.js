@@ -11,6 +11,7 @@ describe('block-ui-directive', function() {
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
       $document = _$document_;
+
       $body = $document.find('body');
       
       blockUI = _blockUI_;

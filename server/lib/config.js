@@ -7,6 +7,6 @@ module.exports = {
     distFolder: argv.root || '../dist',
     listenPort: argv.port || 1337,
     dataFolder: argv.data || 'data',
-    delay: 0
+    delay: 500
   }
 };

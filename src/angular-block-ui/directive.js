@@ -5,7 +5,7 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
     template: blockUIConfig.template,
     link: blockUiLinkFn
   };
-}).factory('blockUiLinkFn', function(blockUI) {
+}).factory('blockUiLinkFn', function(blockUI, blockUIUtils) {
 
   return function($scope, $element, $attrs) {
     
@@ -49,15 +49,8 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
         var pattern = $attrs.blockUiPattern;
 
         if(pattern) {
-          
-          var match = pattern.match(/^\/(.*)\/([gim]*)$/);
-
-          if(match) {
-            var regExp = new RegExp(match[1], match[2]);
-            srvInstance.pattern(regExp);
-          } else {
-            throw Error('Incorrect regular expression format: ' + pattern);
-          }
+          var regExp = blockUIUtils.buildRegExp(pattern);
+          srvInstance.pattern(regExp);
         }
 
         // Ensure the instance is removed when the scope is destroyed

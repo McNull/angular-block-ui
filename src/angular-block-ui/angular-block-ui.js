@@ -12,7 +12,7 @@ angular.module('blockUI').config(function($provide, $httpProvider) {
 
         if (blockUIConfig.resetOnException) {
           blockUI = blockUI || $injector.get('blockUI');
-          blockUI.reset();
+          blockUI.instances.reset();
         }
 
         $delegate(exception, cause);

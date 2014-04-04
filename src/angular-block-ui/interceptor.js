@@ -27,7 +27,9 @@ angular.module('blockUI').factory('blockUIHttpInterceptor', function($q, $inject
           config.$_noBlock = true;
         } else {
           injectBlockUI();
-          blockUI.start();
+
+          config.$_blocks = blockUI.instances.locate(config);
+          config.$_blocks.start();
         }
       }
 
@@ -40,9 +42,11 @@ angular.module('blockUI').factory('blockUIHttpInterceptor', function($q, $inject
 
       // Check if the response is tagged to ignore
 
-      if (blockUIConfig.autoBlock && !response.config.$_noBlock) {
+      var cfg = response.config;
+
+      if (blockUIConfig.autoBlock && !cfg.$_noBlock && cfg.$_blocks) {
         injectBlockUI();
-        blockUI.stop();
+        cfg.$_blocks.stop();
       }
 
       return response;

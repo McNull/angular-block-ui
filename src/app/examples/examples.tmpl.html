@@ -1,15 +1,15 @@
 <div class="row-fluid">
   <div class="span6">
     <h1>Angular - BlockUI Examples</h1>
-    <p>The examples are split into the sections <em>manual</em> and <em>element</em> blocking.</p>
+    <p>The examples below are split into the sections <em>manual blocking</em> and <em>individual element blocking</em>.</p>
   </div>
 </div>
 
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs spacer">
   <li ng-repeat="example in examples" ng-class="{ active: $index === examples.active }">
     <a href="" ng-click="examples.active = $index">{{ example.name }}</a>
   </li>
 </ul>
 
-<div ng-include="examples[examples.active].tmpl"></div>
+<div class="spacer" ng-include="examples[examples.active].tmpl"></div>
 

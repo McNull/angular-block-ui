@@ -1,0 +1,8 @@
+.my-demo-table th {
+  width: 25%;
+}
+
+.my-demo-table {
+  min-height: 410px;
+  margin-bottom: 0;
+}

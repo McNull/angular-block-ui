@@ -41,7 +41,7 @@ angular.module('myApp').config(function($provide) {
       return function(exception, cause) {
         // debugger;
         $delegate(exception, cause);
-        notifications.add(exception.toString(), 'error');
+        notifications.add(exception.toString(), 'danger');
       };
     }
   ]);
@@ -66,7 +66,7 @@ angular.module('myApp').factory('errorHttpInterceptor',
       'responseError': function(rejection) {
         // do something on error
          var msg = 'Network error (' + rejection.status + '): ' + rejection.data;
-         notifications.add(msg, 'error');
+         notifications.add(msg, 'danger');
          return $q.reject(rejection);
       }
     };

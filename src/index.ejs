@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" /> 
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
 <%
     var styles = helpers.getIncludes('css');
@@ -14,16 +14,12 @@
 </head>
 <body ng-app="myApp">
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span12">
-            <div data-navbar></div>
-            <div data-notifications></div>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div ng-view></div>
-    </div>
+<div class="container">
+
+    <div data-navbar></div>
+    <div data-notifications></div>
+
+    <div ng-view></div>
 </div>
 <%
     var scripts = helpers.getIncludes('js');

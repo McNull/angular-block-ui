@@ -33,7 +33,6 @@
     "angular": "~1.2.4"
   },
   "devDependencies": {
-    "bootstrap-css": "2.3.2",
     "angular-route": "~1.2.4",
     "angular-resource": "~1.2.4",
     "lodash": "~2.4.1",

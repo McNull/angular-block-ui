@@ -1,4 +1,4 @@
-angular.module('myApp', ['ngRoute', 'ngResource', 'templates-app', 'blockUI', 'showdown'], null).value('navItems', [{
+angular.module('myApp', ['ngRoute', 'ngResource', 'templates-app', 'blockUI', 'showdown', 'delay'], null).value('navItems', [{
   text: 'Home',
   url: '#/'
 }, {
@@ -27,7 +27,9 @@ angular.module('myApp', ['ngRoute', 'ngResource', 'templates-app', 'blockUI', 's
     redirectTo: '/'
   });
 
-}).config(function(blockUIConfigProvider) {
+}).config(function(blockUIConfigProvider, delayConfig) {
+
+  delayConfig.excludes.push(/.*\.md/i);
   // blockUIConfigProvider.requestFilter(function(config) {
   //   if(config.url.match(/^\/api\/quote($|\/).*/)) {
   //     return false;

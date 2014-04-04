@@ -7,6 +7,7 @@ module.exports = function(grunt) {
 
   gruntTarget.addArea('angularBlockUI', 'angular-block-ui')
              .addArea('angularShowdown', 'angular-showdown')
+             .addArea('angularDelay', 'angular-delay')
              .addArea('app')
              .registerTasks();
 

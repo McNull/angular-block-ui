@@ -22,7 +22,10 @@ var files = {
       ],
       other: [
         areaname + '/**/*.png',
-        areaname + '/**/*.jpg'
+        areaname + '/**/*.jpg',
+        areaname + '/**/*.html',
+        '!' +areaname + '/**/*.tmpl.html',
+        areaname + '/**/*.json'
       ],
       html2js: [
         areaname + '/templates-' + areaname + '.js'

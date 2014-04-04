@@ -1,0 +1,26 @@
+<div>
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>Lastname</th>
+      <th>Email</th>
+      <th>Country</th>
+    </tr>
+    <tr ng-repeat="item in table.items">
+      <td>{{ item.first_name }}</td>
+      <td>{{ item.last_name }}</td>
+      <td>{{ item.email }}</td>
+      <td>{{ item.country }}</td>
+    </tr>
+  </table>
+
+  <ul class="pagination">
+    <li><a href="" ng-click="table.previous()">&laquo;</a>
+    </li>
+    <li ng-repeat="i in [1,2,3,4,5]" ng-class="{ active: ($index * 10) === table.offset }">
+      <a href="" ng-click="table.offset = $index * 10">{{ i }}</a>
+    </li>
+    <li><a href="" ng-click="table.next()">&raquo;</a>
+    </li>
+  </ul>
+</div>

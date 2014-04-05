@@ -7,23 +7,34 @@
   height: 100%;
   top: 0;
   left: 0;
+  position: absolute;
+}
+
+body > .block-ui > .block-ui-overlay {
   position: fixed;
 }
+
 .block-ui-overlay.block-ui-visible {
   background-color: #fff;
   opacity: 0.5;
   -ms-filter:"alpha(opacity=50)";
   cursor: wait;
 }
+
 .block-ui-message-container {
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: 40%;
   left: 0;
   right: 0;
   height: 0;
   text-align: center;
   z-index: 10002;
 }
+
+body > .block-ui > .block-ui-message-container {
+  position: fixed;
+}
+
 .block-ui-message {
   cursor: wait;
   display: inline-block;

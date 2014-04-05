@@ -1,6 +1,6 @@
 {
   "name": "angular-block-ui",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "keywords": [
     "angular",
     "angularjs",
@@ -11,7 +11,7 @@
   "authors": [
     "Null McNull <no@spam.org>"
   ],
-  "description": "A simple AngularJS module that allows you to block user interaction on AJAX requests. Blocking is done automatically for each http request and/or manually via an injectable service.",
+  "description": "An elegant but advanced AngularJS module that allows you to block user interaction on AJAX requests. Blocking is done automatically for each http request and/or manually via an injectable service.",
   "license": "MIT",
   "main": "package/**/*",
   "ignore": [
@@ -33,11 +33,11 @@
     "angular": "~1.2.4"
   },
   "devDependencies": {
-    "bootstrap-css": "2.3.2",
     "angular-route": "~1.2.4",
     "angular-resource": "~1.2.4",
     "lodash": "~2.4.1",
     "angular-mocks": "~1.2.4",
-    "showdown": "~0.3.1"
+    "showdown": "~0.3.1",
+    "bootstrap-css": "~3.1.1"
   }
 }

@@ -6,7 +6,7 @@ An elegant but advanced AngularJS module that allows you to block user interacti
 Besides AngularJS (~1.2.4), none.  
 
 #### Demos
-Live demos can be found on [Plunker](http://run.plnkr.co/tI1k1V4E2zd188Oi/) or by executing the website included in the [GitHub project](https://github.com/McNull/angular-block-ui) .
+Live demos can be found on [Plunker](http://plnkr.co/edit/XWRfHX?p=preview) or by executing the website included in the [GitHub project](https://github.com/McNull/angular-block-ui) .
 
 #### Installation
 Either copy the contents of the `package` directory of the [Github](https://github.com/McNull/angular-block-ui) project or install with _bower_ from the command line (**recommended**):

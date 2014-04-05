@@ -37,6 +37,7 @@
     "angular-resource": "~1.2.4",
     "lodash": "~2.4.1",
     "angular-mocks": "~1.2.4",
-    "showdown": "~0.3.1"
+    "showdown": "~0.3.1",
+    "bootstrap-css": "~3.1.1"
   }
 }

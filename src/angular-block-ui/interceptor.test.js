@@ -48,8 +48,8 @@ describe('block-ui-http-interceptor', function() {
 
     it('should block instances that match the pattern', function() {
 
-      var myInstance1 = blockUI.instances.add('myInstance1');
-      var myInstance2 = blockUI.instances.add('myInstance2');
+      var myInstance1 = blockUI.instances.get('myInstance1');
+      var myInstance2 = blockUI.instances.get('myInstance2');
 
       myInstance1.pattern(/^\/api\/quote\/\d+$/);
       myInstance2.pattern(/^\/api\/quote/);
@@ -63,8 +63,8 @@ describe('block-ui-http-interceptor', function() {
 
     it('should not block instances that do not match the pattern', function() {
 
-      var myInstance1 = blockUI.instances.add('myInstance1');
-      var myInstance2 = blockUI.instances.add('myInstance2');
+      var myInstance1 = blockUI.instances.get('myInstance1');
+      var myInstance2 = blockUI.instances.get('myInstance2');
 
       myInstance1.pattern(/^\/api\/quote\/\d+$/);
       myInstance2.pattern(/^\/api\/quote/);
@@ -120,8 +120,8 @@ describe('block-ui-http-interceptor', function() {
 
     it('should stop $_blocks that matched the pattern', function() {
 
-      var myInstance1 = blockUI.instances.add('myInstance1');
-      var myInstance2 = blockUI.instances.add('myInstance2');
+      var myInstance1 = blockUI.instances.get('myInstance1');
+      var myInstance2 = blockUI.instances.get('myInstance2');
       
       myInstance1.pattern(/^\/api\/quote\/\d+$/);
       myInstance2.pattern(/^\/api\/quote/);

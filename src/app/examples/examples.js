@@ -8,10 +8,13 @@ angular.module('myApp').constant('examplesRoutes', {
 angular.module('myApp').controller('ExamplesController', function($scope) {
   
   $scope.examples = [{
-    name: 'Manual Blocking',
+    name: 'Documentation',
+    tmpl: 'app/examples/readme.html'
+  }, {
+    name: 'Manual Blocking Examples',
     tmpl: 'app/examples/manual-blocking.html'
   }, {
-    name: 'Element Blocking',
+    name: 'Element Blocking Examples',
     tmpl: 'app/examples/element-blocking.html'
   }];
   

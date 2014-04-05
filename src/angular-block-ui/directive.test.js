@@ -138,20 +138,36 @@ describe('block-ui-directive', function() {
       
     }); // viewContentLoaded
     
-    describe('nested block-ui', function() {
+    describe('block-ui id', function() {
 
       it('should create a blockUI instance by ID', function() {
 
         var $attrs = {
-          id: 'myInstance'
+          blockUi: 'myInstance'
         }; 
 
-        var $element = angular.element('<div><div block-ui id="myInstance"></div></div>').find('div');
+        var $element = angular.element('<div><div block-ui="myInstance"></div></div>').find('div');
 
         linkFn($scope, $element, $attrs);
  
         expect(blockUI.instances.myInstance).toBeDefined();
         
+      });
+
+      it('should re-use the same blockUI instance with the same id', function() {
+        
+        var $attrs = {
+          blockUi: 'myInstance'
+        };
+
+        var myInstance = blockUI.instances.get($attrs.blockUi);
+
+        var $element = angular.element('<div><div block-ui="myInstance"></div></div>').find('div');
+
+        linkFn($scope, $element, $attrs);
+
+        expect(blockUI.instances.myInstance).toBe(myInstance);
+
       });
 
       it('should use scope id when no id is provided', function() {
@@ -184,7 +200,7 @@ describe('block-ui-directive', function() {
         
         var $element = angular.element('<div><div></div></div>').find('div');
         
-        linkFn($scope, $element, { id: 'myInstance' });
+        linkFn($scope, $element, { blockUi: 'myInstance' });
         
         expect($scope.state).toBe(blockUI.instances.myInstance.state());
         
@@ -194,19 +210,21 @@ describe('block-ui-directive', function() {
     
     describe('scope destroy', function() {
       
-      it('should remove the instance when the scope is destroyed', function() {
+      it('should release the instance when the scope is destroyed', function() {
         
         var $element = angular.element('<div><div></div></div>').find('div');
         
-        linkFn($scope, $element, { id: 'myInstance' });
+        linkFn($scope, $element, { blockUi: 'myInstance' });
         
         var instance = blockUI.instances.myInstance;
         
-        spyOn(blockUI.instances, 'remove');
+        spyOn(instance, 'release').andCallThrough();
+        spyOn(blockUI.instances, '_destroy');
         
         $scope.$destroy();
-         
-        expect(blockUI.instances.remove).toHaveBeenCalledWith(instance);
+        
+        expect(instance.release).toHaveBeenCalled();
+        expect(blockUI.instances._destroy).toHaveBeenCalledWith(instance);
         
       });
       
@@ -219,7 +237,7 @@ describe('block-ui-directive', function() {
         var $element = angular.element('<div><div></div></div>').find('div');
         var pattern = '^\/api\/quote($|\/).*';
 
-        linkFn($scope, $element, { id: 'myInstance', blockUiPattern: '/' + pattern + '/' });
+        linkFn($scope, $element, { blockUi: 'myInstance', blockUiPattern: '/' + pattern + '/' });
 
         var instance = blockUI.instances.myInstance;
 

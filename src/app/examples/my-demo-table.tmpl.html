@@ -1,5 +1,5 @@
-<div>
-  <table class="table my-demo-table">
+<div class="my-demo-table">
+  <table class="table">
     <tr>
       <th>Name</th>
       <th>Lastname</th>
@@ -11,6 +11,9 @@
       <td>{{ item.last_name }}</td>
       <td>{{ item.email }}</td>
       <td>{{ item.country }}</td>
+    </tr>
+    <tr ng-repeat="e in table.emptyRows() track by $index">
+      <td colspan="4">&nbsp;</td>
     </tr>
   </table>
 

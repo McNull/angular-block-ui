@@ -2,7 +2,7 @@ angular.module('myApp', ['ngRoute', 'ngResource', 'templates-app', 'blockUI', 's
   text: 'Home',
   url: '#/'
 }, {
-  text: 'Examples',
+  text: 'Documentation',
   url: '#/examples',
   pattern: '/examples(/.*)?'
 }, {
@@ -30,6 +30,8 @@ angular.module('myApp', ['ngRoute', 'ngResource', 'templates-app', 'blockUI', 's
 }).config(function(blockUIConfigProvider, delayConfig) {
 
   delayConfig.excludes.push(/.*\.md/i);
+  delayConfig.timeout.min = 1000;
+  delayConfig.timeout.max = 2000;
   // blockUIConfigProvider.requestFilter(function(config) {
   //   if(config.url.match(/^\/api\/quote($|\/).*/)) {
   //     return false;

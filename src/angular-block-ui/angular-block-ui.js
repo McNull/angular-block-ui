@@ -24,5 +24,5 @@ angular.module('blockUI').config(function($provide, $httpProvider) {
 });
 
 angular.module('blockUI').run(function($document) {
-  $document.find('body').append('<div block-ui></div>');
+  $document.find('body').append('<div block-ui="main"></div>');
 });

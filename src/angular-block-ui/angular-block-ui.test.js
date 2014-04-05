@@ -43,8 +43,8 @@ describe('exception-handler', function() {
 
   it('should reset the all blocks on exception', function() {
 
-    var myInstance1 = blockUI.instances.add('myInstance1');
-    var myInstance2 = blockUI.instances.add('myInstance2');
+    var myInstance1 = blockUI.instances.get('myInstance1');
+    var myInstance2 = blockUI.instances.get('myInstance2');
     
     blockUI.start(); // set blockcount to 1
     myInstance1.start(); // set blockcount to 1

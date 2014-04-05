@@ -35,3 +35,6 @@ html {
 .spacer-lg {
   margin-top: 40px;
 }
+body {
+  padding-bottom: 80px;
+}

@@ -2,7 +2,6 @@
   width: 25%;
 }
 
-.my-demo-table {
-  min-height: 410px;
+.my-demo-table table, .my-demo-table .pagination {
   margin-bottom: 0;
 }

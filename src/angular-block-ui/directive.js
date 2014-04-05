@@ -1,5 +1,6 @@
 angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, blockUiLinkFn) {
   return {
+    scope: true,
     restrict: 'A',
     templateUrl: blockUIConfig.template ? undefined : blockUIConfig.templateUrl,
     template: blockUIConfig.template,
@@ -40,9 +41,10 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
 
         // Create the blockUI instance
 
-        var instanceId = $attrs.id === undefined ? $scope.$id : $attrs.id;
+        var instanceId = !$attrs.blockUi ? $scope.$id : $attrs.blockUi;
 
-        srvInstance = blockUI.instances.add(instanceId);
+        srvInstance = blockUI.instances.get(instanceId);
+        srvInstance.addRef();
 
         // If a pattern is provided assign it to the state
 
@@ -53,10 +55,10 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
           srvInstance.pattern(regExp);
         }
 
-        // Ensure the instance is removed when the scope is destroyed
+        // Ensure the instance is released when the scope is destroyed
 
         $scope.$on('$destroy', function() {
-          blockUI.instances.remove(srvInstance);
+          srvInstance.release();
         });
       }
       

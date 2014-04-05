@@ -11,6 +11,8 @@ angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout, b
       blocking: false
     }, startPromise, doneCallbacks = [];
 
+    this._refs = 0;
+
     this.start = function(message) {
       state.message = message || blockUIConfig.message;
 
@@ -74,17 +76,32 @@ angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout, b
     this.state = function() {
       return state;
     };
+
+    this.addRef = function() {
+      self._refs += 1;
+    };
+
+    this.release = function() {
+      if(--self._refs <= 0) {
+        mainBlock.instances._destroy(self);
+      }
+    };
   }
 
   var instances = [];
 
-  instances.add = function(id) {
-    instances[id] = new BlockUI(id);
-    instances.push(instances[id]);
-    return instances[id];
+  instances.get = function(id) {
+    var instance = instances[id];
+
+    if(!instance) {
+      instance = instances[id] = new BlockUI(id);
+      instances.push(instance);
+    }
+
+    return instance;
   };
 
-  instances.remove = function(idOrInstance) {
+  instances._destroy = function(idOrInstance) {
     if (angular.isString(idOrInstance)) {
       idOrInstance = instances[idOrInstance];
     }
@@ -134,7 +151,9 @@ angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout, b
 
   blockUIUtils.forEachFnHook(instances, 'reset');
 
-  var mainBlock = instances.add('main');
+  var mainBlock = instances.get('main');
+
+  mainBlock.addRef();
   mainBlock.instances = instances;
 
   return mainBlock;

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 rm -r package
 grunt package:angularBlockUI
 grunt package:angularBlockUI --target=release

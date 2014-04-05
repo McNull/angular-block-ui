@@ -1,9 +1,12 @@
 angular-block-ui
 ============
-A simple AngularJS module that allows you to block user interaction on AJAX requests. Blocking is done automatically for each http request and/or manually via an injectable service.
+An elegant but advanced AngularJS module that allows you to block user interaction on AJAX requests. Blocking is done automatically for each http request and/or manually via an injectable service.
 
 #### Dependencies
 Besides AngularJS (~1.2.4), none.  
+
+#### Demos
+Live demos can be found on plunker or by executing the website included in the [GitHub project](https://github.com/McNull/angular-block-ui) .
 
 #### Installation
 Either copy the contents of the `package` directory of the [Github](https://github.com/McNull/angular-block-ui) project or install with _bower_ from the command line (**recommended**):
@@ -14,8 +17,7 @@ Include both the JS and CSS file in your html:
 
     <link rel="stylesheet" href="path-to-block-ui/angular-block-ui.min.css"/>
     <!-- After AngularJS -->
-    <script src="path-to-block-ui/angular-block-ui.min.js"></script>
-    
+	<script src="path-to-block-ui/angular-block-ui.min.js"></script>
 Create a dependency on `blockUI` in your main Angular module:
 
     angular.module('myApp', ['blockUI'])
@@ -59,7 +61,7 @@ Indicates the message to be shown in the overlay. If none is provided, the defau
 This will decrease the block count. The block will end if the count is 0.
 
 #### reset
-The reset will force a unblock by setting the block count to 0.
+The reset will force an unblock by setting the block count to 0.
 
 #### message
 Allows the message shown in the overlay to be updated while to block is active.
@@ -71,6 +73,59 @@ Queues a callback function to be called when the block has finished. This can be
 
 * **callback** (function)
 The callback function to queue.
+
+Blocking individual elements
+============================
+
+Instead of blocking the whole page, it's also possible to block individual elements. Just like the main `blockUI` service, this can be done either manually or automatically. Elements can be made _block ui enabled_ by adding a sibling `block-ui` directive element.
+
+```
+<div>
+  <p> ... I'm blockable ... </p>
+  <div block-ui="myBlockUI"></div>
+</div>
+```
+
+#### Automatic blocking
+
+Automatic blocking elements can be done by providing the `block-ui` directive a `block-ui-pattern` attribute. This attribute should contain a valid regular expression, which indicates the requests that are associated with the specific element.
+
+```
+<div>
+  <p> ... I'm blockable ... </p>
+  <!-- Initiated the block whenever a request to '/api/quote' is performed -->
+  <div block-ui block-ui-pattern="/^\/api\/quote($|\/).*/"></div>
+</div>
+```
+
+#### Manual blocking
+
+By providing the `block-ui` directive a name the controller can request the instance via the injected `blockUI` service. All functions exposed by the main `blockUI` service are available on the individual instances.
+ 
+```
+<div>
+  <p> ... I'm blockable ... </p>
+  <div block-ui="myBlockUI"></div>
+</div>
+```
+```
+angular.module('myApp').controller('MyController', function($scope, $http, blockUI) {
+
+  // Grab the reference to the instance defined in the html markup
+  var myBlockUI = blockUI.instances.get('myBlockUI');
+  
+  $scope.doSomethingAsync = function() {
+  	
+    myBlockUI.start();
+    	
+    $timeout(function() {
+	  myBlockUI.stop(); 
+	}, 1000);  
+	
+  };
+});
+```
+
 
 BlockUI overlay template
 ========================

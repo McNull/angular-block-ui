@@ -4,20 +4,20 @@
     The module blocks the user interface automatically on each http request done by Angular, but you can also perform the blocking manually. Below are some examples on how to do this.
   </p>
 
-  <h2>Start and stop block</h2>
+  <h2 class="spacer-lg">Start and stop block</h2>
   <p>
     Start the block manually and stop it after 2 seconds.
   </p>
   <p>
     <a href="" class="btn btn-default" ng-click="startBlock()">Demo</a>
   </p>
-  <pre><code>blockUI.start(); 
+  <pre class="spacer"><code>blockUI.start(); 
 
 $timeout(function() { 
   blockUI.stop(); 
 }, 2000);</code></pre>
 
-  <h2>Block with custom message</h2>
+  <h2 class="spacer-lg">Block with custom message</h2>
   <p>
     Start the block and display a custom message.
   </p>
@@ -27,20 +27,20 @@ $timeout(function() {
   <p>
     <a href="" class="btn btn-default" ng-click="startBlockWithMessage()">Demo</a>
   </p>
-  <pre><code>blockUI.start("My custom message");
+  <pre class="spacer"><code>blockUI.start("My custom message");
 
 $timeout(function() {
   blockUI.stop(); 
 }, 2000);</code></pre>
 
-  <h2>Update messages</h2>
+  <h2 class="spacer-lg">Update messages</h2>
   <p>
     Start the block and modify the displayed message.
   </p>
   <p>
     <a href="" class="btn btn-default" ng-click="startBlockUpdateMessage()">Demo</a>
   </p>
-  <pre><code>blockUI.start();
+  <pre class="spacer"><code>blockUI.start();
 
 $timeout(function() {
   blockUI.message('Still loading ...'); 
@@ -58,21 +58,21 @@ $timeout(function() {
   blockUI.stop(); 
 }, 4000);</code></pre>
 
-  <h2>Reset on exception</h2>
+  <h2 class="spacer-lg">Reset on exception</h2>
   <p>
     Example that hides the block whenever an uncaught exception has occured.
   </p>
   <p>
     <a href="" class="btn btn-default" ng-click="resetOnError()">Demo</a>
   </p>
-  <pre><code>blockUI.start(); 
+  <pre class="spacer"><code>blockUI.start(); 
 
 $timeout(function() { 
   throw new Error('Oh dear!'); 
   blockUI.stop(); // Stop will never be called 
 }, 1000);</code></pre>
 
-  <h2>Block on HTTP requests</h2>
+  <h2 class="spacer-lg">Block on HTTP requests</h2>
   <p>
     Example that blocks whenever a http request is fired.
   </p>
@@ -82,18 +82,18 @@ $timeout(function() {
   <p>
     <a href="" class="btn btn-default" ng-click="withHttpRequest()">Demo</a>
   </p>
-  <pre><code>$http.get('/api/quote/').then(function(data) { 
+  <pre class="spacer"><code>$http.get('/api/quote/').then(function(data) { 
   console.log(data); 
 });</code></pre>
 
-  <h2>Callback queue</h2>
+  <h2 class="spacer-lg">Callback queue</h2>
   <p>
     Execute callback when the block ui has been finished.
   </p>
   <p>
     <a href="" class="btn btn-default" ng-click="executeWhenDone()">Demo</a>
   </p>
-  <pre><code>blockUI.start();
+  <pre class="spacer"><code>blockUI.start();
 
 blockUI.done(function() { 
   $window.alert('BlockUI has finished.'); 

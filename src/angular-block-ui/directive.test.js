@@ -90,6 +90,55 @@ describe('block-ui-directive', function() {
 
       });
 
+      it('should set the block-ui data of the parent element to the service instance', function() {
+
+        // arrange
+
+        var $parent = angular.element('<div><div></div></div>')
+        var $element = $parent.find('div');
+        
+        var instanceId = "myInstance";
+        var myInstance = blockUI.instances.get(instanceId);
+        $attrs.blockUi = instanceId;
+
+        // act
+        
+        linkFn($scope, $element, $attrs);
+
+        // assert
+
+        expect($parent.data('block-ui')).toBe(myInstance);
+
+      });
+
+      it('should set the _parent property of the instance to the parent instance', function() {
+
+        // arrange
+
+        var $parent = angular.element('<div></div>')
+        var parentInstance = blockUI.instances.get('parentInstance');
+        $parent.data('block-ui', parentInstance);
+
+        // Outer diff is the block scope
+        var $child = angular.element('<div><div></div><div>');
+        $parent.append($child);
+
+        var $target = $child.find('div');
+
+        var childInstanceId = "childInstance";
+        var childInstance = blockUI.instances.get(childInstanceId);
+        $attrs.blockUi = childInstanceId;
+
+        // act
+        
+        linkFn($scope, $target, $attrs);
+
+        // assert
+
+        expect(childInstance._parent).toBe(parentInstance);
+
+      });
+
     }); // element
 
     describe('viewContentLoaded', function() {

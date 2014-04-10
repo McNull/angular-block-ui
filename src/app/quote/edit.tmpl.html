@@ -1,6 +1,6 @@
 <div class="quote-edit">
 
-  <form class="form-horizontal" name="quoteForm">
+  <form class="form-horizontal" name="quoteForm" ng-submit="save()">
     <fieldset>
       <legend>Quote</legend>
 
@@ -22,7 +22,8 @@
 
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <a class="btn btn-primary" ng-click="save()" ng-disabled="quoteForm.$invalid">Save changes</a>
+          <input class="btn btn-primary" ng-disabled="quoteForm.$invalid" type="submit" value="Submit"></input>
+          <a class="btn btn-default" href="" ng-if="quote.id" ng-click="delete()">Delete</a>
           <a class="btn btn-default" href="#/quote">Cancel</a>
         </div>
       </div>

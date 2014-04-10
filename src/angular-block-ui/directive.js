@@ -44,7 +44,17 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
         var instanceId = !$attrs.blockUi ? $scope.$id : $attrs.blockUi;
 
         srvInstance = blockUI.instances.get(instanceId);
-        srvInstance.addRef();
+
+        // Locate the parent blockUI instance
+
+        var parentInstance = $element.inheritedData('block-ui');
+
+        if(parentInstance) {
+
+          // TODO: assert if parent is already set to something else
+          
+          srvInstance._parent = parentInstance;
+        }
 
         // If a pattern is provided assign it to the state
 
@@ -60,10 +70,14 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
         $scope.$on('$destroy', function() {
           srvInstance.release();
         });
+
+        // Increase the reference count
+
+        srvInstance.addRef();
       }
       
       $element.addClass('block-ui');
-      $element.data('block-ui', srvInstance);
+      $parent.data('block-ui', srvInstance);
       $scope.state = srvInstance.state();
     }
   };

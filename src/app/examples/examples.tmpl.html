@@ -2,7 +2,7 @@
 
 <ul class="nav nav-tabs spacer">
   <li ng-repeat="example in examples" ng-class="{ active: $index === examples.active }">
-    <a href="" ng-click="examples.active = $index">{{ example.name }}</a>
+    <a href="{{ examples.getUrl(example) }}">{{ example.name }}</a>
   </li>
 </ul>
 

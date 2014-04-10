@@ -1,6 +1,6 @@
 angular-block-ui
 ============
-An elegant but advanced AngularJS module that allows you to block user interaction on AJAX requests. Blocking is done automatically for each http request and/or manually via an injectable service. 
+An AngularJS module that allows you to block user interaction on AJAX requests. Blocking is done automatically for each http request and/or manually via an injectable service. 
 
 #### Dependencies
 Besides AngularJS (~1.2.4), none.  

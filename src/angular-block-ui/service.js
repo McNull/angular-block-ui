@@ -1,4 +1,6 @@
-angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils) {
+angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $document) {
+
+  var $body = $document.find('body');
 
   function BlockUI(id) {
 
@@ -17,6 +19,19 @@ angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout, b
       state.message = message || blockUIConfig.message;
 
       state.blockCount++;
+
+      // Check if the focused element is part of the block scope
+
+      var $ae = angular.element($document[0].activeElement);
+
+      if($ae.length && blockUIUtils.isElementInBlockScope($ae, self)) {
+
+        // Let the active element lose focus and store a reference 
+        // to restore focus when we're done (reset)
+
+        self._restoreFocus = $ae[0];
+        self._restoreFocus.blur();
+      }
 
       if (!startPromise) {
         startPromise = $timeout(function() {
@@ -54,10 +69,21 @@ angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout, b
     };
 
     this.reset = function(executeCallbacks) {
+      
       self._cancelStartTimeout();
       state.blockCount = 0;
       state.blocking = false;
 
+      // Restore the focus to the element that was active
+      // before the block start, but not if the user has 
+      // focused something else while the block was active.
+
+      if(self._restoreFocus && 
+         (!$document[0].activeElement || $document[0].activeElement === $body[0])) {
+        self._restoreFocus.focus();
+        self._restoreFocus = null;
+      }
+      
       try {
         if (executeCallbacks) {
           angular.forEach(doneCallbacks, function(cb) {

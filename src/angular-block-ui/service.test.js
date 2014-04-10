@@ -1,13 +1,29 @@
 describe('block-ui-service', function() {
 
-  var blockUI;
+  var blockUI, $document;
 
   beforeEach(function() {
 
     module('blockUI');
 
-    inject(function(_blockUI_) {
+    beforeEach(function() {
+      // $document = angular.element('<html><head></head><body></body></html>');
+
+      // console.log($document[0]);
+      // module(function($provide) {
+      //   $provide.value('$document', $document);
+      // });
+    });
+
+    inject(function(_blockUI_, _$document_, $rootScope) {
       blockUI = _blockUI_;
+      $document = _$document_;
+
+//      $rootScope.$apply();
+    });
+
+    afterEach(function() {
+      $document.find('body').empty();
     });
 
   });
@@ -88,7 +104,7 @@ describe('block-ui-service', function() {
         spyOn(blockUI.instances, '_destroy').andCallThrough();
 
         var removeMe = blockUI.instances.get('removeMe');
-        
+
         removeMe.addRef(); // 1
         removeMe.addRef(); // 2
 
@@ -287,4 +303,181 @@ describe('block-ui-service', function() {
     });
 
   }); // stop
+
+  describe('focus management', function() {
+
+    var $body;
+
+    beforeEach(function() {
+      $body = $document.find('body');
+      $body.data('block-ui', blockUI);
+    });
+
+    it('should blur the focussed element if it is within the main block scope', function() {
+
+      var $input = angular.element('<input/>');
+      $body.append($input);
+      $input[0].focus();
+
+      expect($document[0].activeElement).toBe($input[0]);
+
+      blockUI.start();            
+
+      expect($document[0].activeElement).not.toBe($input[0]);
+    });
+
+    it('should blur the focussed element if it is a child of the main block scope', function() {
+
+      // Create an instance with the _parent property set to the main block
+
+      var myInstance = blockUI.instances.get('myInstance');
+      myInstance._parent = blockUI;
+
+      var $block = angular.element('<div><input/></div>');
+      var $input = $block.find('input');
+      
+      $body.append($block);
+      $input[0].focus();
+
+      $block.data('block-ui', myInstance);
+
+      expect($document[0].activeElement).toBe($input[0]);
+
+      blockUI.start();            
+
+      expect($document[0].activeElement).not.toBe($input[0]);
+
+    });
+
+    it('should blur the focussed element if it is within a block scope', function() {
+
+      // Create an instance with the _parent property set to the main block
+
+      var myInstance = blockUI.instances.get('myInstance');
+      myInstance._parent = blockUI;
+
+      var $block = angular.element('<div><input/></div>');
+      var $input = $block.find('input');
+      
+      $body.append($block);
+      $input[0].focus();
+
+      $block.data('block-ui', myInstance);
+
+      expect($document[0].activeElement).toBe($input[0]);
+
+      myInstance.start();            
+
+      expect($document[0].activeElement).not.toBe($input[0]);
+    });
+
+    it('should NOT blur the focussed element if it is NOT within a block scope', function() {
+
+      // Create an instance with the _parent property set to the main block
+
+      var myInstance = blockUI.instances.get('myInstance');
+      myInstance._parent = blockUI;
+
+      var $block = angular.element('<div></div>');
+      var $input = angular.element('<input/>');
+      
+      $body.append($block);
+      $body.append($input);
+
+      $input[0].focus();
+
+      $block.data('block-ui', myInstance);
+
+      expect($document[0].activeElement).toBe($input[0]);
+
+      myInstance.start();            
+
+      expect($document[0].activeElement).toBe($input[0]);
+    });
+
+    it('should restore focus when the main block has finished', function() {
+
+      var $input = angular.element('<input/>');
+      $body.append($input);
+      $input[0].focus();
+
+      expect($document[0].activeElement).toBe($input[0]);
+      
+      blockUI.start();
+      
+      expect($document[0].activeElement).not.toBe($input[0]);
+
+      blockUI.stop();
+
+      expect($document[0].activeElement).toBe($input[0]);
+    });
+
+    it('should restore focus when the child block has finished', function() {
+
+      // Create an instance with the _parent property set to the main block
+
+      var myInstance = blockUI.instances.get('myInstance');
+      myInstance._parent = blockUI;
+
+      var $block = angular.element('<div><input/></div>');
+      var $input = $block.find('input');
+      
+      $body.append($block);
+      $input[0].focus();
+
+      $block.data('block-ui', myInstance);
+
+      $input[0].focus();
+
+      expect($document[0].activeElement).toBe($input[0]);
+      
+      myInstance.start();
+      
+      expect($document[0].activeElement).not.toBe($input[0]);
+
+      myInstance.stop();
+
+      expect($document[0].activeElement).toBe($input[0]);
+
+    });
+
+    it('should NOT restore focus when the focus has changed', function() {
+
+      // Create an instance with the _parent property set to the main block
+
+      var myInstance = blockUI.instances.get('myInstance');
+      myInstance._parent = blockUI;
+
+      var $block = angular.element('<div><input/></div>');
+      $block.data('block-ui', myInstance);
+
+      var $input = $block.find('input');
+      
+      $body.append($block);
+
+      var $otherInput = angular.element('<input/>');
+      $body.append($otherInput);
+
+      // Set the focus on the contained element
+
+      $input[0].focus();
+      
+      // Start the block
+
+      myInstance.start(); 
+      
+      // Set the focus to the other element
+
+      $otherInput[0].focus();
+
+      // Stop the block
+
+      myInstance.stop();
+
+      expect($document[0].activeElement).not.toBe($input[0]);
+      expect($document[0].activeElement).toBe($otherInput[0]);
+
+    });
+
+  }); // focus management
 });

@@ -24,6 +24,19 @@ angular.module('blockUI').factory('blockUIUtils', function() {
       arr[fnName] = function() {
         utils.forEachFn(this, fnName, arguments);
       }
+    },
+    isElementInBlockScope: function($element, blockScope) {
+      var c = $element.inheritedData('block-ui');
+
+      while(c) {
+        if(c === blockScope) {
+          return true;
+        }
+
+        c = c._parent;
+      }
+
+      return false;
     }
   };
 

@@ -12,4 +12,4 @@ cp LICENSE package/angular-block-ui/
 cp README.md package/angular-block-ui/
 cp bower.json package/angular-block-ui/
 
-git subtree split --prefix package/angular-block-ui --branch bower
+# git subtree split --prefix package/angular-block-ui --branch bower

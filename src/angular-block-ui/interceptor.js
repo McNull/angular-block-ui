@@ -6,12 +6,15 @@ angular.module('blockUI').factory('blockUIHttpInterceptor', function($q, $inject
     blockUI = blockUI || $injector.get('blockUI');
   }
 
-  function error(rejection) {
-    if (blockUIConfig.autoBlock) {
+  function stopBlockUI(config) {
+    if (blockUIConfig.autoBlock && !config.$_noBlock && config.$_blocks) {
       injectBlockUI();
-      blockUI.stop();
+      config.$_blocks.stop();
     }
+  }
 
+  function error(rejection) {
+    stopBlockUI(rejection.config);
     return $q.reject(rejection);
   }
 
@@ -39,16 +42,7 @@ angular.module('blockUI').factory('blockUIHttpInterceptor', function($q, $inject
     requestError: error,
 
     response: function(response) {
-
-      // Check if the response is tagged to ignore
-
-      var cfg = response.config;
-
-      if (blockUIConfig.autoBlock && !cfg.$_noBlock && cfg.$_blocks) {
-        injectBlockUI();
-        cfg.$_blocks.stop();
-      }
-
+      stopBlockUI(response.config)
       return response;
     },
 

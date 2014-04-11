@@ -221,13 +221,18 @@ describe('block-ui-directive', function() {
 
       it('should use scope id when no id is provided', function() {
 
+        // Prefix underscore to prevent integers:
+        // https://github.com/McNull/angular-block-ui/pull/8
+
+        var expectedId = '_' + $scope.$id; 
+
         var $attrs = {}; 
 
         var $element = angular.element('<div><div></div></div>').find('div');
 
         linkFn($scope, $element, $attrs);
  
-        expect(blockUI.instances[$scope.$id]).toBeDefined();
+        expect(blockUI.instances[expectedId]).toBeDefined();
       });
 
     }); // nested block-ui

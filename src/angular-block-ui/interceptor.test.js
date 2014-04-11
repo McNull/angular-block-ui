@@ -78,6 +78,49 @@ describe('block-ui-http-interceptor', function() {
 
   });
 
+  describe('error', function() {
+
+    it('should stop all the blocks when an error has occured', function() {
+
+      // https://github.com/McNull/angular-block-ui/pull/9/files
+      
+      // Setup to block instances 
+
+      var myInstance1 = blockUI.instances.get('myInstance1');
+      var myInstance2 = blockUI.instances.get('myInstance2');
+
+      myInstance1.pattern(/^\/api\/quote\/\d+$/);
+      myInstance2.pattern(/^\/api\/quote/);
+
+      // Create a fake HttpRequest config that contains the 
+      // block instances.
+
+      var config = {
+        $_blocks: blockUI.instances.locate({ url: '/api/quote/1' })
+      };
+
+      // Increment the block count 
+
+      config.$_blocks.start();
+
+      // Just to make sure
+
+      expect(myInstance1.state().blockCount).toBe(1);
+      expect(myInstance2.state().blockCount).toBe(1);
+
+      // Act
+
+      interceptor.requestError({ config: config });
+
+      // Assert
+
+      expect(myInstance1.state().blockCount).toBe(0);
+      expect(myInstance2.state().blockCount).toBe(0);      
+
+    });
+
+  });
+
   describe('response', function() {
 
     it('should stop the main block', function() {

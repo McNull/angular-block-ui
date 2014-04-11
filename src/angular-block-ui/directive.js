@@ -41,7 +41,7 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
 
         // Create the blockUI instance
 
-        var instanceId = !$attrs.blockUi ? $scope.$id : $attrs.blockUi;
+        var instanceId = !$attrs.blockUi ? '_' + $scope.$id : $attrs.blockUi;
 
         srvInstance = blockUI.instances.get(instanceId);
 

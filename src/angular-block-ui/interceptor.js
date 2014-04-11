@@ -9,7 +9,7 @@ angular.module('blockUI').factory('blockUIHttpInterceptor', function($q, $inject
   function error(rejection) {
     if (blockUIConfig.autoBlock) {
       injectBlockUI();
-      blockUI.stop();
+      blockUI.instances.stop();
     }
 
     return $q.reject(rejection);

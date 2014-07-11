@@ -13,7 +13,10 @@
   ],
   "description": "An AngularJS module that allows you to block user interaction on AJAX requests.",
   "license": "MIT",
-  "main": "package/**/*",
+  "main": [
+    "./angular-block-ui.css",
+    "./angular-block-ui.js"
+  ],
   "ignore": [
     "**/.*",
     "*.sublime-project",

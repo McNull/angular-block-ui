@@ -52,7 +52,7 @@ angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout, b
       state.blockCount = Math.max(0, --state.blockCount);
 
       if (state.blockCount === 0) {
-        this.reset(true);
+        self.reset(true);
       }
     };
 

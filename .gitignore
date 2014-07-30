@@ -3,7 +3,8 @@ dist/*
 node_modules/*
 vendor/*
 karma/karma.conf.js
-.idea/*
+.idea/workspace.xml
+.idea/tasks.xml
 *.sublime-project
 *.sublime-workspace
 

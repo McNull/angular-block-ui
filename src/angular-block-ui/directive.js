@@ -9,20 +9,20 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
 }).factory('blockUiLinkFn', function(blockUI, blockUIUtils) {
 
   return function($scope, $element, $attrs) {
-    
+
     var $parent = $element.parent();
 
-    // Locate the parent element  
+    // Locate the parent element
 
     if ($parent.length) {
-      
+
       var srvInstance = blockUI;
-      
+
       // If the parent is the body element, hook into the view loaded event
 
       if ($parent[0].tagName === 'BODY') {
         var fn = $scope.$on('$viewContentLoaded', function($event) {
- 
+
           // Unhook the view loaded and hook a function that will prevent
           // location changes while the block is active.
 
@@ -35,7 +35,7 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
         });
       } else {
 
-        // Ensure that the parent position is set to relative 
+        // Ensure that the parent position is set to relative
 
         $parent.css('position', 'relative');
 
@@ -52,7 +52,7 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
         if(parentInstance) {
 
           // TODO: assert if parent is already set to something else
-          
+
           srvInstance._parent = parentInstance;
         }
 
@@ -75,10 +75,13 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
 
         srvInstance.addRef();
       }
-      
+
       $element.addClass('block-ui');
       $parent.data('block-ui', srvInstance);
       $scope.state = srvInstance.state();
+      $scope.$watch('state.blocking',function(value){
+        $parent.attr('aria-busy', value);
+      });
     }
   };
 });

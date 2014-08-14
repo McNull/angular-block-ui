@@ -1,5 +1,5 @@
 /*!
-   angular-block-ui v0.0.9
+   angular-block-ui v0.0.10
    (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
@@ -259,7 +259,17 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
         // to restore focus when we're done (reset)
 
         self._restoreFocus = $ae[0];
-        self._restoreFocus.blur();
+
+        // https://github.com/McNull/angular-block-ui/issues/13
+        // http://stackoverflow.com/questions/22698058/apply-already-in-progress-error-when-using-typeahead-plugin-found-to-be-relate
+        // Queue the blur after any ng-blur expression.
+
+        $timeout(function() {
+          // Ensure we still need to blur
+          if(self._restoreFocus) {
+            self._restoreFocus.blur();
+          }
+        });
       }
 
       if (!startPromise) {

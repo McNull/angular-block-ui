@@ -82,8 +82,8 @@ $timeout(function() {
   <p>
     <a href="" class="btn btn-default" ng-click="withHttpRequest()">Demo</a>
   </p>
-  <pre class="spacer"><code>$http.get('/api/quote/').then(function(data) { 
-  console.log(data); 
+  <pre class="spacer"><code>$http.get('index.html').then(function(data) {
+  inform.add('Data received from server');
 });</code></pre>
 
   <h2 class="spacer-lg">Callback queue</h2>

@@ -1,5 +1,5 @@
 
-angular.module('myApp').controller('ManualBlockingController', function($scope, blockUI, $timeout, $http, $window) {
+angular.module('myApp').controller('ManualBlockingController', function($scope, blockUI, $timeout, $http, $window, inform) {
 
   $scope.startBlock = function() {
     blockUI.start();
@@ -49,8 +49,8 @@ angular.module('myApp').controller('ManualBlockingController', function($scope, 
 
   $scope.withHttpRequest = function() {
 
-    $http.get('/api/quote/').then(function(data) {
-      console.log(data);
+    $http.get('index.html').then(function(data) {
+      inform.add('Data received from server', { type: 'success' });
     });
   };
 
@@ -59,7 +59,7 @@ angular.module('myApp').controller('ManualBlockingController', function($scope, 
     blockUI.start();
 
     blockUI.done(function() {
-      $window.alert('BlockUI has finished.');
+      inform.add('BlockUI has finished.');
     });
 
     $timeout(function() {

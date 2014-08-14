@@ -306,11 +306,15 @@ describe('block-ui-service', function() {
 
   describe('focus management', function() {
 
-    var $body;
+    var $body, $timeout;
 
     beforeEach(function() {
       $body = $document.find('body');
       $body.data('block-ui', blockUI);
+
+      inject(function(_$timeout_) {
+        $timeout = _$timeout_;
+      })
     });
 
     it('should blur the focussed element if it is within the main block scope', function() {
@@ -321,7 +325,8 @@ describe('block-ui-service', function() {
 
       expect($document[0].activeElement).toBe($input[0]);
 
-      blockUI.start();            
+      blockUI.start();
+      $timeout.flush();
 
       expect($document[0].activeElement).not.toBe($input[0]);
     });
@@ -343,7 +348,8 @@ describe('block-ui-service', function() {
 
       expect($document[0].activeElement).toBe($input[0]);
 
-      blockUI.start();            
+      blockUI.start();
+      $timeout.flush();
 
       expect($document[0].activeElement).not.toBe($input[0]);
 
@@ -366,7 +372,8 @@ describe('block-ui-service', function() {
 
       expect($document[0].activeElement).toBe($input[0]);
 
-      myInstance.start();            
+      myInstance.start();
+      $timeout.flush();
 
       expect($document[0].activeElement).not.toBe($input[0]);
     });
@@ -390,7 +397,8 @@ describe('block-ui-service', function() {
 
       expect($document[0].activeElement).toBe($input[0]);
 
-      myInstance.start();            
+      myInstance.start();
+      $timeout.flush();
 
       expect($document[0].activeElement).toBe($input[0]);
     });
@@ -404,7 +412,8 @@ describe('block-ui-service', function() {
       expect($document[0].activeElement).toBe($input[0]);
       
       blockUI.start();
-      
+      $timeout.flush();
+
       expect($document[0].activeElement).not.toBe($input[0]);
 
       blockUI.stop();
@@ -432,6 +441,7 @@ describe('block-ui-service', function() {
       expect($document[0].activeElement).toBe($input[0]);
       
       myInstance.start();
+      $timeout.flush();
       
       expect($document[0].activeElement).not.toBe($input[0]);
 

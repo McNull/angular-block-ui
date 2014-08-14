@@ -1,22 +1,14 @@
-angular.module('myApp', ['ngRoute', 'ngResource', 'blockUI', 'showdown', 'delay'], null).value('navItems', [{
+angular.module('myApp', ['ngRoute', 'ngResource', 'blockUI', 'showdown', 'delay', 'inform', 'inform-exception', 'inform-http-exception'], null).value('navItems', [{
   text: 'Home',
   url: '#/'
 }, {
   text: 'Documentation',
   url: '#/examples',
   pattern: '/examples(/.*)?'
-}, {
-  text: 'Quotes',
-  url: '#/quote',
-  pattern: "/quote(/.*)?"
-}]).config(function($routeProvider, quoteRoutes, examplesRoutes) {
+}]).config(function($routeProvider, examplesRoutes) {
 
   $routeProvider.when('/', {
     templateUrl: 'app/main/home.ng.html'
-  });
-
-  angular.forEach(quoteRoutes, function(value, key) {
-    $routeProvider.when(key, value);
   });
 
   angular.forEach(examplesRoutes, function(value, key) {

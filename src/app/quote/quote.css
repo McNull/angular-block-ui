@@ -1,8 +1,0 @@
-.quote-list-row {
-	cursor: pointer;
-}
-
-.quote-list-row blockquote:hover {
-    background-color: #eee;
-    border-left: 5px solid #999;
-}

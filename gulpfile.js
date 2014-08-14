@@ -30,9 +30,13 @@ gulp.task('kitchensink', [ 'modules', 'bower', 'index' ], function () {
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
+
+
+// - - - - 8-< - - - - - - - - - - - - - - - - - - -
+
 gulp.task('dist-clean', ['angular-block-ui-clean'], function () {
 
-  return gulp.src('dist/**/*').pipe(clean());
+  return gulp.src('dist/**/*', { read: false }).pipe(clean());
 
 });
 

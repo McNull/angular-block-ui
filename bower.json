@@ -1,5 +1,6 @@
 {
   "name": "angular-block-ui",
+  "description": "An AngularJS module that allows you to block user interaction on AJAX requests.",
   "version": "0.0.8",
   "keywords": [
     "angular",
@@ -11,7 +12,6 @@
   "authors": [
     "Null McNull <no@spam.org>"
   ],
-  "description": "An AngularJS module that allows you to block user interaction on AJAX requests.",
   "license": "MIT",
   "ignore": [
     "**/.*",

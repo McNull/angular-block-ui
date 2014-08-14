@@ -1,0 +1,11 @@
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+
+    .navbar-collapse.collapsed {
+        display: none;
+    }
+}
+
+.navbar-collapse {
+    overflow-y: hidden;
+}

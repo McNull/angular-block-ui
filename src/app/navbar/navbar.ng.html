@@ -1,0 +1,20 @@
+<div class="navbar navbar-default text-select-disable" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" ng-click="toggleCollapse()">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Angular BlockUI</a>
+    </div>
+    <div class="navbar-collapse" ng-class="{ collapsed: navItems.isCollapsed }">
+      <ul class="navbar-nav nav">
+        <li ng-repeat="navItem in navItems" ng-class="{ active: navItem.isActive }">
+          <a ng-href="{{ navItem.url }}" ng-click="collapseNavItems()">{{ navItem.text }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

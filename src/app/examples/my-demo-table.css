@@ -1,0 +1,7 @@
+.my-demo-table th {
+  width: 25%;
+}
+
+.my-demo-table table, .my-demo-table .pagination {
+  margin-bottom: 0;
+}

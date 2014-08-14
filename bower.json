@@ -1,0 +1,49 @@
+{
+  "name": "angular-block-ui",
+  "version": "0.0.8",
+  "keywords": [
+    "angular",
+    "angularjs",
+    "block",
+    "block-ui",
+    "blockui"
+  ],
+  "authors": [
+    "Null McNull <no@spam.org>"
+  ],
+  "description": "An AngularJS module that allows you to block user interaction on AJAX requests.",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "gulp-tasks",
+    "src",
+    "dest",
+    "./!(dest/angular-block-ui/*)"
+  ],
+  "main": [
+    "dest/angular-block-ui/angular-block-ui.js",
+    "dest/angular-block-ui/angular-block-ui.css"
+  ],
+  "dependencies": {
+    "angular": "~1.2.21"
+  },
+  "devDependencies": {
+    "angular-route": "~1.2.21",
+    "bootstrap": "~3.2.0",
+    "jquery": "1.*",
+    "respond": "~1.4.2",
+    "html5shiv": "~3.7.2",
+    "angular-resource": "~1.2.22",
+    "showdown": "~0.3.1"
+  },
+  "overrides": {
+    "respond": {
+      "main": "dest/respond.min.js"
+    },
+    "showdown": {
+      "main": "compressed/showdown.js"
+    }
+  }
+}

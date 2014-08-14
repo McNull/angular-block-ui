@@ -1,0 +1,51 @@
+<div ng-controller="FocusInputExampleController">
+
+  <p>
+    To prevent forms from re-submitting data, focused elements will be <em>blured</em>
+    whenever a containing block is active. 
+    Unless the focus has been changed by the user while the (non-global) block was active, the focus is restored whenever the block has finished.
+  </p>
+  <div class="alert alert-info">
+    <p>Restoring focus to any input element other than the submit button is not possible in any version of <em>Internet Explorer</em>. All other major browsers should be able to restore the focus to any previous element.</p>
+  </div>
+  <p>
+    The example below contains two forms both with their own blocking scope. Blocking is activated whenever the form is submitted by pressing enter in one of the inputs or by clicking on the submit button.
+  </p>
+  <div class="example">
+    <div class="row">
+
+      <div class="col-sm-6">
+        <form role="form" ng-submit="login()">
+          <legend>Login</legend>
+          <div block-ui="loginFormBlock" class="form-block"></div>
+          <div class="form-group">
+            <label>Email address</label>
+            <input class="form-control" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-default">Login</button>
+        </form>
+      </div>
+
+      <div class="col-sm-6">
+        <form role="form" ng-submit="search()">
+          <legend>Search</legend>
+          <div block-ui="searchFormBlock" class="form-block"></div>
+          <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" placeholder="Enter the name">
+          </div>
+          <div class="form-group">
+            <label>Last name</label>
+            <input class="form-control" placeholder="Enter the lastname">
+          </div>
+          <button type="submit" class="btn btn-default">Search</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

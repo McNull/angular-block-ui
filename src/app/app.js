@@ -24,6 +24,9 @@ angular.module('myApp', ['ngRoute', 'ngResource', 'blockUI', 'showdown', 'delay'
   delayConfig.excludes.push(/.*\.md/i);
   delayConfig.timeout.min = 1000;
   delayConfig.timeout.max = 2000;
+
+//  blockUIConfigProvider.autoInjectBodyBlock(false);
+
   // blockUIConfigProvider.requestFilter(function(config) {
   //   if(config.url.match(/^\/api\/quote($|\/).*/)) {
   //     return false;

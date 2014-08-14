@@ -6,7 +6,8 @@ blkUI.provider('blockUIConfig', function() {
     message: "Loading ...",
     autoBlock: true,
     resetOnException: true,
-    requestFilter: angular.noop
+    requestFilter: angular.noop,
+    autoInjectBodyBlock: true
   };
 
   this.templateUrl = function(url) {
@@ -35,6 +36,10 @@ blkUI.provider('blockUIConfig', function() {
 
   this.requestFilter = function(filter) {
     _config.requestFilter = filter;
+  };
+
+  this.autoInjectBodyBlock = function(enabled) {
+    _config.autoInjectBodyBlock = enabled;
   };
 
   this.$get = function() {

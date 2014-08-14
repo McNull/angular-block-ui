@@ -1,5 +1,5 @@
 /*!
-   angular-block-ui v0.0.8
+   angular-block-ui v0.0.9
    (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
@@ -30,8 +30,10 @@ blkUI.config(["$provide", "$httpProvider", function($provide, $httpProvider) {
   $httpProvider.interceptors.push('blockUIHttpInterceptor');
 }]);
 
-blkUI.run(["$document", function($document) {
-  $document.find('body').append('<div block-ui="main"></div>');
+blkUI.run(["$document", "blockUIConfig", function($document, blockUIConfig) {
+  if(blockUIConfig.autoInjectBodyBlock) {
+    $document.find('body').append('<div block-ui="main"></div>');
+  }
 }]);
 
 blkUI.provider('blockUIConfig', function() {
@@ -42,7 +44,8 @@ blkUI.provider('blockUIConfig', function() {
     message: "Loading ...",
     autoBlock: true,
     resetOnException: true,
-    requestFilter: angular.noop
+    requestFilter: angular.noop,
+    autoInjectBodyBlock: true
   };
 
   this.templateUrl = function(url) {
@@ -71,6 +74,10 @@ blkUI.provider('blockUIConfig', function() {
 
   this.requestFilter = function(filter) {
     _config.requestFilter = filter;
+  };
+
+  this.autoInjectBodyBlock = function(enabled) {
+    _config.autoInjectBodyBlock = enabled;
   };
 
   this.$get = function() {

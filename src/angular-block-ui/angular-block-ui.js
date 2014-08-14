@@ -23,6 +23,8 @@ blkUI.config(function($provide, $httpProvider) {
   $httpProvider.interceptors.push('blockUIHttpInterceptor');
 });
 
-blkUI.run(function($document) {
-  $document.find('body').append('<div block-ui="main"></div>');
+blkUI.run(function($document, blockUIConfig) {
+  if(blockUIConfig.autoInjectBodyBlock) {
+    $document.find('body').append('<div block-ui="main"></div>');
+  }
 });

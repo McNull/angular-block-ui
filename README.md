@@ -204,3 +204,16 @@ Allows you to specify a filter function to exclude certain ajax requests from bl
         return false; // ... don't block it.
       }
     });
+    
+#### autoInjectBodyBlock
+When the module is started it will inject the _main block element_ as a child of the _body element_. 
+
+    <body>
+      <div block-ui="main"></div>
+    </body>
+    
+This behaviour can be disabled if there no need for any _fullscreen_ blocking or if more control over this element is required.
+
+    blockUIConfigProvider.autoInjectBodyBlock(false); // Disable auto body block
+    
+

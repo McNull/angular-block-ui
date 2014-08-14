@@ -30,6 +30,11 @@
     "merge-stream": "~0.1.5",
     "gulp-svgmin": "~0.4.6",
     "gulp-ng-annotate": "~0.3.0",
-    "autoprefixer": "~2.2.0"
+    "autoprefixer": "~2.2.0",
+    "karma": "~0.12.21",
+    "gulp-karma": "0.0.4",
+    "karma-jasmine": "~0.1.5",
+    "karma-phantomjs-launcher": "~0.1.4",
+    "karma-growl-reporter": "~0.1.1"
   }
 }

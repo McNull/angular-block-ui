@@ -9,6 +9,7 @@ var config = require('./build-config.js');
 var path = require('path');
 var gulp = require('gulp');
 var clean = require('gulp-clean');
+var karma = require('gulp-karma');
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
@@ -30,7 +31,38 @@ gulp.task('kitchensink', [ 'modules', 'bower', 'index' ], function () {
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
+gulp.task('test-run', ['angular-block-ui'], function () {
 
+  return gulp.src([
+    'bower_components/angular/angular.js',
+    'bower_components/angular-mocks/angular-mocks.js',
+    path.join(config.folders.dest, 'angular-block-ui/angular-block-ui.min.js'),
+    path.join(config.folders.src, 'angular-block-ui/**/*.test.js')
+  ])
+    .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'run'
+    })).on('error', function(err) {
+      throw err;
+    });
+
+});
+
+gulp.task('test-watch', ['angular-block-ui'], function () {
+
+  gulp.src([
+    'bower_components/angular/angular.js',
+    'bower_components/angular-mocks/angular-mocks.js',
+    path.join(config.folders.src, 'angular-block-ui/angular-block-ui.js'),
+    path.join(config.folders.dest, 'angular-block-ui/angular-block-ui-templates.js'),
+    path.join(config.folders.src, 'angular-block-ui/**/*.js')
+  ])
+  .pipe(karma({
+    configFile: 'karma.conf.js',
+    action: 'watch'
+  }));
+
+});
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
@@ -40,7 +72,7 @@ gulp.task('dist-clean', ['angular-block-ui-clean'], function () {
 
 });
 
-gulp.task('dist', ['dist-clean', 'angular-block-ui'], function () {
+gulp.task('dist', ['dist-clean', 'angular-block-ui', 'test-run'], function () {
 
   var destGlob = path.join(config.folders.dest, 'angular-block-ui/**/*');
   return gulp.src([ destGlob, 'README.md', '!**/angular-block-ui-templates.js' ])

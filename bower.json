@@ -23,7 +23,8 @@
     "./build-config.js",
     "./gulp-file.js",
     "./package.json",
-    "./README.md"
+    "./README.md",
+    "./karma.conf.js"
   ],
   "main": [
     "dist/angular-block-ui.js",
@@ -39,7 +40,8 @@
     "respond": "~1.4.2",
     "html5shiv": "~3.7.2",
     "angular-resource": "~1.2.22",
-    "showdown": "~0.3.1"
+    "showdown": "~0.3.1",
+    "angular-mocks": "~1.2.22"
   },
   "overrides": {
     "respond": {
@@ -47,6 +49,9 @@
     },
     "showdown": {
       "main": "compressed/showdown.js"
+    },
+    "angular-mocks": {
+      "ignore": true
     }
   }
 }

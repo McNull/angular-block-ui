@@ -22,7 +22,7 @@
     "src",
     "dest",
     "/build-config.js",
-    "/gulp-file.js",
+    "/gulpfile.js",
     "/package.json",
     "/README.md",
     "/karma.conf.js"

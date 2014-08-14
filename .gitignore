@@ -4,5 +4,3 @@
 node_modules/*
 bower_components/*
 dest/*
-!dest/angular-block-ui/*
-dest/angular-block-ui/angular-block-ui-templates.js

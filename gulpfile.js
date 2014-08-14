@@ -6,7 +6,9 @@ var config = require('./build-config.js');
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
+var path = require('path');
 var gulp = require('gulp');
+var clean = require('gulp-clean');
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
@@ -15,8 +17,9 @@ require('./gulp-tasks/modules-task.js')(gulp);
 require('./gulp-tasks/index-task.js')(gulp);
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
+// Builds the whole kitchensink including example website
 
-gulp.task('build', [ 'modules', 'bower', 'index' ], function() {
+gulp.task('kitchensink', [ 'modules', 'bower', 'index' ], function () {
 
   var path = require('path');
 
@@ -24,6 +27,25 @@ gulp.task('build', [ 'modules', 'bower', 'index' ], function() {
     .pipe(gulp.dest(path.join(config.folders.dest, 'app')));
 
 });
-gulp.task('default', [ 'build' ]);
+
+// - - - - 8-< - - - - - - - - - - - - - - - - - - -
+
+gulp.task('dist-clean', ['angular-block-ui-clean'], function () {
+
+  return gulp.src('dist/**/*').pipe(clean());
+
+});
+
+gulp.task('dist', ['dist-clean', 'angular-block-ui'], function () {
+
+  var destGlob = path.join(config.folders.dest, 'angular-block-ui/**/*');
+  return gulp.src([ destGlob, 'README.md', '!**/angular-block-ui-templates.js' ])
+    .pipe(gulp.dest('dist'));
+
+});
+
+// - - - - 8-< - - - - - - - - - - - - - - - - - - -
+
+gulp.task('default', [ 'dist' ]);
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -

@@ -20,11 +20,14 @@
     "gulp-tasks",
     "src",
     "dest",
-    "./!(dest/angular-block-ui/*)"
+    "./build-config.js",
+    "./gulp-file.js",
+    "./package.json",
+    "./README.md"
   ],
   "main": [
-    "dest/angular-block-ui/angular-block-ui.js",
-    "dest/angular-block-ui/angular-block-ui.css"
+    "dist/angular-block-ui.js",
+    "dist/angular-block-ui/angular-block-ui.css"
   ],
   "dependencies": {
     "angular": "~1.2.21"

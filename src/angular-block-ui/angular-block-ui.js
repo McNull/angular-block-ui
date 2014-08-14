@@ -1,6 +1,6 @@
-angular.module('blockUI', []);
+var blkUI = angular.module('blockUI', []);
 
-angular.module('blockUI').config(function($provide, $httpProvider) {
+blkUI.config(function($provide, $httpProvider) {
 
   $provide.decorator('$exceptionHandler', ['$delegate', '$injector',
     function($delegate, $injector) {
@@ -23,6 +23,6 @@ angular.module('blockUI').config(function($provide, $httpProvider) {
   $httpProvider.interceptors.push('blockUIHttpInterceptor');
 });
 
-angular.module('blockUI').run(function($document) {
+blkUI.run(function($document) {
   $document.find('body').append('<div block-ui="main"></div>');
 });

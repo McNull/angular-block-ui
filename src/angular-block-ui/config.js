@@ -1,4 +1,4 @@
-angular.module('blockUI').provider('blockUIConfig', function() {
+blkUI.provider('blockUIConfig', function() {
 
   var _config = {
     templateUrl: 'angular-block-ui/angular-block-ui.ng.html',

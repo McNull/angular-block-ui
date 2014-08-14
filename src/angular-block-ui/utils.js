@@ -1,5 +1,5 @@
 
-angular.module('blockUI').factory('blockUIUtils', function() {
+blkUI.factory('blockUIUtils', function() {
 
   var utils = {
     buildRegExp: function(pattern) {

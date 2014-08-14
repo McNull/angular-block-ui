@@ -1,4 +1,4 @@
-angular.module('blockUI').factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $document) {
+blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $document) {
 
   var $body = $document.find('body');
 

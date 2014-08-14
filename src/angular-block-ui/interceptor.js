@@ -1,4 +1,4 @@
-angular.module('blockUI').factory('blockUIHttpInterceptor', function($q, $injector, blockUIConfig) {
+blkUI.factory('blockUIHttpInterceptor', function($q, $injector, blockUIConfig) {
 
   var blockUI;
 

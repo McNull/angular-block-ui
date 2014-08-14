@@ -1,13 +1,13 @@
 /*!
-   angular-block-ui v0.0.1
+   angular-block-ui v0.0.8
    (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
 (function(angular) {
 
-angular.module('blockUI', []);
+var blkUI = angular.module('blockUI', []);
 
-angular.module('blockUI').config(["$provide", "$httpProvider", function($provide, $httpProvider) {
+blkUI.config(["$provide", "$httpProvider", function($provide, $httpProvider) {
 
   $provide.decorator('$exceptionHandler', ['$delegate', '$injector',
     function($delegate, $injector) {
@@ -30,11 +30,11 @@ angular.module('blockUI').config(["$provide", "$httpProvider", function($provide
   $httpProvider.interceptors.push('blockUIHttpInterceptor');
 }]);
 
-angular.module('blockUI').run(["$document", function($document) {
+blkUI.run(["$document", function($document) {
   $document.find('body').append('<div block-ui="main"></div>');
 }]);
 
-angular.module('blockUI').provider('blockUIConfig', function() {
+blkUI.provider('blockUIConfig', function() {
 
   var _config = {
     templateUrl: 'angular-block-ui/angular-block-ui.ng.html',
@@ -78,7 +78,7 @@ angular.module('blockUI').provider('blockUIConfig', function() {
   };
 });
 
-angular.module('blockUI').directive('blockUi', ["blockUI", "blockUIConfig", "blockUiLinkFn", function(blockUI, blockUIConfig, blockUiLinkFn) {
+blkUI.directive('blockUi', ["blockUI", "blockUIConfig", "blockUiLinkFn", function(blockUI, blockUIConfig, blockUiLinkFn) {
   return {
     scope: true,
     restrict: 'A',
@@ -159,11 +159,15 @@ angular.module('blockUI').directive('blockUi', ["blockUI", "blockUIConfig", "blo
       $element.addClass('block-ui');
       $parent.data('block-ui', srvInstance);
       $scope.state = srvInstance.state();
+      
+      $scope.$watch('state.blocking', function(value){
+        $parent.attr('aria-busy', value);
+      });
     }
   };
 }]);
 
-angular.module('blockUI').factory('blockUIHttpInterceptor', ["$q", "$injector", "blockUIConfig", function($q, $injector, blockUIConfig) {
+blkUI.factory('blockUIHttpInterceptor', ["$q", "$injector", "blockUIConfig", function($q, $injector, blockUIConfig) {
 
   var blockUI;
 
@@ -216,7 +220,7 @@ angular.module('blockUI').factory('blockUIHttpInterceptor', ["$q", "$injector", 
 
 }]);
 
-angular.module('blockUI').factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$document", function(blockUIConfig, $timeout, blockUIUtils, $document) {
+blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$document", function(blockUIConfig, $timeout, blockUIUtils, $document) {
 
   var $body = $document.find('body');
 
@@ -404,7 +408,7 @@ angular.module('blockUI').factory('blockUI', ["blockUIConfig", "$timeout", "bloc
 }]);
 
 
-angular.module('blockUI').factory('blockUIUtils', function() {
+blkUI.factory('blockUIUtils', function() {
 
   var utils = {
     buildRegExp: function(pattern) {
@@ -452,7 +456,7 @@ angular.module('blockUI').factory('blockUIUtils', function() {
 // This file is already embedded in your main javascript output, there's no need to include this file
 // manually in the index.html. This file is only here for your debugging pleasures.
 angular.module('blockUI').run(['$templateCache', function($templateCache){
-  $templateCache.put('angular-block-ui/angular-block-ui.ng.html', '<div ng-show=\"state.blockCount > 0\" class=\"block-ui-overlay\" ng-class=\"{ \'block-ui-visible\': state.blocking }\"></div><div ng-show=\"state.blocking\" class=\"block-ui-message-container\"><div class=\"block-ui-message\">{{ state.message }}</div></div>');
+  $templateCache.put('angular-block-ui/angular-block-ui.ng.html', '<div ng-show=\"state.blockCount > 0\" class=\"block-ui-overlay\" ng-class=\"{ \'block-ui-visible\': state.blocking }\"></div><div ng-show=\"state.blocking\" class=\"block-ui-message-container\" aria-live=\"assertive\" aria-atomic=\"true\"><div class=\"block-ui-message\">{{ state.message }}</div></div>');
 }]);
 })(angular);
 //# sourceMappingURL=angular-block-ui.js.map

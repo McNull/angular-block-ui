@@ -1,4 +1,4 @@
-angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, blockUiLinkFn) {
+blkUI.directive('blockUi', function(blockUI, blockUIConfig, blockUiLinkFn) {
   return {
     scope: true,
     restrict: 'A',
@@ -79,6 +79,10 @@ angular.module('blockUI').directive('blockUi', function(blockUI, blockUIConfig, 
       $element.addClass('block-ui');
       $parent.data('block-ui', srvInstance);
       $scope.state = srvInstance.state();
+      
+      $scope.$watch('state.blocking', function(value){
+        $parent.attr('aria-busy', value);
+      });
     }
   };
 });

@@ -1,17 +1,18 @@
 describe('block-ui-directive', function() {
 
-  var $scope, $compile, $document, $body, blockUI;
+  var $scope, $compile, $document, $body, blockUI, $timeout;
 
   beforeEach(function() {
 
     module('blockUI');
 
-    inject(function(_$rootScope_, _$compile_, _$document_, _blockUI_) {
+    inject(function(_$rootScope_, _$compile_, _$document_, _blockUI_, _$timeout_) {
 
       $scope = _$rootScope_.$new();
       $compile = _$compile_;
       $document = _$document_;
-
+      $timeout = _$timeout_;
+      
       $body = $document.find('body');
       
       blockUI = _blockUI_;
@@ -23,6 +24,61 @@ describe('block-ui-directive', function() {
 
   afterEach(function() {
     $document.find('div').remove();
+  });
+
+  describe('template', function() {
+
+    var $ = angular.element;
+    var instanceName = 'templateTest';
+    var blockInstance;
+    var markup = '<div block-ui="' + instanceName + '"></div>';
+
+    beforeEach(function() {
+      blockInstance = blockUI.instances.get('templateTest');
+    });
+
+    afterEach(function() {
+      blockUI.instances._destroy(blockInstance);
+      blockInstance = null;
+    });
+
+    it('should compile the template', function() {
+
+      var $element = $compile(markup)($scope);
+      $scope.$digest();
+
+      var $innerDiv = $($element.children()[0]);
+
+      expect($innerDiv.hasClass('block-ui-overlay')).toBe(true);
+    });
+
+    it('should have an associate block state', function() {
+
+      var $element = $compile(markup)($scope);
+      $scope.$digest();
+
+      var state = blockUI.instances.get(instanceName);
+      expect(state).toBeDefined();
+      expect(state).toEqual(blockInstance);
+
+    });
+
+    describe('aria attributes', function() {
+      it('should set aria-busy to true on parent element when blocking', function() {
+
+        var $element = $compile('<div>' + markup + '</div>')($scope);
+        $scope.$digest();
+
+        expect($element.attr('aria-busy')).toBe('false');
+
+        blockInstance.start(); 
+        $timeout.flush(); // skip the delay of the block
+        $scope.$digest();
+
+        expect($element.attr('aria-busy')).toBe('true');
+      });
+    });
+
   });
 
   describe('link', function() {
@@ -149,7 +205,7 @@ describe('block-ui-directive', function() {
 
           // arrange
 
-          var $element = angular.element('<div><div></div></div').find('div');
+          var $element = angular.element('<div><div></div></div>').find('div');
           spyOn($scope, '$on');
 
           // act

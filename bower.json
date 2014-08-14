@@ -21,11 +21,11 @@
     "gulp-tasks",
     "src",
     "dest",
-    "./build-config.js",
-    "./gulp-file.js",
-    "./package.json",
-    "./README.md",
-    "./karma.conf.js"
+    "/build-config.js",
+    "/gulp-file.js",
+    "/package.json",
+    "/README.md",
+    "/karma.conf.js"
   ],
   "main": [
     "dist/angular-block-ui.js",

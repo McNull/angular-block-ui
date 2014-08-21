@@ -1,17 +1,30 @@
-angular.module('myApp', ['ngRoute', 'ngResource', 'blockUI', 'showdown', 'delay', 'inform', 'inform-exception', 'inform-http-exception'], null).value('navItems', [{
-  text: 'Home',
-  url: '#/'
-}, {
-  text: 'Documentation',
-  url: '#/examples',
-  pattern: '/examples(/.*)?'
-}]).config(function($routeProvider, examplesRoutes) {
+angular.module('myApp', [
+  'ngRoute',
+  'ngResource',
+  'ngAnimate',
+  'blockUI',
+  'showdown',
+  'delay',
+  'inform',
+  'inform-exception',
+  'inform-http-exception'
+], null).value('navItems', [
+  {
+    text: 'Home',
+    url: '#/'
+  },
+  {
+    text: 'Documentation',
+    url: '#/examples',
+    pattern: '/examples(/.*)?'
+  }
+]).config(function ($routeProvider, examplesRoutes) {
 
   $routeProvider.when('/', {
     templateUrl: 'app/main/home.ng.html'
   });
 
-  angular.forEach(examplesRoutes, function(value, key) {
+  angular.forEach(examplesRoutes, function (value, key) {
     $routeProvider.when(key, value);
   });
 
@@ -19,9 +32,11 @@ angular.module('myApp', ['ngRoute', 'ngResource', 'blockUI', 'showdown', 'delay'
     redirectTo: '/'
   });
 
-}).config(function(blockUIConfigProvider, delayConfig) {
+}).config(function (blockUIConfigProvider, delayConfig) {
 
   delayConfig.excludes.push(/.*\.md/i);
+
+  delayConfig.enabled = false;
   delayConfig.timeout.min = 1000;
   delayConfig.timeout.max = 2000;
 

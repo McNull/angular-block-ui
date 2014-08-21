@@ -45,6 +45,9 @@ angular.module('myApp').controller('ExamplesController', function($scope, $route
   }, {
     name: 'Focus Management',
     tmpl: 'app/examples/focus-input.html'
+  }, {
+    name: 'Animations',
+    tmpl: 'app/examples/animations.html'
   }];
 
   $scope.examples.active = indexOfExample(urlToName($routeParams.example), $scope.examples);

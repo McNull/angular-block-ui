@@ -13,7 +13,8 @@
   <link rel="stylesheet" href="vendor/angular-inform/dist/angular-inform.min.css">
 
   <% _.forEach(css, function(include) { %>
-  <link rel="stylesheet" href="<%-include%>"><%
+  <link rel="stylesheet" href="<%-include%>">
+  <%
   }); %>
 
   <!--[if lt IE 9]>
@@ -34,15 +35,17 @@
 
 <section ng-view></section>
 
-  <script src="vendor/showdown/compressed/showdown.js"></script>
-  <script src="vendor/angular/angular.js"></script>
-  <script src="vendor/angular-route/angular-route.min.js"></script>
-  <script src="vendor/angular-resource/angular-resource.min.js"></script>
-  <script src="vendor/angular-inform/dist/angular-inform.min.js"></script>
+<script src="vendor/showdown/compressed/showdown.js"></script>
+<script src="vendor/angular/angular.js"></script>
+<script src="vendor/angular-route/angular-route.min.js"></script>
+<script src="vendor/angular-animate/angular-animate.min.js"></script>
+<script src="vendor/angular-resource/angular-resource.min.js"></script>
+<script src="vendor/angular-inform/dist/angular-inform.min.js"></script>
 
-  <% _.forEach(js, function(include) { %>
-  <script src="<%-include%>"></script><%
-  }); %>
+<% _.forEach(js, function(include) { %>
+<script src="<%-include%>"></script>
+<%
+}); %>
 
 </body>
 </html>

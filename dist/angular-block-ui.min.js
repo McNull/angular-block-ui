@@ -1,5 +1,5 @@
 /*!
-   angular-block-ui v0.0.10
+   angular-block-ui v0.0.11
    (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */

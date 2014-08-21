@@ -1,0 +1,17 @@
+.animation-fade .block-ui-overlay {
+  transition: opacity 1s;
+  opacity: 0.0;
+}
+
+.animation-fade .block-ui-overlay.block-ui-visible {
+  opacity: 0.5;
+}
+
+.block-ui-message-container {
+  transition: opacity 1s;
+  opacity: 0.5;
+}
+
+.block-ui-message-container.ng-hide {
+  opacity: 0.0;
+}

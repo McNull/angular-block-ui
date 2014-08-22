@@ -1,7 +1,7 @@
 <div ng-controller="ElementBlockingController">
 
   <p>
-    It's also possible to block individual elements by using the <em>block-ui</em> directive. 
+    It's also possible to block individual elements by using the <em>block-ui</em> directive.
     Blocking individual elements can be done manually or automatically by informing the module which request correlates with a certain element.
     If no match can be found for a certain request, the main block will be initiated.
   </p>
@@ -12,19 +12,19 @@
   </p>
 
   <div class="example">
-    <div>
-      <!-- 
-        Mark this region as blockable for any request that 
+      <!--
+        Mark this region as blockable for any request that
         matches the provided pattern: app/examples/data-array.json
       -->
-      <div block-ui block-ui-pattern="/^app\/examples\/data-array\.json$/"></div>
+      <!--<div block-ui block-ui-pattern="/^app\/examples\/data-array\.json$/"></div>-->
+    <div block-ui block-ui-pattern="/^app\/examples\/data-array\.json$/">
       <div my-demo-table limit="5"></div>
     </div>
 
     <h3>Html</h3>
     <pre><code>&lt;div&gt;
-  &lt;!-- 
-    Mark this region as blockable for any request that 
+  &lt;!--
+    Mark this region as blockable for any request that
     starts with &quot;/api/person&quot;
   --&gt;
   &lt;div block-ui block-ui-pattern=&quot;/^\/api\/person($|\/).*/&quot;&gt;&lt;/div&gt;
@@ -34,21 +34,22 @@
 
   <h2 class="spacer-lg">Manual Element Blocking</h2>
   <p>
-    Just like the main blockUI instance, blocking individual elements can also be done manually. 
+    Just like the main blockUI instance, blocking individual elements can also be done manually.
     By providing the <em>block-ui</em> an name the associated blockUI instance can be requested in our controller or service.
   </p>
-  
+
   <div class="example">
 
     <div style="max-width: 400px; margin: 0 auto 10px;">
-      <div class="well">
-        <div block-ui="myBlock"></div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <div block-ui="myBlock">
+        <div class="well">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
       </div>
       <button ng-click="toggleBlock('myBlock')" type="button" class="btn btn-primary btn-lg btn-block">Toggle Block</button>
     </div>
@@ -59,7 +60,7 @@
   &lt;p&gt;Lorem ipsum dolor sit amet ... &lt;/p&gt;
 &lt;/div&gt;
 &lt;button ng-click=&quot;toggleBlock()&quot;&gt;Toggle Block&lt;/button&gt;</code></pre>
-      
+
     <h3>JavaScript</h3>
       <pre><code>// Get a reference to the blockUI instance
 var myBlock = blockUI.instances.get('myBlock');
@@ -71,7 +72,7 @@ $scope.toggleBlock = function() {
     myBlock.start();
   }
 };</code></pre>
-      
+
   </div>
   <h2>Shared blockUI instances</h2>
   <p>
@@ -81,26 +82,29 @@ $scope.toggleBlock = function() {
 
     <div class="row">
       <div class="col-sm-4">
-        <div class="well">
-          <h3>Sharing blockUI instance</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>  
-          <div block-ui="mySharedBlock"></div>
+        <div block-ui="mySharedBlock">
+          <div class="well">
+            <h3>Sharing blockUI instance</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
         </div>
-      </div>  
+      </div>
       <div class="col-sm-4">
-        <div class="well">
-          <h3>Sharing blockUI instance</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>  
-          <div block-ui="mySharedBlock"></div>
+        <div block-ui="mySharedBlock">
+          <div class="well">
+            <h3>Sharing blockUI instance</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
         </div>
-      </div>  
+      </div>
       <div class="col-sm-4">
-        <div class="well">
-          <h3>Sharing blockUI instance</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>  
-          <div block-ui="mySharedBlock"></div>
+        <div block-ui="mySharedBlock">
+          <div class="well">
+            <h3>Sharing blockUI instance</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
         </div>
-      </div>  
+      </div>
     </div>
 
     <div style="max-width: 400px; margin: 0 auto 10px;">

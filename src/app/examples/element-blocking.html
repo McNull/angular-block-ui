@@ -12,23 +12,21 @@
   </p>
 
   <div class="example">
-      <!--
-        Mark this region as blockable for any request that
-        matches the provided pattern: app/examples/data-array.json
-      -->
-      <!--<div block-ui block-ui-pattern="/^app\/examples\/data-array\.json$/"></div>-->
+    <!--
+      Mark this region as blockable for any request that
+      matches the provided pattern: app/examples/data-array.json
+    -->
     <div block-ui block-ui-pattern="/^app\/examples\/data-array\.json$/">
       <div my-demo-table limit="5"></div>
     </div>
 
     <h3>Html</h3>
-    <pre><code>&lt;div&gt;
-  &lt;!--
-    Mark this region as blockable for any request that
-    starts with &quot;/api/person&quot;
-  --&gt;
-  &lt;div block-ui block-ui-pattern=&quot;/^\/api\/person($|\/).*/&quot;&gt;&lt;/div&gt;
-  &lt;div my-demo-table&gt;&lt;/div&gt;
+    <pre><code>&lt;!--
+  Mark this region as blockable for any request that
+  matches the provided pattern: app/examples/data-array.json
+--&gt;
+&lt;div block-ui block-ui-pattern=&quot;/^app\/examples\/data-array\.json$/&quot;&gt;
+  &lt;div my-demo-table limit=&quot;5&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;</code></pre>
   </div>
 
@@ -55,8 +53,7 @@
     </div>
 
     <h3>Html</h3>
-      <pre><code>&lt;div&gt;
-  &lt;div block-ui=&quot;myBlock&quot;&gt;&lt;/div&gt;
+      <pre><code>&lt;div block-ui=&quot;myBlock&quot;&gt;
   &lt;p&gt;Lorem ipsum dolor sit amet ... &lt;/p&gt;
 &lt;/div&gt;
 &lt;button ng-click=&quot;toggleBlock()&quot;&gt;Toggle Block&lt;/button&gt;</code></pre>

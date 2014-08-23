@@ -25,6 +25,7 @@ blkUI.config(function($provide, $httpProvider) {
 
 blkUI.run(function($document, blockUIConfig) {
   if(blockUIConfig.autoInjectBodyBlock) {
-    $document.find('body').append('<div block-ui="main"></div>');
+//    $document.find('body').append('<div block-ui="main"></div>');
+    $document.find('body').attr('block-ui', 'main');
   }
 });

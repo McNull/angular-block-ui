@@ -50,4 +50,6 @@ angular.module('myApp', [
   //blockUIConfigProvider.message('Fun with config');
   // blockUIConfigProvider.autoBlock(false);
   //blockUIConfigProvider.template('<div class="block-ui-overlay">{{ message }}</div>');
+}).controller('MainController', function($scope, blockUI) {
+//  blockUI.start();
 });

@@ -32,10 +32,125 @@ blkUI.config(["$provide", "$httpProvider", function($provide, $httpProvider) {
 
 blkUI.run(["$document", "blockUIConfig", function($document, blockUIConfig) {
   if(blockUIConfig.autoInjectBodyBlock) {
-    $document.find('body').append('<div block-ui="main"></div>');
+//    $document.find('body').append('<div block-ui="main"></div>');
+    $document.find('body').attr('block-ui', 'main');
   }
 }]);
 
+blkUI.directive('blockUiContainer', ["blockUIConfig", "blockUiContainerLinkFn", function (blockUIConfig, blockUiContainerLinkFn) {
+  return {
+    scope: true,
+    restrict: 'A',
+    templateUrl: blockUIConfig.template ? undefined : blockUIConfig.templateUrl,
+    template: blockUIConfig.template,
+    link: blockUiContainerLinkFn
+  };
+}]).factory('blockUiContainerLinkFn', ["blockUI", "blockUIUtils", function (blockUI, blockUIUtils) {
+
+  return function ($scope, $element, $attrs) {
+
+    $element.addClass('block-ui-container');
+
+    var srvInstance = $element.inheritedData('block-ui');
+
+    if (!srvInstance) {
+      throw new Error('No parent block-ui service instance located.');
+    }
+
+    $scope.state = srvInstance.state();
+
+  };
+}]);
+blkUI.directive('blockUi', ["blockUiCompileFn", function(blockUiCompileFn) {
+
+  return {
+    restrict: 'A',
+    compile: blockUiCompileFn
+  };
+
+}]).factory('blockUiCompileFn', ["blockUiLinkFn", function(blockUiLinkFn) {
+
+  return function($element, $attrs) {
+    $element.append('<div block-ui-container></div>');
+    return blockUiLinkFn;
+  };
+
+}]).factory('blockUiLinkFn', ["blockUI", "blockUIUtils", function(blockUI, blockUIUtils) {
+
+  return function($scope, $element, $attrs) {
+
+    $element.addClass('block-ui');
+
+    // Create the blockUI instance
+    // Prefix underscore to prevent integers:
+    // https://github.com/McNull/angular-block-ui/pull/8
+
+    var instanceId = $attrs.blockUi || '_' + $scope.$id;
+    var srvInstance = blockUI.instances.get(instanceId);
+
+    // If this is the main (topmost) block element we'll also need to block any
+    // location changes while the block is active.
+
+    if (instanceId === 'main') {
+
+      // After the initial content has been loaded we'll spy on any location
+      // changes and discard them when needed.
+
+      var fn = $scope.$on('$viewContentLoaded', function($event) {
+
+        // Unhook the view loaded and hook a function that will prevent
+        // location changes while the block is active.
+
+        fn();
+        $scope.$on('$locationChangeStart', function(event) {
+          if (srvInstance.state().blockCount > 0) {
+            event.preventDefault();
+          }
+        });
+      });
+    } else {
+      // Locate the parent blockUI instance
+      var parentInstance = $element.inheritedData('block-ui');
+
+      if(parentInstance) {
+        // TODO: assert if parent is already set to something else
+        srvInstance._parent = parentInstance;
+      }
+    }
+
+    // Ensure the instance is released when the scope is destroyed
+
+    $scope.$on('$destroy', function() {
+      srvInstance.release();
+    });
+
+    // Increase the reference count
+
+    srvInstance.addRef();
+
+    // Set the aria-busy attribute if needed
+
+    $scope.$watch(function() {
+      return srvInstance.state().blocking;
+    }, function (value) {
+      $element.attr('aria-busy', value);
+    });
+
+    // If a pattern is provided assign it to the state
+
+    var pattern = $attrs.blockUiPattern;
+
+    if(pattern) {
+      var regExp = blockUIUtils.buildRegExp(pattern);
+      srvInstance.pattern(regExp);
+    }
+
+    // Store a reference to the service instance on the element
+
+    $element.data('block-ui', srvInstance);
+  };
+
+}]);
 blkUI.provider('blockUIConfig', function() {
 
   var _config = {
@@ -84,95 +199,6 @@ blkUI.provider('blockUIConfig', function() {
     return _config;
   };
 });
-
-blkUI.directive('blockUi', ["blockUI", "blockUIConfig", "blockUiLinkFn", function(blockUI, blockUIConfig, blockUiLinkFn) {
-  return {
-    scope: true,
-    restrict: 'A',
-    templateUrl: blockUIConfig.template ? undefined : blockUIConfig.templateUrl,
-    template: blockUIConfig.template,
-    link: blockUiLinkFn
-  };
-}]).factory('blockUiLinkFn', ["blockUI", "blockUIUtils", function(blockUI, blockUIUtils) {
-
-  return function($scope, $element, $attrs) {
-    
-    var $parent = $element.parent();
-
-    // Locate the parent element  
-
-    if ($parent.length) {
-      
-      var srvInstance = blockUI;
-      
-      // If the parent is the body element, hook into the view loaded event
-
-      if ($parent[0].tagName === 'BODY') {
-        var fn = $scope.$on('$viewContentLoaded', function($event) {
- 
-          // Unhook the view loaded and hook a function that will prevent
-          // location changes while the block is active.
-
-          fn();
-          $scope.$on('$locationChangeStart', function(event) {
-            if ($scope.state.blockCount > 0) {
-              event.preventDefault();
-            }
-          });
-        });
-      } else {
-
-        // Ensure that the parent position is set to relative 
-
-        $parent.css('position', 'relative');
-
-        // Create the blockUI instance
-
-        var instanceId = !$attrs.blockUi ? '_' + $scope.$id : $attrs.blockUi;
-
-        srvInstance = blockUI.instances.get(instanceId);
-
-        // Locate the parent blockUI instance
-
-        var parentInstance = $element.inheritedData('block-ui');
-
-        if(parentInstance) {
-
-          // TODO: assert if parent is already set to something else
-          
-          srvInstance._parent = parentInstance;
-        }
-
-        // If a pattern is provided assign it to the state
-
-        var pattern = $attrs.blockUiPattern;
-
-        if(pattern) {
-          var regExp = blockUIUtils.buildRegExp(pattern);
-          srvInstance.pattern(regExp);
-        }
-
-        // Ensure the instance is released when the scope is destroyed
-
-        $scope.$on('$destroy', function() {
-          srvInstance.release();
-        });
-
-        // Increase the reference count
-
-        srvInstance.addRef();
-      }
-      
-      $element.addClass('block-ui');
-      $parent.data('block-ui', srvInstance);
-      $scope.state = srvInstance.state();
-      
-      $scope.$watch('state.blocking', function(value){
-        $parent.attr('aria-busy', value);
-      });
-    }
-  };
-}]);
 
 blkUI.factory('blockUIHttpInterceptor', ["$q", "$injector", "blockUIConfig", function($q, $injector, blockUIConfig) {
 
@@ -359,6 +385,7 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
     var instance = instances[id];
 
     if(!instance) {
+      // TODO: ensure no array instance trashing [xxx] -- current workaround: '_' + $scope.$id
       instance = instances[id] = new BlockUI(id);
       instances.push(instance);
     }

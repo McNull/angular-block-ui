@@ -77,65 +77,39 @@ The callback function to queue.
 Blocking individual elements
 ============================
 
-Instead of blocking the whole page, it's also possible to block individual elements. Just like the main `blockUI` service, this can be done either manually or automatically. Elements can be made _block ui enabled_ by adding a sibling `block-ui` directive element.
+Instead of blocking the whole page, it's also possible to block individual elements. Just like the main `blockUI` service, this can be done either manually or automatically. Elements can be made _block ui enabled_ by wrapping them in a `block-ui` element.
 
+#### Manual blocking
 ```
-<div>
+<div block-ui="myBlockUI">
   <p> ... I'm blockable ... </p>
-  <div block-ui="myBlockUI"></div>
 </div>
 ```
 
+The `block-ui` directive takes an optional value, which can be used to get an instance of the associated `blockUI` service.
+
+```
+// Get the reference to the block service.
+var myBlockUI = blockUI.instances.get('myBlockUI');
+
+// Start blocking the element.
+myBlockUI.start();
+
+$timeout(function() {
+  // Stop the block after some async operation.
+  myBlockUI.stop();
+}, 1000);
+```
 #### Automatic blocking
 
 Automatic blocking elements can be done by providing the `block-ui` directive a `block-ui-pattern` attribute. This attribute should contain a valid regular expression, which indicates the requests that are associated with the specific element.
 
 ```
-<div>
+<!-- Initiated the UI block whenever a request to '/api/quote' is performed -->
+<div block-ui block-ui-pattern="/^\/api\/quote($|\/).*/"></div>
   <p> ... I'm blockable ... </p>
-  <!-- Initiated the block whenever a request to '/api/quote' is performed -->
-  <div block-ui block-ui-pattern="/^\/api\/quote($|\/).*/"></div>
 </div>
 ```
-
-#### Manual blocking
-
-By providing the `block-ui` directive a name the controller can request the instance via the injected `blockUI` service. All functions exposed by the main `blockUI` service are available on the individual instances.
- 
-```
-<div>
-  <p> ... I'm blockable ... </p>
-  <div block-ui="myBlockUI"></div>
-</div>
-```
-```
-angular.module('myApp').controller('MyController', function($scope, $http, blockUI) {
-
-  // Grab the reference to the instance defined in the html markup
-  var myBlockUI = blockUI.instances.get('myBlockUI');
-  
-  $scope.doSomethingAsync = function() {
-  	
-    myBlockUI.start();
-    	
-    $timeout(function() {
-	  myBlockUI.stop(); 
-	}, 1000);  
-	
-  };
-});
-```
-
-
-BlockUI overlay template
-========================
-
-The html and styling of the builtin template is kept bare bone. It consist of two divs (overlay and message):
-
-    <div ng-show="blockCount > 0" class="block-ui-overlay" ng-class="{ 'block-ui-visible': blocking }"></div>
-    <div ng-show="blocking" class="block-ui-message">{{ message }}</div>
-
-A custom template can be specified in the module configuration.
 
 BlockUI module configuration
 ============================
@@ -206,13 +180,12 @@ Allows you to specify a filter function to exclude certain ajax requests from bl
     });
     
 #### autoInjectBodyBlock
-When the module is started it will inject the _main block element_ as a child of the _body element_. 
+When the module is started it will inject the _main block element_ by adding the `block-ui` directive to the `body` element.
 
-    <body>
-      <div block-ui="main"></div>
+    <body block-ui="main">
     </body>
     
-This behaviour can be disabled if there no need for any _fullscreen_ blocking or if more control over this element is required.
+This behaviour can be disabled if there no need for any _fullscreen_ blocking or if there's more control required.
 
     blockUIConfigProvider.autoInjectBodyBlock(false); // Disable auto body block
     

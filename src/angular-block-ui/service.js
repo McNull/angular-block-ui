@@ -130,6 +130,7 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
     var instance = instances[id];
 
     if(!instance) {
+      // TODO: ensure no array instance trashing [xxx] -- current workaround: '_' + $scope.$id
       instance = instances[id] = new BlockUI(id);
       instances.push(instance);
     }

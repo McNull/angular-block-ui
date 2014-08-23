@@ -36,7 +36,7 @@ angular.module('myApp', [
 
   delayConfig.excludes.push(/.*\.md/i);
 
-  delayConfig.enabled = false;
+  delayConfig.enabled = true;
   delayConfig.timeout.min = 1000;
   delayConfig.timeout.max = 2000;
 

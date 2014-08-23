@@ -18,7 +18,13 @@ blkUI.directive('blockUiContainer', function (blockUIConfig, blockUiContainerLin
       throw new Error('No parent block-ui service instance located.');
     }
 
+    // Expose the state on the scope
+
     $scope.state = srvInstance.state();
+
+    $scope.$watch('state.blocking', function(value) {
+      $element.toggleClass('block-ui-visible', !!value);
+    });
 
   };
 });

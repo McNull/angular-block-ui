@@ -1,17 +1,18 @@
 describe('block-ui-container-directive', function() {
 
   var $scope, $ = angular.element, $parent, blockInstanceId = "theInstance",
-    blockInstance, blockUI, $attrs = {}, $compile;
+    blockInstance, blockUI, $attrs = {}, $compile, $timeout;
 
   beforeEach(function() {
 
     module('blockUI');
 
-    inject(function(_$rootScope_, _blockUI_, _$compile_) {
+    inject(function(_$rootScope_, _blockUI_, _$compile_, _$timeout_) {
 
       $scope = _$rootScope_.$new();
       blockUI = _blockUI_;
       $compile = _$compile_;
+      $timeout = _$timeout_;
 
     });
 
@@ -85,6 +86,23 @@ describe('block-ui-container-directive', function() {
 
       expect($element.hasClass('block-ui-container')).toBe(true);
 
+    });
+
+    it('should set the block-ui-visible class when in blocking state', function() {
+
+      linkFn($scope, $element, $attrs);
+      expect($element.hasClass('block-ui-visible')).toBe(false);
+
+      blockInstance.start();
+      $timeout.flush();
+      $scope.$digest();
+
+      expect($element.hasClass('block-ui-visible')).toBe(true);
+
+      blockInstance.stop();
+      $scope.$digest();
+
+      expect($element.hasClass('block-ui-visible')).toBe(false);
     });
 
   });

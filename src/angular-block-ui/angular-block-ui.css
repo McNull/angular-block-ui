@@ -19,7 +19,7 @@ body.block-ui > .block-ui-container > .block-ui-message-container {
   position: fixed;
 }
 
-.block-ui-overlay.block-ui-visible {
+.block-ui-visible .block-ui-overlay {
   background-color: #fff;
   opacity: 0.5;
   -ms-filter:"alpha(opacity=50)";
@@ -27,6 +27,7 @@ body.block-ui > .block-ui-container > .block-ui-message-container {
 }
 
 .block-ui-message-container {
+  display: none;
   position: absolute;
   top: 35%;
   left: 0;
@@ -34,6 +35,10 @@ body.block-ui > .block-ui-container > .block-ui-message-container {
   height: 0;
   text-align: center;
   z-index: 10002;
+}
+
+.block-ui-visible .block-ui-message-container {
+  display: block;
 }
 
 .block-ui-message {

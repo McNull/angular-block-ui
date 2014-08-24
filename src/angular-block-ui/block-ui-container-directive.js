@@ -26,5 +26,8 @@ blkUI.directive('blockUiContainer', function (blockUIConfig, blockUiContainerLin
       $element.toggleClass('block-ui-visible', !!value);
     });
 
+    $scope.$watch('state.blockCount > 0', function(value) {
+      $element.toggleClass('block-ui-active', !!value);
+    });
   };
 });

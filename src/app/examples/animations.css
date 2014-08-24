@@ -1,8 +1,21 @@
-.animation-fade .block-ui-container {
-  transition: opacity 1s;
+.block-ui-fade-in .block-ui-container {
+  transition: opacity 200ms;
   opacity: 0.0;
 }
 
-.animation-fade .block-ui-container.block-ui-visible {
+.block-ui-fade-in .block-ui-container.block-ui-visible {
   opacity: 1.0;
+}
+
+.block-ui-fade-in-out .block-ui-container {
+  transition: opacity 200ms;
+  opacity: 0.0;
+}
+
+.block-ui-fade-in-out .block-ui-container.block-ui-visible {
+  opacity: 1.0;
+}
+
+.block-ui-fade-in-out .block-ui-overlay {
+  transition: height 1200ms;
 }

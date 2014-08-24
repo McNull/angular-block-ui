@@ -105,5 +105,21 @@ describe('block-ui-container-directive', function() {
       expect($element.hasClass('block-ui-visible')).toBe(false);
     });
 
+    it('should set the block-ui-active class when blockcount > 0', function() {
+
+      linkFn($scope, $element, $attrs);
+      expect($element.hasClass('block-ui-active')).toBe(false);
+
+      blockInstance.start();
+      $scope.$digest();
+
+      expect($element.hasClass('block-ui-active')).toBe(true);
+
+      blockInstance.stop();
+      $scope.$digest();
+
+      expect($element.hasClass('block-ui-active')).toBe(false);
+    });
+
   });
 });

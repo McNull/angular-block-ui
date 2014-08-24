@@ -1,11 +1,27 @@
 <div ng-controller="AnimationController">
 
-  <div block-ui="animatedBlock" class="animation-fade">
-    <div class="jumbotron">
-      <h1>Block with animations</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium amet aspernatur atque commodi delectus deleniti eos error ipsa, iusto nesciunt nulla obcaecati provident quae, repellendus reprehenderit sit soluta, totam voluptate!</p>
+  <div class="example">
+    <div block-ui="fade-in" class="block-ui-fade-in">
+      <div class="jumbotron">
+        <h1>block-ui-fade-in</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium amet aspernatur atque commodi delectus
+          deleniti eos error ipsa, iusto nesciunt nulla obcaecati provident quae, repellendus reprehenderit sit soluta,
+          totam voluptate!</p>
+      </div>
     </div>
+    <button type="button" class="btn btn-default" ng-click="toggleBlock('fade-in')">Toggle Block</button>
   </div>
 
-  <button type="button" class="btn btn-default" ng-click="toggleBlock('animatedBlock')">Toggle Block</button>
+  <div class="example">
+    <div block-ui="fade-in-out" class="block-ui-fade-in-out">
+      <div class="jumbotron">
+        <h1>block-ui-fade-in-out</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium amet aspernatur atque commodi delectus
+          deleniti eos error ipsa, iusto nesciunt nulla obcaecati provident quae, repellendus reprehenderit sit soluta,
+          totam voluptate!</p>
+      </div>
+    </div>
+    <button type="button" class="btn btn-default" ng-click="toggleBlock('fade-in-out')">Toggle Block</button>
+  </div>
+
 </div>

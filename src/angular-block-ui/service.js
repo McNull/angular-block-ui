@@ -16,7 +16,14 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
     this._refs = 0;
 
     this.start = function(message) {
-      state.message = message || blockUIConfig.message;
+
+      if(state.blockCount > 0) {
+        message = message || state.message || blockUIConfig.message;
+      } else {
+        message = message || blockUIConfig.message;
+      }
+
+      state.message = message;
 
       state.blockCount++;
 

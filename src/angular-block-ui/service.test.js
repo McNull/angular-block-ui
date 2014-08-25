@@ -1,6 +1,6 @@
 describe('block-ui-service', function() {
 
-  var blockUI, $document;
+  var blockUI, $document, blockUIConfig;
 
   beforeEach(function() {
 
@@ -15,10 +15,10 @@ describe('block-ui-service', function() {
       // });
     });
 
-    inject(function(_blockUI_, _$document_, $rootScope) {
+    inject(function(_blockUI_, _$document_, $rootScope, _blockUIConfig_) {
       blockUI = _blockUI_;
       $document = _$document_;
-
+      blockUIConfig = _blockUIConfig_;
 //      $rootScope.$apply();
     });
 
@@ -253,6 +253,65 @@ describe('block-ui-service', function() {
       blockUI.start();
 
       expect(state.blockCount).toBe(2);
+
+    });
+
+    it('should copy the default config message to the state if none is provided', function() {
+
+      var state = blockUI.state();
+
+      blockUI.start();
+
+      expect(state.message).toBe(blockUIConfig.message);
+
+    });
+
+    it('should copy the provided message to the state', function() {
+
+      var customMessage = "My custom message ...";
+      var state = blockUI.state();
+
+      blockUI.start(customMessage);
+
+      expect(state.message).toBe(customMessage);
+
+    });
+
+    it('should override the state message with the provided message', function() {
+
+      var customMessage = "My custom message ...";
+      var state = blockUI.state();
+
+      blockUI.start();
+      blockUI.start(customMessage);
+
+      expect(state.message).toBe(customMessage);
+
+    });
+
+    it('should not revert back to default config message on active block if no message is provided', function() {
+
+      var customMessage = "My custom message ...";
+      var state = blockUI.state();
+
+      blockUI.start(customMessage);
+      blockUI.start();
+
+      expect(state.message).toBe(customMessage);
+
+    });
+
+    it('should revert back to default config message after block has been stopped', function() {
+
+      var customMessage = "My custom message ...";
+      var state = blockUI.state();
+
+      blockUI.start(customMessage);
+      blockUI.stop();
+
+      blockUI.start();
+
+      expect(state.message).toBe(blockUIConfig.message);
 
     });
 

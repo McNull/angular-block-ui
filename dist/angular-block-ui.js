@@ -1,5 +1,5 @@
 /*!
-   angular-block-ui v0.0.10
+   angular-block-ui v0.0.12
    (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
@@ -245,7 +245,14 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
     this._refs = 0;
 
     this.start = function(message) {
-      state.message = message || blockUIConfig.message;
+
+      if(state.blockCount > 0) {
+        message = message || state.message || blockUIConfig.message;
+      } else {
+        message = message || blockUIConfig.message;
+      }
+
+      state.message = message;
 
       state.blockCount++;
 

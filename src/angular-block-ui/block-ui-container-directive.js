@@ -2,8 +2,7 @@ blkUI.directive('blockUiContainer', function (blockUIConfig, blockUiContainerLin
   return {
     scope: true,
     restrict: 'A',
-    templateUrl: blockUIConfig.template ? undefined : blockUIConfig.templateUrl,
-    template: blockUIConfig.template,
+    templateUrl: blockUIConfig.templateUrl,
     link: blockUiContainerLinkFn
   };
 }).factory('blockUiContainerLinkFn', function (blockUI, blockUIUtils) {

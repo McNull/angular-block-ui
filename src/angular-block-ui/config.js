@@ -42,7 +42,17 @@ blkUI.provider('blockUIConfig', function() {
     _config.autoInjectBodyBlock = enabled;
   };
 
-  this.$get = function() {
+  this.$get = ['$templateCache', function($templateCache) {
+
+    if(_config.template) {
+
+      // Swap the builtin template with the custom template.
+      // Create a unique cache key and place the template in the cache.
+
+      _config.templateUrl = '$$block-ui-template$$';
+      $templateCache.put(_config.templateUrl, _config.template);
+    }
+
     return _config;
-  };
+  }];
 });

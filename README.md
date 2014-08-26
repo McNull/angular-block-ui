@@ -147,7 +147,7 @@ Specifies the amount in milliseconds before the block is visible to the user. By
 Specifies a custom template to use as the overlay.
 
     // Provide a custom template to use
-    blockUIConfigProvider.template('<div class="block-ui-overlay">{{ message }}</div>');
+    blockUIConfigProvider.template('<pre><code>{{ state | json }}</code></pre>');
 
 #### templateUrl
 Specifies a url to retrieve the template from. *The current release only works with pre-cached templates, which means that this url should be known in the $templateCache service of Angular. If you're using the grunt with html2js or angular-templates, which I highly recommend, you're already set.*

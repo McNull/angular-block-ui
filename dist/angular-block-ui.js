@@ -30,9 +30,8 @@ blkUI.config(["$provide", "$httpProvider", function($provide, $httpProvider) {
   $httpProvider.interceptors.push('blockUIHttpInterceptor');
 }]);
 
-blkUI.run(["$document", "blockUIConfig", function($document, blockUIConfig) {
+blkUI.run(["$document", "blockUIConfig", "$templateCache", function($document, blockUIConfig, $templateCache) {
   if(blockUIConfig.autoInjectBodyBlock) {
-//    $document.find('body').append('<div block-ui="main"></div>');
     $document.find('body').attr('block-ui', 'main');
   }
 }]);
@@ -41,8 +40,7 @@ blkUI.directive('blockUiContainer', ["blockUIConfig", "blockUiContainerLinkFn", 
   return {
     scope: true,
     restrict: 'A',
-    templateUrl: blockUIConfig.template ? undefined : blockUIConfig.templateUrl,
-    template: blockUIConfig.template,
+    templateUrl: blockUIConfig.templateUrl,
     link: blockUiContainerLinkFn
   };
 }]).factory('blockUiContainerLinkFn', ["blockUI", "blockUIUtils", function (blockUI, blockUIUtils) {
@@ -195,9 +193,19 @@ blkUI.provider('blockUIConfig', function() {
     _config.autoInjectBodyBlock = enabled;
   };
 
-  this.$get = function() {
+  this.$get = ['$templateCache', function($templateCache) {
+
+    if(_config.template) {
+
+      // Swap the builtin template with the custom template.
+      // Create a unique cache key and place the template in the cache.
+
+      _config.templateUrl = '$$block-ui-template$$';
+      $templateCache.put(_config.templateUrl, _config.template);
+    }
+
     return _config;
-  };
+  }];
 });
 
 blkUI.factory('blockUIHttpInterceptor', ["$q", "$injector", "blockUIConfig", function($q, $injector, blockUIConfig) {

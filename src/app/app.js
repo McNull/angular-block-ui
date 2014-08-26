@@ -40,6 +40,8 @@ angular.module('myApp', [
   delayConfig.timeout.min = 1000;
   delayConfig.timeout.max = 2000;
 
+  // blockUIConfigProvider.template('<pre><code>{{ state | json }}</code></pre>');
+
 //  blockUIConfigProvider.autoInjectBodyBlock(false);
 
   // blockUIConfigProvider.requestFilter(function(config) {
@@ -49,7 +51,7 @@ angular.module('myApp', [
   // });
   //blockUIConfigProvider.message('Fun with config');
   // blockUIConfigProvider.autoBlock(false);
-  //blockUIConfigProvider.template('<div class="block-ui-overlay">{{ message }}</div>');
+
 }).controller('MainController', function($scope, blockUI) {
 //  blockUI.start();
 });

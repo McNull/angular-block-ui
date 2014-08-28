@@ -36,13 +36,15 @@ angular.module('myApp', [
 
   delayConfig.excludes.push(/.*\.md/i);
 
-  delayConfig.enabled = true;
+  delayConfig.enabled = false;
   delayConfig.timeout.min = 1000;
   delayConfig.timeout.max = 2000;
 
+//  blockUIConfigProvider.animation(null);
+
   // blockUIConfigProvider.delay(1000);
 
-  // blockUIConfigProvider.template('<pre><code>{{ state | json }}</code></pre>');
+//  blockUIConfigProvider.template('<pre><code>{{ state | json }}</code></pre>');
 
 //  blockUIConfigProvider.autoInjectBodyBlock(false);
 

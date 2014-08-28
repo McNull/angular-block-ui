@@ -1,0 +1,28 @@
+.my-animation-tester {
+  position: relative;
+  padding: 45px 15px 15px;
+  background-color: #fff;
+  border-color: #ddd;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.my-animation-tester:after {
+  content:"DUMMY";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.my-animation-tester-state {
+  border-top: none;
+
+}
+.my-animation-tester-state:after {
+  content:"STATE";
+}

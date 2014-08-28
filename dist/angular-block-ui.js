@@ -55,8 +55,17 @@ blkUI.directive('blockUiContainer', ["blockUIConfig", "blockUiContainerLinkFn", 
       throw new Error('No parent block-ui service instance located.');
     }
 
+    // Expose the state on the scope
+
     $scope.state = srvInstance.state();
 
+    $scope.$watch('state.blocking', function(value) {
+      $element.toggleClass('block-ui-visible', !!value);
+    });
+
+    $scope.$watch('state.blockCount > 0', function(value) {
+      $element.toggleClass('block-ui-active', !!value);
+    });
   };
 }]);
 blkUI.directive('blockUi', ["blockUiCompileFn", function(blockUiCompileFn) {
@@ -515,7 +524,7 @@ blkUI.factory('blockUIUtils', function() {
 // This file is already embedded in your main javascript output, there's no need to include this file
 // manually in the index.html. This file is only here for your debugging pleasures.
 angular.module('blockUI').run(['$templateCache', function($templateCache){
-  $templateCache.put('angular-block-ui/angular-block-ui.ng.html', '<div ng-show=\"state.blockCount > 0\" class=\"block-ui-overlay\" ng-class=\"{ \'block-ui-visible\': state.blocking }\"></div><div ng-show=\"state.blocking\" class=\"block-ui-message-container\" aria-live=\"assertive\" aria-atomic=\"true\"><div class=\"block-ui-message\">{{ state.message }}</div></div>');
+  $templateCache.put('angular-block-ui/angular-block-ui.ng.html', '<div class=\"block-ui-overlay\"></div><div class=\"block-ui-message-container\" aria-live=\"assertive\" aria-atomic=\"true\"><div class=\"block-ui-message\">{{ state.message }}</div></div>');
 }]);
 })(angular);
 //# sourceMappingURL=angular-block-ui.js.map

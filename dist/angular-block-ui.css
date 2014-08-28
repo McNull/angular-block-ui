@@ -4,32 +4,29 @@
    License: MIT
 */
 
+
 .block-ui {
   position: relative;
 }
 
+.block-ui-container {
+  position: absolute;
+  z-index: 10000;
+  top: 0; right: 0; bottom: 0; left: 0;
+  height: 0;
+  cursor: wait;
+  overflow: hidden;
+}
+
+.block-ui-container.block-ui-active {
+  height: 100%;
+}
+
 .block-ui-overlay {
-  z-index: 10001;
-  border: none;
-  margin: 0;
-  padding: 0;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
-  position: absolute;
-}
-
-body.block-ui > .block-ui-container > .block-ui-overlay,
-body.block-ui > .block-ui-container > .block-ui-message-container {
-  position: fixed;
-}
-
-.block-ui-overlay.block-ui-visible {
-  background-color: #fff;
   opacity: 0.5;
-  -ms-filter:"alpha(opacity=50)";
-  cursor: wait;
+  background-color: white;
 }
 
 .block-ui-message-container {
@@ -39,11 +36,10 @@ body.block-ui > .block-ui-container > .block-ui-message-container {
   right: 0;
   height: 0;
   text-align: center;
-  z-index: 10002;
+  z-index: 10001;
 }
 
 .block-ui-message {
-  cursor: wait;
   display: inline-block;
   text-align: left;
   background-color: #333;
@@ -54,23 +50,38 @@ body.block-ui > .block-ui-container > .block-ui-message-container {
   font-weight: bold;
 }
 
-/*.block-ui-overlay {
+body.block-ui > .block-ui-container {
+  position: fixed;
+}
+
+
+/*
+.block-ui {
+  position: relative;
+}
+
+.block-ui-overlay {
   z-index: 10001;
   border: none;
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
+  height: 0;
   top: 0;
   left: 0;
   position: absolute;
 }
 
-body > .block-ui > .block-ui-overlay {
+.block-ui-active .block-ui-overlay {
+  height: 100%;
+}
+
+body.block-ui > .block-ui-container > .block-ui-overlay,
+body.block-ui > .block-ui-container > .block-ui-message-container {
   position: fixed;
 }
 
-.block-ui-overlay.block-ui-visible {
+.block-ui-visible .block-ui-overlay {
   background-color: #fff;
   opacity: 0.5;
   -ms-filter:"alpha(opacity=50)";
@@ -78,6 +89,7 @@ body > .block-ui > .block-ui-overlay {
 }
 
 .block-ui-message-container {
+  display: none;
   position: absolute;
   top: 35%;
   left: 0;
@@ -87,8 +99,8 @@ body > .block-ui > .block-ui-overlay {
   z-index: 10002;
 }
 
-body > .block-ui > .block-ui-message-container {
-  position: fixed;
+.block-ui-visible .block-ui-message-container {
+  display: block;
 }
 
 .block-ui-message {
@@ -103,5 +115,6 @@ body > .block-ui > .block-ui-message-container {
   border-radius: 4px;
   font-size: 20px;
   font-weight: bold;
-}*/
+}
+*/
 /*# sourceMappingURL=angular-block-ui.css.map */

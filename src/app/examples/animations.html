@@ -1,27 +1,50 @@
 <div ng-controller="AnimationController">
 
-  <div class="example">
-    <div block-ui="fade-in" class="block-ui-fade-in">
-      <div class="jumbotron">
-        <h1>block-ui-fade-in</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium amet aspernatur atque commodi delectus
-          deleniti eos error ipsa, iusto nesciunt nulla obcaecati provident quae, repellendus reprehenderit sit soluta,
-          totam voluptate!</p>
+
+
+  <div class="my-block-area my-fade-in-out">
+    <div my-demo-table></div>
+
+    <div class="my-block-container"
+         ng-class="{ 'my-block-active': state.myBlockActive,
+                     'my-block-visible': state.myBlockVisible }">
+      <div class="my-block-overlay"></div>
+      <div class="my-block-message-container">
+        <div class="my-block-message">Loading ...</div>
       </div>
     </div>
-    <button type="button" class="btn btn-default" ng-click="toggleBlock('fade-in')">Toggle Block</button>
   </div>
 
-  <div class="example">
-    <div block-ui="fade-in-out" class="block-ui-fade-in-out">
-      <div class="jumbotron">
-        <h1>block-ui-fade-in-out</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium amet aspernatur atque commodi delectus
-          deleniti eos error ipsa, iusto nesciunt nulla obcaecati provident quae, repellendus reprehenderit sit soluta,
-          totam voluptate!</p>
-      </div>
-    </div>
-    <button type="button" class="btn btn-default" ng-click="toggleBlock('fade-in-out')">Toggle Block</button>
-  </div>
+
+  <pre><code>state = {{ state | json }}</code></pre>
+  <p>
+    <button type="button" class="btn btn-default" ng-click="toggleMyBlock()">Toggle Block</button>
+  </p>
+
+  <!--<div class="example">-->
+    <!--<div block-ui="fade" class="block-ui-fade">-->
+      <!--<div class="jumbotron">-->
+        <!--<h1>block-ui-fade</h1>-->
+
+        <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium amet aspernatur atque commodi delectus-->
+          <!--deleniti eos error ipsa, iusto nesciunt nulla obcaecati provident quae, repellendus reprehenderit sit soluta,-->
+          <!--totam voluptate!</p>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<button type="button" class="btn btn-default" ng-click="toggleBlock('fade')">Toggle Block</button>-->
+  <!--</div>-->
+
+
+  <!--<div class="example">-->
+  <!--<div block-ui="fade-in-out" class="block-ui-fade-in-out">-->
+  <!--<div class="jumbotron">-->
+  <!--<h1>block-ui-fade-in-out</h1>-->
+  <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium amet aspernatur atque commodi delectus-->
+  <!--deleniti eos error ipsa, iusto nesciunt nulla obcaecati provident quae, repellendus reprehenderit sit soluta,-->
+  <!--totam voluptate!</p>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--<button type="button" class="btn btn-default" ng-click="toggleBlock('fade-in-out')">Toggle Block</button>-->
+  <!--</div>-->
 
 </div>

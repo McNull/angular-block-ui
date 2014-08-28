@@ -7,7 +7,8 @@ blkUI.provider('blockUIConfig', function() {
     autoBlock: true,
     resetOnException: true,
     requestFilter: angular.noop,
-    autoInjectBodyBlock: true
+    autoInjectBodyBlock: true,
+    animation: 'fade'
   };
 
   this.templateUrl = function(url) {
@@ -40,6 +41,10 @@ blkUI.provider('blockUIConfig', function() {
 
   this.autoInjectBodyBlock = function(enabled) {
     _config.autoInjectBodyBlock = enabled;
+  };
+
+  this.animation = function(name) {
+    _config.animation = name;
   };
 
   this.$get = ['$templateCache', function($templateCache) {

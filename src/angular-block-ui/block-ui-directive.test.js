@@ -1,33 +1,31 @@
 describe('block-ui-directive', function() {
 
-  var $ = angular.element, $attrs = {}, $compile, $scope, blockUI, $timeout;
+  var $ = angular.element, $attrs = {}, $compile, $scope, blockUI, $timeout, config, configCopy, linkFn, compileFn;
 
   beforeEach(function() {
     module('blockUI');
 
-    inject(function(_blockUI_, _$timeout_, _$rootScope_, _$compile_) {
+    inject(function(_blockUI_, _$timeout_, _$rootScope_, _$compile_, blockUIConfig, blockUiLinkFn, blockUiCompileFn) {
 
       blockUI = _blockUI_;
       $timeout = _$timeout_;
       $compile = _$compile_;
       $scope = _$rootScope_.$new();
+      config = blockUIConfig;
+      linkFn = blockUiLinkFn;
+      compileFn = blockUiCompileFn;
 
     });
+
+    configCopy = angular.copy(config, configCopy);
+  });
+
+  afterEach(function() {
+    // Reset the config back to its original settings
+    config = angular.copy(configCopy, config);
   });
 
   describe('compile', function() {
-
-    var compileFn;
-
-    beforeEach(function() {
-
-      inject(function(blockUiCompileFn) {
-
-        compileFn = blockUiCompileFn;
-
-      });
-
-    });
 
     it('should append block-ui-container element', function() {
 
@@ -54,18 +52,6 @@ describe('block-ui-directive', function() {
 
   describe('link', function() {
 
-    var linkFn;
-
-    beforeEach(function() {
-
-      inject(function(blockUiLinkFn) {
-
-        linkFn = blockUiLinkFn;
-
-      });
-
-    });
-
     it('should add the block-ui class to the element', function() {
 
       var $element = $('<div></div>');
@@ -75,6 +61,38 @@ describe('block-ui-directive', function() {
       var result = $element.hasClass('block-ui');
 
       expect(result).toBeTruthy();
+
+    });
+
+    describe('animation', function() {
+
+      it('should set the configured animation class on the element', function() {
+        config.animation = 'my-animation';
+
+        var className = 'block-ui-' + config.animation;
+
+        var $element = $('<div></div>');
+
+        linkFn($scope, $element, $attrs);
+
+        var result = $element.hasClass(className);
+
+        expect(result).toBe(true);
+      });
+
+      it('should set the animation class on the element provided by attribute value', function() {
+
+        $attrs.blockUiAnimation = 'the-animation';
+        var className = 'block-ui-' + $attrs.blockUiAnimation;
+
+        var $element = $('<div></div>');
+
+        linkFn($scope, $element, $attrs);
+
+        var result = $element.hasClass(className);
+
+        expect(result).toBe(true);
+      });
 
     });
 

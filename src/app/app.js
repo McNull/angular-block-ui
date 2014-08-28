@@ -40,6 +40,8 @@ angular.module('myApp', [
   delayConfig.timeout.min = 1000;
   delayConfig.timeout.max = 2000;
 
+  // blockUIConfigProvider.delay(1000);
+
   // blockUIConfigProvider.template('<pre><code>{{ state | json }}</code></pre>');
 
 //  blockUIConfigProvider.autoInjectBodyBlock(false);

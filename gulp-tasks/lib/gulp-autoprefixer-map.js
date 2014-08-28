@@ -46,7 +46,7 @@ module.exports = function(browsers, options) {
 
       var contents = file.contents.toString();
 
-      var result = prefix(browsers).process(contents, options);
+      var result = prefix.apply(this, browsers).process(contents, options);
       contents = result.css;
 
       file.contents = new Buffer(contents);

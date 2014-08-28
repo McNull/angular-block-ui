@@ -12,11 +12,19 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
     return blockUiLinkFn;
   };
 
-}).factory('blockUiLinkFn', function(blockUI, blockUIUtils) {
+}).factory('blockUiLinkFn', function(blockUI, blockUIUtils, blockUIConfig) {
+
+  function addAnimationClass($element, animation) {
+    if(animation && animation !== 'none') {
+      $element.addClass('block-ui-' + animation);
+    }
+  }
 
   return function($scope, $element, $attrs) {
 
     $element.addClass('block-ui');
+
+    addAnimationClass($element, $attrs.blockUiAnimation || blockUIConfig.animation);
 
     // Create the blockUI instance
     // Prefix underscore to prevent integers:

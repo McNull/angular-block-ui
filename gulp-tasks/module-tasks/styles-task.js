@@ -44,7 +44,7 @@ module.exports = function (gulp, module) {
       .pipe(module.touch())
       .pipe(sourcemaps.init())
       .pipe(concat(module.name + '.css'))
-      .pipe(prefixer())
+      .pipe(prefixer(['last 2 versions', '> 1%', 'ie 8']))
       .pipe(sourcemaps.write('.', { sourceRoot: '../src/' + module.name }))
       .pipe(gulp.dest(module.folders.dest))
 

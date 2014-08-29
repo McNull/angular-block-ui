@@ -34,11 +34,15 @@ angular.module('myApp', [
 
 }).config(function (blockUIConfigProvider, delayConfig) {
 
-  delayConfig.excludes.push(/.*\.md/i);
+  if(window.location.search.indexOf('delay=false')!=-1) {
+    delayConfig.enabled = false;
+  } else {
+    delayConfig.excludes.push(/.*\.md/i);
+    delayConfig.enabled = true;
+    delayConfig.timeout.min = 1000;
+    delayConfig.timeout.max = 2000;
+  }
 
-  delayConfig.enabled = false;
-  delayConfig.timeout.min = 1000;
-  delayConfig.timeout.max = 2000;
 
 //  blockUIConfigProvider.animation(null);
 

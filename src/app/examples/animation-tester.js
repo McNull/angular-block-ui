@@ -24,8 +24,8 @@ angular.module('myApp').directive('myAnimationTester', function(blockUI, $compil
 
   return {
     restrict: 'AE',
+    scope: true,
     templateUrl: 'app/examples/animation-tester.ng.html',
-
     link: function($scope, $element, $attrs) {
 
       $scope.animation = $attrs.myAnimationTester;

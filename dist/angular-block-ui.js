@@ -82,11 +82,19 @@ blkUI.directive('blockUi', ["blockUiCompileFn", function(blockUiCompileFn) {
     return blockUiLinkFn;
   };
 
-}]).factory('blockUiLinkFn', ["blockUI", "blockUIUtils", function(blockUI, blockUIUtils) {
+}]).factory('blockUiLinkFn', ["blockUI", "blockUIUtils", "blockUIConfig", function(blockUI, blockUIUtils, blockUIConfig) {
+
+  function addAnimationClass($element, animation) {
+    if(animation && animation !== 'none') {
+      $element.addClass('block-ui-' + animation);
+    }
+  }
 
   return function($scope, $element, $attrs) {
 
     $element.addClass('block-ui');
+
+    addAnimationClass($element, $attrs.blockUiAnimation || blockUIConfig.animation);
 
     // Create the blockUI instance
     // Prefix underscore to prevent integers:
@@ -167,7 +175,8 @@ blkUI.provider('blockUIConfig', function() {
     autoBlock: true,
     resetOnException: true,
     requestFilter: angular.noop,
-    autoInjectBodyBlock: true
+    autoInjectBodyBlock: true,
+    animation: 'fade'
   };
 
   this.templateUrl = function(url) {
@@ -200,6 +209,10 @@ blkUI.provider('blockUIConfig', function() {
 
   this.autoInjectBodyBlock = function(enabled) {
     _config.autoInjectBodyBlock = enabled;
+  };
+
+  this.animation = function(name) {
+    _config.animation = name;
   };
 
   this.$get = ['$templateCache', function($templateCache) {

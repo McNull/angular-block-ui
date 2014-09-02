@@ -64,38 +64,6 @@ describe('block-ui-directive', function() {
 
     });
 
-    describe('animation', function() {
-
-      it('should set the configured animation class on the element', function() {
-        config.animation = 'my-animation';
-
-        var className = 'block-ui-' + config.animation;
-
-        var $element = $('<div></div>');
-
-        linkFn($scope, $element, $attrs);
-
-        var result = $element.hasClass(className);
-
-        expect(result).toBe(true);
-      });
-
-      it('should set the animation class on the element provided by attribute value', function() {
-
-        $attrs.blockUiAnimation = 'the-animation';
-        var className = 'block-ui-' + $attrs.blockUiAnimation;
-
-        var $element = $('<div></div>');
-
-        linkFn($scope, $element, $attrs);
-
-        var result = $element.hasClass(className);
-
-        expect(result).toBe(true);
-      });
-
-    });
-
     describe('block-ui service instance', function() {
 
       it('should create set the service instance as data on the element', function() {

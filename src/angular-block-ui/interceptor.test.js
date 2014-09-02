@@ -1,6 +1,6 @@
 describe('block-ui-http-interceptor', function() {
 
-  var blockUI, interceptor, blockUIConfig;
+  var blockUI, interceptor, config, configSrc;
 
   beforeEach(function() {
     
@@ -9,9 +9,15 @@ describe('block-ui-http-interceptor', function() {
     inject(function(_blockUI_, _blockUIHttpInterceptor_, _blockUIConfig_) {
       blockUI = _blockUI_;
       interceptor = _blockUIHttpInterceptor_;
-      blockUIConfig = _blockUIConfig_;
+      config = _blockUIConfig_;
     });
 
+    configSrc = angular.copy(config);
+
+  });
+
+  afterEach(function() {
+    config = angular.copy(configSrc, config);
   });
 
   describe('request', function() {
@@ -26,7 +32,7 @@ describe('block-ui-http-interceptor', function() {
 
     it('should not autoblock requests', function() {
 
-      blockUIConfig.autoBlock = false;
+      config.autoBlock = false;
 
       interceptor.request({ url: '/api/quote/1' });
       
@@ -36,9 +42,9 @@ describe('block-ui-http-interceptor', function() {
 
     it('should not block filtered requests', function() {
 
-      blockUIConfig.requestFilter = function(config) {
+      config.requestFilter = function(config) {
         return false;
-      }
+      };
 
       interceptor.request({ url: '/api/quote/1' });
       
@@ -139,7 +145,7 @@ describe('block-ui-http-interceptor', function() {
 
       var blocks = blockUI.instances.locate({ url: '/api/quote/123' });
 
-      blockUIConfig.autoBlock = false;
+      config.autoBlock = false;
 
       blockUI.start(); // set blockcount to 1
 

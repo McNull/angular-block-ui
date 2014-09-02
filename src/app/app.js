@@ -32,7 +32,7 @@ angular.module('myApp', [
     redirectTo: '/'
   });
 
-}).config(function (blockUIConfigProvider, delayConfig) {
+}).config(function (blockUIConfig, delayConfig) {
 
   if(window.location.search.indexOf('delay=false')!=-1) {
     delayConfig.enabled = false;
@@ -42,9 +42,6 @@ angular.module('myApp', [
     delayConfig.timeout.min = 1000;
     delayConfig.timeout.max = 2000;
   }
-
-
-//  blockUIConfigProvider.animation(null);
 
   // blockUIConfigProvider.delay(1000);
 

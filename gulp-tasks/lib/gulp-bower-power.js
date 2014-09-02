@@ -39,9 +39,14 @@ function src(gulp, options) {
 
         i += 1;
         globs.splice(i, 0, minified);
+
+        // Add the source map file name for the minified version
+
+        i += 1;
+        globs.splice(i, 0, minified + '.map');
       }
 
-      // Add the source map file name
+      // Add the source map file name for the unminified version
 
       i += 1;
       globs.splice(i, 0, glob + '.map');
@@ -49,41 +54,6 @@ function src(gulp, options) {
     }
   }
 
-//  console.log(globs);
-  // If the current build target is production we'll try to grab minified files where possible.
-
-//  if(options.env === 'production') {
-//    globs = globs.map(function(glob) {
-//
-//      var ext = path.extname(glob);
-//
-//      if(ext === '.js' || ext === '.css') {
-//        return getMinifiedFilename(glob, { exists: true });
-//      } else {
-//        return glob;
-//      }
-//
-//    });
-//  }
-
   return gulp.src(globs, options);
 }
 
-function getMinifiedFilename(filename, opts) {
-
-  opts = opts || {};
-
-  var dirname = path.dirname(filename);
-  var basename = path.basename(filename);
-
-  var minified = basename.split('.');
-  minified.splice(1, 0, 'min');
-  minified = minified.join('.');
-  minified = path.join(dirname, minified);
-
-  if(opts.exists && !fs.existsSync(minified)) {
-    return filename;
-  }
-
-  return minified;
-}

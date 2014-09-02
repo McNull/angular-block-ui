@@ -21,12 +21,12 @@ blkUI.directive('blockUiContainer', function (blockUIConfig, blockUiContainerLin
 
     $scope.state = srvInstance.state();
 
-    $scope.$watch('state.blocking', function(value) {
-      $element.toggleClass('block-ui-visible', !!value);
-    });
-
-    $scope.$watch('state.blockCount > 0', function(value) {
-      $element.toggleClass('block-ui-active', !!value);
-    });
+//    $scope.$watch('state.blocking', function(value) {
+//      $element.toggleClass('block-ui-visible', !!value);
+//    });
+//
+//    $scope.$watch('state.blockCount > 0', function(value) {
+//      $element.toggleClass('block-ui-active', !!value);
+//    });
   };
 });

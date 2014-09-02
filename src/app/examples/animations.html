@@ -7,13 +7,11 @@
   <!--<div my-animation-tester="bounce"></div>-->
   <!--<div my-animation-tester="fade"></div>-->
 
-  <div ng-if="animateCss.recompile">
     <div block-ui="animateCssTest" block-ui-message-class="animated infinite {{ animateCss.selected.name }}">
       <div class="jumbotron">
         <h1>{{ animateCss.selected.name }}</h1>
       </div>
     </div>
-  </div>
 
-  <select class="form-control" ng-options="animation.name group by animation.group for animation in animateCss.options" ng-model="animateCss.selected" ng-change="animateCss.recompile = false"></select>
+  <select class="form-control" ng-options="animation.name group by animation.group for animation in animateCss.options" ng-model="animateCss.selected"></select>
 </div>

@@ -18,11 +18,15 @@ body.block-ui > .block-ui-container {
   cursor: wait;
 }
 
-.block-ui-container.block-ui-active {
+.block-ui-active > .block-ui-container {
   height: 100%;
 }
 
-.block-ui-container.block-ui-visible {
+.block-ui-active .block-ui-active > .block-ui-container {
+  height: 0;
+}
+
+.block-ui-visible > .block-ui-container {
   opacity: 1;
   filter: alpha(opacity=100);
 }

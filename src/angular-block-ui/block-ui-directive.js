@@ -1,6 +1,7 @@
 blkUI.directive('blockUi', function(blockUiCompileFn) {
 
   return {
+    scope: true,
     restrict: 'A',
     compile: blockUiCompileFn
   };
@@ -16,11 +17,16 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
 
   };
 
-}).factory('blockUiPreLinkFn', function(blockUI, blockUIUtils) {
+}).factory('blockUiPreLinkFn', function(blockUI, blockUIUtils, blockUIConfig) {
 
   return function($scope, $element, $attrs) {
 
-    $element.addClass('block-ui');
+    // If the element does not have the class "block-ui" set, we set the
+    // default css classes from the config.
+
+    if (!$element.hasClass('block-ui')) {
+      $element.addClass(blockUIConfig.cssClass);
+    }
 
     // Expose the blockUiMessageClass attribute value on the scope
 
@@ -75,12 +81,18 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
 
     srvInstance.addRef();
 
-    // Set the aria-busy attribute if needed
+    // Expose the state on the scope
 
-    $scope.$watch(function() {
-      return srvInstance.state().blocking;
-    }, function (value) {
-      $element.attr('aria-busy', value);
+    $scope.$_blockUiState = srvInstance.state();
+
+    $scope.$watch('$_blockUiState.blocking', function (value) {
+      // Set the aria-busy attribute if needed
+      $element.attr('aria-busy', !!value);
+      $element.toggleClass('block-ui-visible', !!value);
+    });
+
+    $scope.$watch('$_blockUiState.blockCount > 0', function(value) {
+      $element.toggleClass('block-ui-active', !!value);
     });
 
     // If a pattern is provided assign it to the state

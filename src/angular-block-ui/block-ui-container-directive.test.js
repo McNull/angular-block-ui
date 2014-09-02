@@ -88,38 +88,38 @@ describe('block-ui-container-directive', function() {
 
     });
 
-    it('should set the block-ui-visible class when in blocking state', function() {
-
-      linkFn($scope, $element, $attrs);
-      expect($element.hasClass('block-ui-visible')).toBe(false);
-
-      blockInstance.start();
-      $timeout.flush();
-      $scope.$digest();
-
-      expect($element.hasClass('block-ui-visible')).toBe(true);
-
-      blockInstance.stop();
-      $scope.$digest();
-
-      expect($element.hasClass('block-ui-visible')).toBe(false);
-    });
-
-    it('should set the block-ui-active class when blockcount > 0', function() {
-
-      linkFn($scope, $element, $attrs);
-      expect($element.hasClass('block-ui-active')).toBe(false);
-
-      blockInstance.start();
-      $scope.$digest();
-
-      expect($element.hasClass('block-ui-active')).toBe(true);
-
-      blockInstance.stop();
-      $scope.$digest();
-
-      expect($element.hasClass('block-ui-active')).toBe(false);
-    });
+//    it('should set the block-ui-visible class when in blocking state', function() {
+//
+//      linkFn($scope, $element, $attrs);
+//      expect($element.hasClass('block-ui-visible')).toBe(false);
+//
+//      blockInstance.start();
+//      $timeout.flush();
+//      $scope.$digest();
+//
+//      expect($element.hasClass('block-ui-visible')).toBe(true);
+//
+//      blockInstance.stop();
+//      $scope.$digest();
+//
+//      expect($element.hasClass('block-ui-visible')).toBe(false);
+//    });
+//
+//    it('should set the block-ui-active class when blockcount > 0', function() {
+//
+//      linkFn($scope, $element, $attrs);
+//      expect($element.hasClass('block-ui-active')).toBe(false);
+//
+//      blockInstance.start();
+//      $scope.$digest();
+//
+//      expect($element.hasClass('block-ui-active')).toBe(true);
+//
+//      blockInstance.stop();
+//      $scope.$digest();
+//
+//      expect($element.hasClass('block-ui-active')).toBe(false);
+//    });
 
   });
 });

@@ -6,8 +6,7 @@ blkUI.constant('blockUIConfig', {
     resetOnException: true,
     requestFilter: angular.noop,
     autoInjectBodyBlock: true,
-    cssClass: 'block-ui block-ui-anim-fade',
-    cssClassMessage: 'block-ui-message'
+    cssClass: 'block-ui block-ui-anim-fade'
 });
 
 //  this.templateUrl = function (url) {

@@ -62,17 +62,36 @@ describe('block-ui-directive', function() {
 
   describe('pre-link', function() {
 
-    it('should add the block-ui class to the element', function() {
+    describe('element css class', function() {
 
-      var $element = $('<div></div>');
+      it('should apply the default classes from the config', function() {
 
-      preLinkFn($scope, $element, $attrs);
+        var $element = $('<div></div>');
+        config.cssClass = 'my-first-class my-second-class';
 
-      var result = $element.hasClass('block-ui');
+        preLinkFn($scope, $element, $attrs);
 
-      expect(result).toBeTruthy();
+        var result = $element.hasClass(config.cssClass);
+
+        expect(result).toBeTruthy();
+
+      });
+
+      it('should noy apply the default classes from the config if block-ui class already set', function() {
+
+        var $element = $('<div class="block-ui my-other-class"></div>');
+        config.cssClass = 'my-first-class my-second-class';
+
+        preLinkFn($scope, $element, $attrs);
+
+        var result = $element.hasClass(config.cssClass);
+
+        expect(result).toBeFalsy();
+
+      });
 
     });
+
 
     describe('block-ui service instance', function() {
 
@@ -215,27 +234,6 @@ describe('block-ui-directive', function() {
 
     }); // pattern
 
-    describe('aria attributes', function() {
-      it('should set aria-busy to true when blocking', function() {
-
-        var blockInstance = blockUI.instances.get('myInstance');
-        var $element = $('<div></div>');
-        $attrs.blockUi = 'myInstance';
-
-        preLinkFn($scope, $element, $attrs);
-
-        blockInstance.start();
-        $timeout.flush(); // skip the delay of the block
-        $scope.$digest();
-
-        expect($element.attr('aria-busy')).toBe('true');
-
-        blockInstance.stop();
-        $scope.$digest();
-
-        expect($element.attr('aria-busy')).toBe('false');
-      });
-    });
 
     describe('block-ui-message-class', function() {
 
@@ -265,6 +263,84 @@ describe('block-ui-directive', function() {
 
       });
 
+    });
+
+    describe('block ui state', function() {
+
+      it('should expose the state on the scope', function() {
+
+        var $element = $('<div></div>');
+        var instance = blockUI.instances.get('my-instance');
+        var state = instance.state();
+
+        $attrs.blockUi = 'my-instance';
+
+        preLinkFn($scope, $element, $attrs);
+
+        expect($scope.$_blockUiState).toBe(state);
+
+      });
+
+      it('should set aria-busy to true when block is visible', function() {
+
+        var blockInstance = blockUI.instances.get('myInstance');
+        var $element = $('<div></div>');
+        $attrs.blockUi = 'myInstance';
+
+        preLinkFn($scope, $element, $attrs);
+
+        blockInstance.start();
+        $timeout.flush(); // skip the delay of the block
+        $scope.$digest();
+
+        expect($element.attr('aria-busy')).toBe('true');
+
+        blockInstance.stop();
+        $scope.$digest();
+
+        expect($element.attr('aria-busy')).toBe('false');
+      });
+
+      it('should set block-ui-visible class when block is visible', function() {
+
+        var blockInstance = blockUI.instances.get('myInstance');
+        var $element = $('<div></div>');
+        $attrs.blockUi = 'myInstance';
+
+        preLinkFn($scope, $element, $attrs);
+
+        blockInstance.start();
+        $timeout.flush(); // skip the delay of the block
+        $scope.$digest();
+
+        expect($element.hasClass('block-ui-visible')).toBe(true);
+
+        blockInstance.stop();
+        $scope.$digest();
+
+        expect($element.hasClass('block-ui-visible')).toBe(false);
+
+      });
+
+      it('should set block-ui-active class when blocking', function() {
+
+        var blockInstance = blockUI.instances.get('myInstance');
+        var $element = $('<div></div>');
+        $attrs.blockUi = 'myInstance';
+
+        preLinkFn($scope, $element, $attrs);
+
+        blockInstance.start();
+        $scope.$digest();
+
+        expect($element.hasClass('block-ui-active')).toBe(true);
+
+        blockInstance.stop();
+        $scope.$digest();
+
+        expect($element.hasClass('block-ui-active')).toBe(false);
+
+      });
     });
 
   }); // pre-link

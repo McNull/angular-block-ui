@@ -7,5 +7,7 @@
     </li>
   </ul>
 
-  <div class="spacer" ng-include="examples[examples.active].tmpl"></div>
+  <div block-ui block-ui-pattern="/^app\/examples($|\/).*/">
+    <div class="spacer" ng-include="examples[examples.active].tmpl"></div>
+  </div>
 </div>

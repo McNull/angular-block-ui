@@ -1,18 +1,18 @@
 describe('block-ui-directive', function() {
 
-  var $ = angular.element, $attrs = {}, $compile, $scope, blockUI, $timeout, config, configCopy, linkFn, compileFn;
+  var $ = angular.element, $attrs = {}, $compile, $scope, blockUI, $timeout, config, configCopy, preLinkFn, compileFn;
 
   beforeEach(function() {
     module('blockUI');
 
-    inject(function(_blockUI_, _$timeout_, _$rootScope_, _$compile_, blockUIConfig, blockUiLinkFn, blockUiCompileFn) {
+    inject(function(_blockUI_, _$timeout_, _$rootScope_, _$compile_, blockUIConfig, blockUiPreLinkFn, blockUiCompileFn) {
 
       blockUI = _blockUI_;
       $timeout = _$timeout_;
       $compile = _$compile_;
       $scope = _$rootScope_.$new();
       config = blockUIConfig;
-      linkFn = blockUiLinkFn;
+      preLinkFn = blockUiPreLinkFn;
       compileFn = blockUiCompileFn;
 
     });
@@ -56,7 +56,7 @@ describe('block-ui-directive', function() {
 
       var $element = $('<div></div>');
 
-      linkFn($scope, $element, $attrs);
+      preLinkFn($scope, $element, $attrs);
 
       var result = $element.hasClass('block-ui');
 
@@ -70,7 +70,7 @@ describe('block-ui-directive', function() {
 
         var $element = $('<div></div>');
 
-        linkFn($scope, $element, $attrs);
+        preLinkFn($scope, $element, $attrs);
 
         var result = $element.data('block-ui');
 
@@ -89,7 +89,7 @@ describe('block-ui-directive', function() {
 
         var $element = $('<div></div>');
 
-        linkFn($scope, $element, $attrs);
+        preLinkFn($scope, $element, $attrs);
 
         expect(blockUI.instances[expectedId]).toBeDefined();
       });
@@ -99,7 +99,7 @@ describe('block-ui-directive', function() {
         var $element = $('<div></div>');
 
         $attrs.blockUi = 'testInstance';
-        linkFn($scope, $element, $attrs);
+        preLinkFn($scope, $element, $attrs);
 
         var expected = blockUI.instances.get('testInstance');
         var result = $element.data('block-ui');
@@ -130,7 +130,7 @@ describe('block-ui-directive', function() {
 
         // act
 
-        linkFn($scope, $element, $attrs);
+        preLinkFn($scope, $element, $attrs);
 
         // assert
 
@@ -159,7 +159,7 @@ describe('block-ui-directive', function() {
 
         var $element = $('<div></div>');
 
-        linkFn($scope, $element, { blockUi: instanceName });
+        preLinkFn($scope, $element, { blockUi: instanceName });
 
         expect(instance._refs).toBe(1);
 
@@ -169,7 +169,7 @@ describe('block-ui-directive', function() {
 
         var $element = $('<div></div>');
 
-        linkFn($scope, $element, { blockUi: instanceName });
+        preLinkFn($scope, $element, { blockUi: instanceName });
 
         spyOn(instance, 'release').andCallThrough();
         spyOn(blockUI.instances, '_destroy');
@@ -191,7 +191,7 @@ describe('block-ui-directive', function() {
         var $element = $('<div></div>');
         var pattern = '^\/api\/quote($|\/).*';
 
-        linkFn($scope, $element, { blockUi: 'myInstance', blockUiPattern: '/' + pattern + '/' });
+        preLinkFn($scope, $element, { blockUi: 'myInstance', blockUiPattern: '/' + pattern + '/' });
 
         var instance = blockUI.instances.myInstance;
 
@@ -207,7 +207,7 @@ describe('block-ui-directive', function() {
 
         var blockInstance = blockUI.instances.get('myInstance');
         var $element = $('<div></div>');
-        linkFn($scope, $element, { blockUi: 'myInstance' });
+        preLinkFn($scope, $element, { blockUi: 'myInstance' });
 
         blockInstance.start();
         $timeout.flush(); // skip the delay of the block

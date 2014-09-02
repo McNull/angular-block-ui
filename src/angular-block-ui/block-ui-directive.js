@@ -5,15 +5,18 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
     compile: blockUiCompileFn
   };
 
-}).factory('blockUiCompileFn', function(blockUiLinkFn) {
+}).factory('blockUiCompileFn', function(blockUiPreLinkFn) {
 
   return function($element, $attrs) {
     $element.append('<div block-ui-container></div>');
 
-    return blockUiLinkFn;
+    return {
+      pre: blockUiPreLinkFn
+    };
+
   };
 
-}).factory('blockUiLinkFn', function(blockUI, blockUIUtils, blockUIConfig) {
+}).factory('blockUiPreLinkFn', function(blockUI, blockUIUtils) {
 
   return function($scope, $element, $attrs) {
 

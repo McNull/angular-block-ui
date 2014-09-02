@@ -72,13 +72,11 @@ body.block-ui > .block-ui-container {
 /* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 .block-ui-anim-fade .block-ui-container {
-  -webkit-transition: height 0s linear 250ms, opacity 250ms ease 0s;
-          transition: height 0s linear 250ms, opacity 250ms ease 0s;
+  -webkit-transition: height 0s linear 100ms, opacity 100ms ease 0s;
+          transition: height 0s linear 100ms, opacity 100ms ease 0s;
 }
 
 .block-ui-anim-fade.block-ui-visible > .block-ui-container {
-
-  /*transition: height 0s linear 0s, opacity 250ms ease 0s;*/
 
   /*this resets the initial delay of the height */
   /*and sizes the block to full height at once at the start of the block. */

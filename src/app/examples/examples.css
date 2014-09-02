@@ -50,6 +50,14 @@
   overflow: hidden;
 }
 
+/*.example-container.block-ui-active {*/
+  /*background-color: yellow;*/
+/*}*/
+
+/*.example-container.block-ui-visible {*/
+  /*background-color: green;*/
+/*}*/
+
 /*.login-form-block .block-ui-overlay.block-ui-visible {
   background-color: yellow;
 }*/

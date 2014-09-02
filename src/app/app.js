@@ -43,19 +43,9 @@ angular.module('myApp', [
     delayConfig.timeout.max = 2000;
   }
 
-  // blockUIConfigProvider.delay(1000);
+//  blockUIConfig.template = '<pre><code>{{ state | json }}</code></pre>';
 
-//  blockUIConfigProvider.template('<pre><code>{{ state | json }}</code></pre>');
-
-//  blockUIConfigProvider.autoInjectBodyBlock(false);
-
-  // blockUIConfigProvider.requestFilter(function(config) {
-  //   if(config.url.match(/^\/api\/quote($|\/).*/)) {
-  //     return false;
-  //   }
-  // });
-  //blockUIConfigProvider.message('Fun with config');
-  // blockUIConfigProvider.autoBlock(false);
+//  blockUIConfig.delay = 200;
 
 }).controller('MainController', function($scope, blockUI) {
 //  blockUI.start();

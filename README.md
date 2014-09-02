@@ -9,7 +9,7 @@ Besides AngularJS (~1.2.4), none.
 Live demos can be found on [Plunker](http://plnkr.co/edit/XWRfHX?p=preview) or by executing the website included in the [GitHub project](https://github.com/McNull/angular-block-ui) .
 
 #### Installation
-Either copy the contents of the `package` directory of the [Github](https://github.com/McNull/angular-block-ui) project or install with _bower_ from the command line (**recommended**):
+Either copy the contents of the `dist` directory of the [Github](https://github.com/McNull/angular-block-ui) project or install with _bower_ from the command line (**recommended**):
     
     bower install angular-block-ui
 
@@ -114,70 +114,69 @@ Automatic blocking elements can be done by providing the `block-ui` directive a 
 BlockUI module configuration
 ============================
 
-The configuration of the BlockUI module can be modified via the **blockUIConfigProvider** during the config phase of your Angular application:
+The configuration of the BlockUI module can be modified via the `blockUIConfig` during the config phase of your Angular application:
 
-    angular.module('myApp').config(function(blockUIConfigProvider) {
+    angular.module('myApp').config(function(blockUIConfig) {
       
       // Change the default overlay message
-      blockUIConfigProvider.message('Please stop clicking!');
+      blockUIConfig.message = 'Please stop clicking!';
       
       // Change the default delay to 100ms before the blocking is visible
-      blockUIConfigProvider.delay(100);
+      blockUIConfig.delay = 100;
       
     });
 
-### Methods
+### Properties
 
 #### message
 Changes the default message to be used when no message has been provided to the *start* method of the service. Default value is *'Loading ...'*.
 
     // Change the default overlay message
-    blockUIConfigProvider.message('Please wait');
+    blockUIConfig.message = 'Please wait';
 
 #### delay
 Specifies the amount in milliseconds before the block is visible to the user. By delaying a visible block your application will appear more responsive. The default value is *250*.
 
     // Change the default delay to 100ms before the blocking is visible ...
-    blockUIConfigProvider.delay(100);
+    blockUIConfig.delay = 100;
     
     // ... or completely remove the delay
-    blockUIConfigProvider.delay(1);
+    blockUIConfig.delay = 0;
     
 #### template
 Specifies a custom template to use as the overlay.
 
     // Provide a custom template to use
-    blockUIConfigProvider.template('<pre><code>{{ state | json }}</code></pre>');
+    blockUIConfig.template = '<pre><code>{{ state | json }}</code></pre>';
 
 #### templateUrl
 Specifies a url to retrieve the template from. *The current release only works with pre-cached templates, which means that this url should be known in the $templateCache service of Angular. If you're using the grunt with html2js or angular-templates, which I highly recommend, you're already set.*
 
     // Provide the custom template via a url
-    blockUIConfigProvider.templateUrl('my-templates/block-ui-overlay.html');
+    blockUIConfig.templateUrl = 'my-templates/block-ui-overlay.html';
 
 #### autoBlock
 By default the BlockUI module will start a block whenever the Angular *$http* service has an pending request. If you don't want this behaviour and want to do all the blocking manually you can change this value to *false*.
 
     // Disable automatically blocking of the user interface
-    blockUIConfigProvider.autoBlock(false);
+    blockUIConfig.autoBlock = false;
 
 #### resetOnException
 By default the BlockUI module will reset the block count and hide the overlay whenever an exception has occurred. You can set this value to *false* if you don't want this behaviour.
 
     // Disable clearing block whenever an exception has occurred
-    blockUIConfigProvider.resetOnException(false);
+    blockUIConfig.resetOnException = false;
     
 #### requestFilter
 Allows you to specify a filter function to exclude certain ajax requests from blocking the user interface. The function is passed the [Angular request config object](http://docs.angularjs.org/api/ng/service/$http). The blockUI service will ignore requests when the function returns `false`.
 
 	// Tell the blockUI service to ignore certain requests
-    blockUIConfigProvider.requestFilter(function(config) {
-    
-      // If the request starts with '/api/quote' ...
+    blockUIConfig.requestFilter = function(config) {
+	  // If the request starts with '/api/quote' ...
       if(config.url.match(/^\/api\/quote($|\/).*/)) {
         return false; // ... don't block it.
       }
-    });
+    };
     
 #### autoInjectBodyBlock
 When the module is started it will inject the _main block element_ by adding the `block-ui` directive to the `body` element.
@@ -187,6 +186,11 @@ When the module is started it will inject the _main block element_ by adding the
     
 This behaviour can be disabled if there no need for any _fullscreen_ blocking or if there's more control required.
 
-    blockUIConfigProvider.autoInjectBodyBlock(false); // Disable auto body block
+    blockUIConfig.autoInjectBodyBlock = false; // Disable auto body block
     
+#### cssClass
+A string containing the default css classes, separated by spaces, that should be applied to each block-ui element. The default value is `'block-ui block-ui-anim-fade'`. 
 
+If this needs to be overridden for a certain element; set the desired classes on the element including the `block-ui` class. This way the directive will not apply the configured classes to the element.
+
+    blockUIConfig.cssClass = 'block-ui my-custom-class'; // Apply these classes to al block-ui elements

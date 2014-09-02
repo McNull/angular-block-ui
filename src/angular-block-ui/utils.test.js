@@ -1,6 +1,6 @@
 describe('block-ui-utils', function() {
 
-  var utils;
+  var utils, $ = angular.element;
 
   beforeEach(function() {
     module('blockUI');
@@ -114,5 +114,54 @@ describe('block-ui-utils', function() {
       
     });
 
+  }); // forEachFn
+
+  describe('findElement', function() {
+
+    it('should return the current element', function() {
+
+      function myPredicate($e) {
+        return $e.hasClass('my-class');
+      }
+
+      var $element = $('<div class="my-class"></div>');
+
+      var result = utils.findElement($element, myPredicate);
+
+      expect(result).toBe($element);
+
+    });
+
+    it('should return the child element', function() {
+
+      function myPredicate($e) {
+        return $e.hasClass('my-class');
+      }
+
+      var $element = $('<div><div class="my-class"></div></div>');
+      var expected = $element.children()[0];
+
+      var result = utils.findElement($element, myPredicate);
+
+      expect(result[0]).toBe(expected);
+
+    });
+
+    it('should return the parent element', function() {
+
+      function myPredicate($e) {
+        return $e.hasClass('my-class');
+      }
+
+      var expected = $('<div class="my-class"><div></div></div>');
+      var $element = $(expected.children()[0]);
+
+      var result = utils.findElement($element, myPredicate, true);
+
+      expect(result[0]).toBe(expected[0]);
+
+    });
+
   });
+
 });

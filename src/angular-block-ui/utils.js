@@ -1,6 +1,8 @@
 
 blkUI.factory('blockUIUtils', function() {
 
+  var $ = angular.element;
+
   var utils = {
     buildRegExp: function(pattern) {
       var match = pattern.match(/^\/(.*)\/([gim]*)$/), regExp;
@@ -37,6 +39,29 @@ blkUI.factory('blockUIUtils', function() {
       }
 
       return false;
+    },
+    findElement: function ($element, predicateFn, traverse) {
+      var ret = null;
+
+      if (predicateFn($element)) {
+        ret = $element;
+      } else {
+
+        var $elements;
+
+        if (traverse) {
+          $elements = $element.parent();
+        } else {
+          $elements = $element.children();
+        }
+
+        var i = $elements.length;
+        while (!ret && i--) {
+          ret = utils.findElement($($elements[i]), predicateFn, traverse);
+        }
+      }
+
+      return ret;
     }
   };
 

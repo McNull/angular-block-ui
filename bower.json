@@ -44,7 +44,8 @@
     "showdown": "~0.3.1",
     "angular-mocks": "~1.2.22",
     "angular-inform": "~0.0.8",
-    "angular-animate": "~1.2.22"
+    "angular-animate": "~1.2.22",
+    "animate.css": "~3.2.0"
   },
   "overrides": {
     "respond": {

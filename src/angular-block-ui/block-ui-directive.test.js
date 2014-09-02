@@ -50,7 +50,7 @@ describe('block-ui-directive', function() {
 
   });
 
-  describe('link', function() {
+  describe('pre-link', function() {
 
     it('should add the block-ui class to the element', function() {
 

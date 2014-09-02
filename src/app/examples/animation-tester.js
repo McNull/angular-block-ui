@@ -35,7 +35,7 @@ angular.module('myApp').directive('myAnimationTester', function(blockUI, $compil
 
       var $blockUI = locateElementWithClass($element, 'block-ui-target');
       $blockUI.attr('block-ui', instanceName);
-      $blockUI.attr('block-ui-animation', $attrs.myAnimationTester);
+      $blockUI.attr('block-ui-message-class', $attrs.myAnimationTester);
 
       $compile($blockUI)($scope);
 

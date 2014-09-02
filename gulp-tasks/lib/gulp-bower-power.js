@@ -24,17 +24,27 @@ function src(gulp, options) {
 
     var ext = path.extname(glob);
 
-    if((ext === '.js' || ext === '.css' ) && glob.indexOf('.min') == -1) {
-      var dirname = path.dirname(glob);
-      var basename = path.basename(glob);
+    // Check if the extension is JS or css
+    if(ext === '.js' || ext === '.css') {
 
-      var minified = basename.split('.');
-      minified.splice(1, 0, 'min');
-      minified = minified.join('.');
-      minified = path.join(dirname, minified);
+      if(glob.indexOf('.min') == -1) {
+        // Add the minified version file name to the list
+        var dirname = path.dirname(glob);
+        var basename = path.basename(glob);
+
+        var minified = basename.split('.');
+        minified.splice(1, 0, 'min');
+        minified = minified.join('.');
+        minified = path.join(dirname, minified);
+
+        i += 1;
+        globs.splice(i, 0, minified);
+      }
+
+      // Add the source map file name
 
       i += 1;
-      globs.splice(i, 0, minified);
+      globs.splice(i, 0, glob + '.map');
 
     }
   }

@@ -50,7 +50,7 @@ describe('block-ui-container-directive', function() {
       var $overlay = $($children[0]);
       var $message = $($children[1]);
 
-      expect($element.hasClass('block-ui-container')).toBe(true);
+//      expect($element.hasClass('block-ui-container')).toBe(true); // done by blockUi directive
       expect($overlay.hasClass('block-ui-overlay')).toBe(true);
       expect($message.hasClass('block-ui-message-container')).toBe(true);
 
@@ -80,13 +80,13 @@ describe('block-ui-container-directive', function() {
 
     });
 
-    it('should set the block-ui-container class', function() {
-
-      linkFn($scope, $element, $attrs);
-
-      expect($element.hasClass('block-ui-container')).toBe(true);
-
-    });
+//    it('should set the block-ui-container class', function() {
+//
+//      linkFn($scope, $element, $attrs);
+//
+//      expect($element.hasClass('block-ui-container')).toBe(true);
+//
+//    });
 
 //    it('should set the block-ui-visible class when in blocking state', function() {
 //

@@ -1,11 +1,14 @@
 
 /* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-.block-ui-anim-fade > .block-ui-container {
-  transition: height 0s linear 200ms, opacity 200ms ease 0s;
+.block-ui-anim-fade .block-ui-container {
+  transition: height 0s linear 250ms, opacity 250ms ease 0s;
 }
 
-.block-ui-anim-fade > .block-ui-container.block-ui-visible {
+.block-ui-anim-fade.block-ui-visible > .block-ui-container {
+
+  /*transition: height 0s linear 0s, opacity 250ms ease 0s;*/
+
   /*this resets the initial delay of the height */
   /*and sizes the block to full height at once at the start of the block. */
   transition-delay: 0s;

@@ -3,13 +3,13 @@ blkUI.directive('blockUiContainer', function (blockUIConfig, blockUiContainerLin
     scope: true,
     restrict: 'A',
     templateUrl: blockUIConfig.templateUrl,
-    link: blockUiContainerLinkFn
+    compile: function($element) {
+      return blockUiContainerLinkFn;
+    }
   };
 }).factory('blockUiContainerLinkFn', function (blockUI, blockUIUtils) {
 
   return function ($scope, $element, $attrs) {
-
-    $element.addClass('block-ui-container');
 
     var srvInstance = $element.inheritedData('block-ui');
 

@@ -24,11 +24,15 @@ body.block-ui > .block-ui-container {
   cursor: wait;
 }
 
-.block-ui-container.block-ui-active {
+.block-ui-active > .block-ui-container {
   height: 100%;
 }
 
-.block-ui-container.block-ui-visible {
+.block-ui-active .block-ui-active > .block-ui-container {
+  height: 0;
+}
+
+.block-ui-visible > .block-ui-container {
   opacity: 1;
   filter: alpha(opacity=100);
 }
@@ -65,105 +69,22 @@ body.block-ui > .block-ui-container {
 }
 
 
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-.block-ui-fade > .block-ui-container {
-  -webkit-transition: height 0s ease 200ms, opacity 200ms ease;
-          transition: height 0s ease 200ms, opacity 200ms ease;
+.block-ui-anim-fade .block-ui-container {
+  -webkit-transition: height 0s linear 250ms, opacity 250ms ease 0s;
+          transition: height 0s linear 250ms, opacity 250ms ease 0s;
 }
 
-.block-ui-fade > .block-ui-container.block-ui-visible {
+.block-ui-anim-fade.block-ui-visible > .block-ui-container {
+
+  /*transition: height 0s linear 0s, opacity 250ms ease 0s;*/
+
   /*this resets the initial delay of the height */
   /*and sizes the block to full height at once at the start of the block. */
   -webkit-transition-delay: 0s;
           transition-delay: 0s;
-  /*transition: height 0s ease 0s;*/
 }
 
-
-@-webkit-keyframes block-ui-bounce-frames {
-  /*0%, 20%, 53%, 80%, 100% {*/
-    /*transform: translate3d(0,0,0);*/
-  /*}*/
-
-  /*40%, 43% {*/
-    /*transform: translate3d(0, -30px, 0);*/
-  /*}*/
-
-  /*70% {*/
-    /*transform: translate3d(0, -15px, 0);*/
-  /*}*/
-
-  /*90% {*/
-    /*transform: translate3d(0,-4px,0);*/
-  /*}*/
-
-  0%, 4%, 10%, 16%, 20% {
-    -webkit-transform: translate3d(0,0,0);
-            transform: translate3d(0,0,0);
-  }
-
-  8% {
-    -webkit-transform: translate3d(0, -30px, 0);
-            transform: translate3d(0, -30px, 0);
-  }
-
-  14% {
-    -webkit-transform: translate3d(0, -15px, 0);
-            transform: translate3d(0, -15px, 0);
-  }
-
-  18% {
-    -webkit-transform: translate3d(0,-4px,0);
-            transform: translate3d(0,-4px,0);
-  }
-
-  21%, 100% {}
-}
-
-
-@keyframes block-ui-bounce-frames {
-  /*0%, 20%, 53%, 80%, 100% {*/
-    /*transform: translate3d(0,0,0);*/
-  /*}*/
-
-  /*40%, 43% {*/
-    /*transform: translate3d(0, -30px, 0);*/
-  /*}*/
-
-  /*70% {*/
-    /*transform: translate3d(0, -15px, 0);*/
-  /*}*/
-
-  /*90% {*/
-    /*transform: translate3d(0,-4px,0);*/
-  /*}*/
-
-  0%, 4%, 10%, 16%, 20% {
-    -webkit-transform: translate3d(0,0,0);
-            transform: translate3d(0,0,0);
-  }
-
-  8% {
-    -webkit-transform: translate3d(0, -30px, 0);
-            transform: translate3d(0, -30px, 0);
-  }
-
-  14% {
-    -webkit-transform: translate3d(0, -15px, 0);
-            transform: translate3d(0, -15px, 0);
-  }
-
-  18% {
-    -webkit-transform: translate3d(0,-4px,0);
-            transform: translate3d(0,-4px,0);
-  }
-
-  21%, 100% {}
-}
-
-.block-ui-bounce > .block-ui-container.block-ui-visible .block-ui-message {
-  -webkit-animation: block-ui-bounce-frames 4s linear 0s infinite;
-          animation: block-ui-bounce-frames 4s linear 0s infinite;
-
-}
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*# sourceMappingURL=angular-block-ui.css.map */

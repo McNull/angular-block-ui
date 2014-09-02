@@ -9,7 +9,10 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
 }).factory('blockUiCompileFn', function(blockUiPreLinkFn) {
 
   return function($element, $attrs) {
-    $element.append('<div block-ui-container></div>');
+
+    // Class should be added here to prevent an animation delay error.
+
+    $element.append('<div block-ui-container class="block-ui-container"></div>');
 
     return {
       pre: blockUiPreLinkFn

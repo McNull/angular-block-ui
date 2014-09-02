@@ -42,7 +42,6 @@ angular.module('myApp').factory('myFakeDataResource', function($http, $q) {
 
       ret.$resolved = false;
       ret.$promise = d.promise;
-      
       $http.get('app/examples/data-array.json').then(function(response) {
         
         ret.length = 0;

@@ -34,6 +34,15 @@ blkUI.run(["$document", "blockUIConfig", "$templateCache", function($document, b
   if(blockUIConfig.autoInjectBodyBlock) {
     $document.find('body').attr('block-ui', 'main');
   }
+
+  if (blockUIConfig.template) {
+
+    // Swap the builtin template with the custom template.
+    // Create a magic cache key and place the template in the cache.
+
+    blockUIConfig.templateUrl = '$$block-ui-template$$';
+    $templateCache.put(blockUIConfig.templateUrl, blockUIConfig.template);
+  }
 }]);
 
 blkUI.directive('blockUiContainer', ["blockUIConfig", "blockUiContainerLinkFn", function (blockUIConfig, blockUiContainerLinkFn) {
@@ -41,13 +50,13 @@ blkUI.directive('blockUiContainer', ["blockUIConfig", "blockUiContainerLinkFn", 
     scope: true,
     restrict: 'A',
     templateUrl: blockUIConfig.templateUrl,
-    link: blockUiContainerLinkFn
+    compile: function($element) {
+      return blockUiContainerLinkFn;
+    }
   };
 }]).factory('blockUiContainerLinkFn', ["blockUI", "blockUIUtils", function (blockUI, blockUIUtils) {
 
   return function ($scope, $element, $attrs) {
-
-    $element.addClass('block-ui-container');
 
     var srvInstance = $element.inheritedData('block-ui');
 
@@ -59,42 +68,53 @@ blkUI.directive('blockUiContainer', ["blockUIConfig", "blockUiContainerLinkFn", 
 
     $scope.state = srvInstance.state();
 
-    $scope.$watch('state.blocking', function(value) {
-      $element.toggleClass('block-ui-visible', !!value);
-    });
-
-    $scope.$watch('state.blockCount > 0', function(value) {
-      $element.toggleClass('block-ui-active', !!value);
-    });
+//    $scope.$watch('state.blocking', function(value) {
+//      $element.toggleClass('block-ui-visible', !!value);
+//    });
+//
+//    $scope.$watch('state.blockCount > 0', function(value) {
+//      $element.toggleClass('block-ui-active', !!value);
+//    });
   };
 }]);
 blkUI.directive('blockUi', ["blockUiCompileFn", function(blockUiCompileFn) {
 
   return {
+    scope: true,
     restrict: 'A',
     compile: blockUiCompileFn
   };
 
-}]).factory('blockUiCompileFn', ["blockUiLinkFn", function(blockUiLinkFn) {
+}]).factory('blockUiCompileFn', ["blockUiPreLinkFn", function(blockUiPreLinkFn) {
 
   return function($element, $attrs) {
-    $element.append('<div block-ui-container></div>');
-    return blockUiLinkFn;
+
+    // Class should be added here to prevent an animation delay error.
+
+    $element.append('<div block-ui-container class="block-ui-container"></div>');
+
+    return {
+      pre: blockUiPreLinkFn
+    };
+
   };
 
-}]).factory('blockUiLinkFn', ["blockUI", "blockUIUtils", "blockUIConfig", function(blockUI, blockUIUtils, blockUIConfig) {
-
-  function addAnimationClass($element, animation) {
-    if(animation && animation !== 'none') {
-      $element.addClass('block-ui-' + animation);
-    }
-  }
+}]).factory('blockUiPreLinkFn', ["blockUI", "blockUIUtils", "blockUIConfig", function(blockUI, blockUIUtils, blockUIConfig) {
 
   return function($scope, $element, $attrs) {
 
-    $element.addClass('block-ui');
+    // If the element does not have the class "block-ui" set, we set the
+    // default css classes from the config.
 
-    addAnimationClass($element, $attrs.blockUiAnimation || blockUIConfig.animation);
+    if (!$element.hasClass('block-ui')) {
+      $element.addClass(blockUIConfig.cssClass);
+    }
+
+    // Expose the blockUiMessageClass attribute value on the scope
+
+    $attrs.$observe('blockUiMessageClass', function(value) {
+      $scope.$_blockUiMessageClass = value;
+    });
 
     // Create the blockUI instance
     // Prefix underscore to prevent integers:
@@ -143,12 +163,18 @@ blkUI.directive('blockUi', ["blockUiCompileFn", function(blockUiCompileFn) {
 
     srvInstance.addRef();
 
-    // Set the aria-busy attribute if needed
+    // Expose the state on the scope
 
-    $scope.$watch(function() {
-      return srvInstance.state().blocking;
-    }, function (value) {
-      $element.attr('aria-busy', value);
+    $scope.$_blockUiState = srvInstance.state();
+
+    $scope.$watch('$_blockUiState.blocking', function (value) {
+      // Set the aria-busy attribute if needed
+      $element.attr('aria-busy', !!value);
+      $element.toggleClass('block-ui-visible', !!value);
+    });
+
+    $scope.$watch('$_blockUiState.blockCount > 0', function(value) {
+      $element.toggleClass('block-ui-active', !!value);
     });
 
     // If a pattern is provided assign it to the state
@@ -163,12 +189,29 @@ blkUI.directive('blockUi', ["blockUiCompileFn", function(blockUiCompileFn) {
     // Store a reference to the service instance on the element
 
     $element.data('block-ui', srvInstance);
+
   };
 
 }]);
-blkUI.provider('blockUIConfig', function() {
-
-  var _config = {
+//.factory('blockUiPostLinkFn', function(blockUIUtils) {
+//
+//  return function($scope, $element, $attrs) {
+//
+//    var $message;
+//
+//    $attrs.$observe('blockUiMessageClass', function(value) {
+//
+//      $message = $message || blockUIUtils.findElement($element, function($e) {
+//        return $e.hasClass('block-ui-message');
+//      });
+//
+//      $message.addClass(value);
+//
+//    });
+//  };
+//
+//});
+blkUI.constant('blockUIConfig', {
     templateUrl: 'angular-block-ui/angular-block-ui.ng.html',
     delay: 250,
     message: "Loading ...",
@@ -176,59 +219,79 @@ blkUI.provider('blockUIConfig', function() {
     resetOnException: true,
     requestFilter: angular.noop,
     autoInjectBodyBlock: true,
-    animation: 'fade'
-  };
-
-  this.templateUrl = function(url) {
-    _config.templateUrl = url;
-  };
-
-  this.template = function(template) {
-    _config.template = template;
-  };
-
-  this.delay = function(delay) {
-    _config.delay = delay;
-  };
-
-  this.message = function(message) {
-    _config.message = message;
-  };
-
-  this.autoBlock = function(enabled) {
-    _config.autoBlock = enabled;
-  };
-
-  this.resetOnException = function(enabled) {
-    _config.resetOnException = enabled;
-  };
-
-  this.requestFilter = function(filter) {
-    _config.requestFilter = filter;
-  };
-
-  this.autoInjectBodyBlock = function(enabled) {
-    _config.autoInjectBodyBlock = enabled;
-  };
-
-  this.animation = function(name) {
-    _config.animation = name;
-  };
-
-  this.$get = ['$templateCache', function($templateCache) {
-
-    if(_config.template) {
-
-      // Swap the builtin template with the custom template.
-      // Create a unique cache key and place the template in the cache.
-
-      _config.templateUrl = '$$block-ui-template$$';
-      $templateCache.put(_config.templateUrl, _config.template);
-    }
-
-    return _config;
-  }];
+    cssClass: 'block-ui block-ui-anim-fade'
 });
+
+//  this.templateUrl = function (url) {
+//    _config.templateUrl = url;
+//  };
+//
+//  this.template = function (template) {
+//    _config.template = template;
+//  };
+//
+//  this.delay = function (delay) {
+//    _config.delay = delay;
+//  };
+//
+//  this.message = function (message) {
+//    _config.message = message;
+//  };
+//
+//  this.autoBlock = function (enabled) {
+//    _config.autoBlock = enabled;
+//  };
+//
+//  this.resetOnException = function (enabled) {
+//    _config.resetOnException = enabled;
+//  };
+//
+//  this.requestFilter = function (filter) {
+//    _config.requestFilter = filter;
+//  };
+//
+//  this.autoInjectBodyBlock = function (enabled) {
+//    _config.autoInjectBodyBlock = enabled;
+//  };
+//
+//  function _cssClassArray(target) {
+//    return function(classes, replace) {
+//      if (classes !== undefined) {
+//
+//        if (angular.isString(classes)) {
+//          classes = classes.split(' ');
+//        }
+//
+//        if (replace) {
+//          _config[target] = classes;
+//        } else {
+//          var i = classes.length;
+//
+//          while (i--) {
+//            _config[target].push(classes[i]);
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  this.cssClass = _cssClassArray('cssClass');
+//  this.cssClassMessage = _cssClassArray('cssClassMessage');
+//
+//  this.$get = ['$templateCache', function ($templateCache) {
+//
+//    if (_config.template) {
+//
+//      // Swap the builtin template with the custom template.
+//      // Create a unique cache key and place the template in the cache.
+//
+//      _config.templateUrl = '$$block-ui-template$$';
+//      $templateCache.put(_config.templateUrl, _config.template);
+//    }
+//
+//    return _config;
+//  }];
+//});
 
 blkUI.factory('blockUIHttpInterceptor', ["$q", "$injector", "blockUIConfig", function($q, $injector, blockUIConfig) {
 
@@ -491,6 +554,8 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
 
 blkUI.factory('blockUIUtils', function() {
 
+  var $ = angular.element;
+
   var utils = {
     buildRegExp: function(pattern) {
       var match = pattern.match(/^\/(.*)\/([gim]*)$/), regExp;
@@ -527,6 +592,29 @@ blkUI.factory('blockUIUtils', function() {
       }
 
       return false;
+    },
+    findElement: function ($element, predicateFn, traverse) {
+      var ret = null;
+
+      if (predicateFn($element)) {
+        ret = $element;
+      } else {
+
+        var $elements;
+
+        if (traverse) {
+          $elements = $element.parent();
+        } else {
+          $elements = $element.children();
+        }
+
+        var i = $elements.length;
+        while (!ret && i--) {
+          ret = utils.findElement($($elements[i]), predicateFn, traverse);
+        }
+      }
+
+      return ret;
     }
   };
 
@@ -537,7 +625,7 @@ blkUI.factory('blockUIUtils', function() {
 // This file is already embedded in your main javascript output, there's no need to include this file
 // manually in the index.html. This file is only here for your debugging pleasures.
 angular.module('blockUI').run(['$templateCache', function($templateCache){
-  $templateCache.put('angular-block-ui/angular-block-ui.ng.html', '<div class=\"block-ui-overlay\"></div><div class=\"block-ui-message-container\" aria-live=\"assertive\" aria-atomic=\"true\"><div class=\"block-ui-message\">{{ state.message }}</div></div>');
+  $templateCache.put('angular-block-ui/angular-block-ui.ng.html', '<div class=\"block-ui-overlay\"></div><div class=\"block-ui-message-container\" aria-live=\"assertive\" aria-atomic=\"true\"><div class=\"block-ui-message\" ng-class=\"$_blockUiMessageClass\">{{ state.message }}</div></div>');
 }]);
 })(angular);
 //# sourceMappingURL=angular-block-ui.js.map

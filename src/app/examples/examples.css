@@ -45,6 +45,12 @@
   top: 30%;
 }
 
+.example-container {
+  min-height: 300px;
+  overflow: hidden;
+}
+
 /*.login-form-block .block-ui-overlay.block-ui-visible {
   background-color: yellow;
 }*/
+

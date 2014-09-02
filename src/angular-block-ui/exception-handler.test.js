@@ -2,7 +2,7 @@ describe('angular-block-ui', function () {
 
   describe('exception handler', function () {
 
-    var $exceptionHandler, blockUI, config, configSrc;
+    var $exceptionHandler, blockUI, blockUIConfig;
 
     beforeEach(function () {
 
@@ -11,15 +11,9 @@ describe('angular-block-ui', function () {
       inject(function (_$exceptionHandler_, _blockUI_, _blockUIConfig_) {
         $exceptionHandler = _$exceptionHandler_;
         blockUI = _blockUI_;
-        config = _blockUIConfig_;
+        blockUIConfig = _blockUIConfig_;
       });
 
-      configSrc = angular.copy(config);
-
-    });
-
-    afterEach(function() {
-      config = angular.copy(configSrc, config);
     });
 
     it('should reset the main block on exception', function () {
@@ -38,7 +32,7 @@ describe('angular-block-ui', function () {
 
     it('should not reset the main block on exception if specified in the config', function () {
 
-      config.resetOnException = false;
+      blockUIConfig.resetOnException = false;
       blockUI.start(); // set blockcount to 1
 
       try {

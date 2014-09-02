@@ -5,23 +5,16 @@ blkUI.directive('blockUiContainer', function (blockUIConfig, blockUiContainerLin
     templateUrl: blockUIConfig.templateUrl,
     link: blockUiContainerLinkFn
   };
-}).factory('blockUiContainerLinkFn', function (blockUI, blockUIConfig, blockUIUtils) {
+}).factory('blockUiContainerLinkFn', function (blockUI, blockUIUtils) {
 
   return function ($scope, $element, $attrs) {
 
-    var ctrl = $ctrls[0];
-
     $element.addClass('block-ui-container');
 
-    var srvInstance = ctrl.instance;
-    var messageClass = ctrl.attrs.cssClassMessage;
+    var srvInstance = $element.inheritedData('block-ui');
 
-    if(messageClass) {
-      var $message = blockUIUtils.findElement($element, 'block-ui-message');
-
-      if($message) {
-        $message.addClass(messageClass);
-      }
+    if (!srvInstance) {
+      throw new Error('No parent block-ui service instance located.');
     }
 
     // Expose the state on the scope

@@ -2,26 +2,29 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
 
   return {
     restrict: 'A',
-    require: ['blockUi'],
     compile: blockUiCompileFn
   };
 
-}).factory('blockUiCompileFn', function(blockUiPreLinkFn, blockUiPostLinkFn) {
+}).factory('blockUiCompileFn', function(blockUiLinkFn) {
 
   return function($element, $attrs) {
-
     $element.append('<div block-ui-container></div>');
-
-    return {
-      pre: blockUiPreLinkFn,
-      post: blockUiPostLinkFn
-    };
-
+    return blockUiLinkFn;
   };
 
-}).factory('blockUiPreLinkFn', function(blockUI, blockUIUtils) {
+}).factory('blockUiLinkFn', function(blockUI, blockUIUtils, blockUIConfig) {
+
+  function addAnimationClass($element, animation) {
+    if(animation && animation !== 'none') {
+      $element.addClass('block-ui-' + animation);
+    }
+  }
 
   return function($scope, $element, $attrs) {
+
+    $element.addClass('block-ui');
+
+    addAnimationClass($element, $attrs.blockUiAnimation || blockUIConfig.animation);
 
     // Create the blockUI instance
     // Prefix underscore to prevent integers:
@@ -30,66 +33,10 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
     var instanceId = $attrs.blockUi || '_' + $scope.$id;
     var srvInstance = blockUI.instances.get(instanceId);
 
-    // Ensure the instance is released when the scope is destroyed
-
-    $scope.$on('$destroy', function() {
-      srvInstance.release();
-    });
-
-    // Increase the reference count
-
-    srvInstance.addRef();
-
-    // If a pattern is provided assign it to the state
-
-    var pattern = $attrs.blockUiPattern;
-
-    if(pattern) {
-      var regExp = blockUIUtils.buildRegExp(pattern);
-      srvInstance.pattern(regExp);
-    }
-
-    // Look for a parent instance and associate it with this instance.
-
-    srvInstance._parent = $element.inheritedData('block-ui');
-
-    // Associate this element with this instance.
-
-    $element.data('block-ui', srvInstance);
-
-  };
-
-}).factory('blockUiPostLinkFn', function(blockUIConfig) {
-
-  return function($scope, $element, $attrs, $ctrls) {
-
-    var ctrl = $ctrls[0];
-
-    var instance = $element.data('block-ui');
-
-    if(!instance) {
-      throw new Error('Failed to locate blockUI instance.');
-    }
-
-    // If the element does not have the class "block-ui" set, we set the
-    // default css classes from the config.
-
-    if(!$element.hasClass('block-ui')) {
-      $element.addClass(blockUIConfig.cssClass);
-    }
-
-    // Set the aria-busy attribute if needed
-
-    $scope.$watch(function() {
-      return instance.state().blocking;
-    }, function (value) {
-      $element.attr('aria-busy', value);
-    });
-
     // If this is the main (topmost) block element we'll also need to block any
     // location changes while the block is active.
 
-    if (!instance._parent) {
+    if (instanceId === 'main') {
 
       // After the initial content has been loaded we'll spy on any location
       // changes and discard them when needed.
@@ -101,12 +48,51 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
 
         fn();
         $scope.$on('$locationChangeStart', function(event) {
-          if (instance.state().blockCount > 0) {
+          if (srvInstance.state().blockCount > 0) {
             event.preventDefault();
           }
         });
       });
+    } else {
+      // Locate the parent blockUI instance
+      var parentInstance = $element.inheritedData('block-ui');
+
+      if(parentInstance) {
+        // TODO: assert if parent is already set to something else
+        srvInstance._parent = parentInstance;
+      }
     }
+
+    // Ensure the instance is released when the scope is destroyed
+
+    $scope.$on('$destroy', function() {
+      srvInstance.release();
+    });
+
+    // Increase the reference count
+
+    srvInstance.addRef();
+
+    // Set the aria-busy attribute if needed
+
+    $scope.$watch(function() {
+      return srvInstance.state().blocking;
+    }, function (value) {
+      $element.attr('aria-busy', value);
+    });
+
+    // If a pattern is provided assign it to the state
+
+    var pattern = $attrs.blockUiPattern;
+
+    if(pattern) {
+      var regExp = blockUIUtils.buildRegExp(pattern);
+      srvInstance.pattern(regExp);
+    }
+
+    // Store a reference to the service instance on the element
+
+    $element.data('block-ui', srvInstance);
   };
 
 });

@@ -1,6 +1,5 @@
 
 blkUI.factory('blockUIUtils', function() {
-  var $ = angular.element;
 
   var utils = {
     buildRegExp: function(pattern) {
@@ -27,7 +26,6 @@ blkUI.factory('blockUIUtils', function() {
       }
     },
     isElementInBlockScope: function($element, blockScope) {
-
       var c = $element.inheritedData('block-ui');
 
       while(c) {
@@ -39,23 +37,6 @@ blkUI.factory('blockUIUtils', function() {
       }
 
       return false;
-    },
-    findElement: function($element, className) {
-
-      var ret = null;
-
-      if($element.hasClass(className)) {
-        ret = $element;
-      } else {
-        var $childs = $element.children();
-
-        var i = $childs.length;
-        while(!ret && i--) {
-          ret = utils.findElement($($childs[i]), className);
-        }
-      }
-
-      return ret;
     }
   };
 

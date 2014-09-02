@@ -32,7 +32,7 @@ angular.module('myApp', [
     redirectTo: '/'
   });
 
-}).config(function (blockUIConfig, delayConfig) {
+}).config(function (blockUIConfigProvider, delayConfig) {
 
   if(window.location.search.indexOf('delay=false')!=-1) {
     delayConfig.enabled = false;

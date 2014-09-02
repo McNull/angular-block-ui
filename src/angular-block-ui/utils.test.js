@@ -1,6 +1,6 @@
 describe('block-ui-utils', function() {
 
-  var utils, $ = angular.element;
+  var utils;
 
   beforeEach(function() {
     module('blockUI');
@@ -112,51 +112,6 @@ describe('block-ui-utils', function() {
       expect(arr[0].v2).toBe(2);
       expect(arr[0].v3).toBe(3);
       
-    });
-
-  });
-
-  describe('findElement', function() {
-
-    it('should return null if no match is found', function() {
-
-      var $element = $('<div></div>');
-
-      var result = utils.findElement($element, 'whatever');
-
-      expect(result).toBe(null);
-
-    });
-
-    it('should return the root match', function() {
-
-      var $element = $('<div class="target-class"></div>');
-
-      var result = utils.findElement($element, 'target-class');
-
-      expect(result).not.toBe(null);
-      expect(result.hasClass('target-class')).toBe(true);
-    });
-
-    it('should return the child match', function() {
-
-      var $element = $('<div><div class="target-class"></div></div>');
-
-      var result = utils.findElement($element, 'target-class');
-
-      expect(result).not.toBe(null);
-      expect(result.hasClass('target-class')).toBe(true);
-    });
-
-    it('should return the child > child match', function() {
-
-      var $element = $('<div><div><div class="target-class"></div></div></div>');
-
-      var result = utils.findElement($element, 'target-class');
-
-      expect(result).not.toBe(null);
-      expect(result.hasClass('target-class')).toBe(true);
-
     });
 
   });

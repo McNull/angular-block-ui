@@ -56,28 +56,6 @@ describe('block-ui-container-directive', function() {
 
     });
 
-    describe('block-ui-message-class', function() {
-
-      it('should add classes defined at the parent level', function() {
-
-        var className = 'my-custom-class';
-        $parent.data('block-ui-message-class', className);
-
-        $element = $compile($element)($scope);
-        $scope.$digest();
-
-//        <div class="block-ui-overlay"></div>
-//        <div class="block-ui-message-container" aria-live="assertive" aria-atomic="true">
-//          <div class="block-ui-message">{{ state.message }}</div>
-//        </div>
-
-        var $message = $($($element.children()[1]).children()[0]);
-
-        expect($message.hasClass(className)).toBe(true);
-
-      });
-    });
-
   });
 
   describe('link', function() {
@@ -93,49 +71,6 @@ describe('block-ui-container-directive', function() {
       $parent.append($element);
     });
 
-    describe('element classes', function() {
-      it('should set the block-ui-container class', function() {
-
-        linkFn($scope, $element, $attrs);
-
-        expect($element.hasClass('block-ui-container')).toBe(true);
-
-      });
-
-      it('should set the block-ui-visible class when in blocking state', function() {
-
-        linkFn($scope, $element, $attrs);
-        expect($element.hasClass('block-ui-visible')).toBe(false);
-
-        blockInstance.start();
-        $timeout.flush();
-        $scope.$digest();
-
-        expect($element.hasClass('block-ui-visible')).toBe(true);
-
-        blockInstance.stop();
-        $scope.$digest();
-
-        expect($element.hasClass('block-ui-visible')).toBe(false);
-      });
-
-      it('should set the block-ui-active class when blockcount > 0', function() {
-
-        linkFn($scope, $element, $attrs);
-        expect($element.hasClass('block-ui-active')).toBe(false);
-
-        blockInstance.start();
-        $scope.$digest();
-
-        expect($element.hasClass('block-ui-active')).toBe(true);
-
-        blockInstance.stop();
-        $scope.$digest();
-
-        expect($element.hasClass('block-ui-active')).toBe(false);
-      });
-    }); // element classes
-
     it('should expose the blockstate on the scope', function() {
 
       linkFn($scope, $element, $attrs);
@@ -145,7 +80,46 @@ describe('block-ui-container-directive', function() {
 
     });
 
+    it('should set the block-ui-container class', function() {
 
+      linkFn($scope, $element, $attrs);
+
+      expect($element.hasClass('block-ui-container')).toBe(true);
+
+    });
+
+    it('should set the block-ui-visible class when in blocking state', function() {
+
+      linkFn($scope, $element, $attrs);
+      expect($element.hasClass('block-ui-visible')).toBe(false);
+
+      blockInstance.start();
+      $timeout.flush();
+      $scope.$digest();
+
+      expect($element.hasClass('block-ui-visible')).toBe(true);
+
+      blockInstance.stop();
+      $scope.$digest();
+
+      expect($element.hasClass('block-ui-visible')).toBe(false);
+    });
+
+    it('should set the block-ui-active class when blockcount > 0', function() {
+
+      linkFn($scope, $element, $attrs);
+      expect($element.hasClass('block-ui-active')).toBe(false);
+
+      blockInstance.start();
+      $scope.$digest();
+
+      expect($element.hasClass('block-ui-active')).toBe(true);
+
+      blockInstance.stop();
+      $scope.$digest();
+
+      expect($element.hasClass('block-ui-active')).toBe(false);
+    });
 
   });
 });

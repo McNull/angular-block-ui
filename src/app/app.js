@@ -11,11 +11,11 @@ angular.module('myApp', [
 ], null).value('navItems', [
   {
     text: 'Home',
-    url: '#/'
+    url: '#!/'
   },
   {
     text: 'Documentation',
-    url: '#/examples',
+    url: '#!/examples',
     pattern: '/examples(/.*)?'
   }
 ]).config(function ($routeProvider, examplesRoutes) {
@@ -32,15 +32,25 @@ angular.module('myApp', [
     redirectTo: '/'
   });
 
-}).config(function (blockUIConfig, delayConfig) {
+}).config(function (blockUIConfig, delayConfig, $locationProvider) {
 
-  if(window.location.search.indexOf('delay=false')!=-1) {
+  // Enable hashbangs
+
+  $locationProvider.hashPrefix('!');
+
+  if(window.location.search.indexOf('delay=false')!=-1 ||
+    window.location.search.indexOf('_escaped_fragment_')!=-1 ||
+    window.navigator.userAgent.indexOf('Prerender')!=-1) {
+
     delayConfig.enabled = false;
+    blockUIConfig.autoBlock = false;
+    blockUIConfig.autoInjectBodyBlock = false;
+
   } else {
     delayConfig.excludes.push(/.*\.md/i);
     delayConfig.enabled = true;
-    delayConfig.timeout.min = 1000;
-    delayConfig.timeout.max = 2000;
+    delayConfig.timeout.min = 750;
+    delayConfig.timeout.max = 1500;
   }
 
 //  blockUIConfig.template = '<pre><code>{{ state | json }}</code></pre>';

@@ -14,7 +14,7 @@ angular.module('myApp').controller('NavbarController', function ($scope, $locati
 
         if (!pattern) {
           pattern = navItem.url || '/';
-          pattern = pattern.replace(/^#/, '')
+          pattern = pattern.replace(/^#!/, '')
         }
 
         regexp = new RegExp('^' + pattern + '$', 'i');

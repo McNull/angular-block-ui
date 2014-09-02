@@ -52,7 +52,7 @@ angular.module('myApp').controller('ExamplesController', function($scope, $route
 
   $scope.examples.active = indexOfExample(urlToName($routeParams.example), $scope.examples);
   $scope.examples.getUrl = function(example) {
-    return '#/examples/' + nameToUrl(example.name);
+    return '#!/examples/' + nameToUrl(example.name);
   };
 
 });

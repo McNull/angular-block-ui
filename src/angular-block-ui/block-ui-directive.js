@@ -22,6 +22,12 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
 
     $element.addClass('block-ui');
 
+    // Expose the blockUiMessageClass attribute value on the scope
+
+    $attrs.$observe('blockUiMessageClass', function(value) {
+      $scope.$_blockUiMessageClass = value;
+    });
+
     // Create the blockUI instance
     // Prefix underscore to prevent integers:
     // https://github.com/McNull/angular-block-ui/pull/8
@@ -89,6 +95,25 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
     // Store a reference to the service instance on the element
 
     $element.data('block-ui', srvInstance);
+
   };
 
 });
+//.factory('blockUiPostLinkFn', function(blockUIUtils) {
+//
+//  return function($scope, $element, $attrs) {
+//
+//    var $message;
+//
+//    $attrs.$observe('blockUiMessageClass', function(value) {
+//
+//      $message = $message || blockUIUtils.findElement($element, function($e) {
+//        return $e.hasClass('block-ui-message');
+//      });
+//
+//      $message.addClass(value);
+//
+//    });
+//  };
+//
+//});

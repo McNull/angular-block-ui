@@ -1,5 +1,6 @@
 
 var path = require('path');
+var filter = require('../lib/gulp-mini-filter.js');
 
 module.exports = function(gulp, module) {
 
@@ -16,6 +17,10 @@ module.exports = function(gulp, module) {
     });
 
     return gulp.src(glob)
+      .pipe(filter(function(file) {
+        // Only copy files -- don't copy empty directories
+        return file.stat.isFile();
+      }))
       .pipe(gulp.dest(module.folders.dest));
 
   });

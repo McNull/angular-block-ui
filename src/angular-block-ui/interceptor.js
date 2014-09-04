@@ -25,14 +25,17 @@ blkUI.factory('blockUIHttpInterceptor', function($q, $injector, blockUIConfig) {
 
         // Don't block excluded requests
 
-        if (blockUIConfig.requestFilter(config) === false) {
+        var result = blockUIConfig.requestFilter(config);
+
+        if (result === false) {
           // Tag the config so we don't unblock this request
           config.$_noBlock = true;
         } else {
+
           injectBlockUI();
 
           config.$_blocks = blockUI.instances.locate(config);
-          config.$_blocks.start();
+          config.$_blocks.start(result);
         }
       }
 

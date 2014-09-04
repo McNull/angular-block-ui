@@ -1,5 +1,5 @@
 /*!
-   angular-block-ui v0.1.0-beta.1
+   angular-block-ui v0.1.0-beta.2
    (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
@@ -250,14 +250,17 @@ blkUI.factory('blockUIHttpInterceptor', ["$q", "$injector", "blockUIConfig", fun
 
         // Don't block excluded requests
 
-        if (blockUIConfig.requestFilter(config) === false) {
+        var result = blockUIConfig.requestFilter(config);
+
+        if (result === false) {
           // Tag the config so we don't unblock this request
           config.$_noBlock = true;
         } else {
+
           injectBlockUI();
 
           config.$_blocks = blockUI.instances.locate(config);
-          config.$_blocks.start();
+          config.$_blocks.start(result);
         }
       }
 

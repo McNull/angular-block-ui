@@ -178,6 +178,36 @@ Allows you to specify a filter function to exclude certain ajax requests from bl
       }
     };
     
+If the filter function returns a _string_ it will be passed as the `message` argument to the `start` method of the service.
+
+    // Change the displayed message based on the http verbs being used.    
+    blockUIConfig.requestFilter = function(config) {
+    
+	  var message;
+	
+	  switch(config.method) {
+        case 'GET':
+          message = 'Getting ...';
+          break;
+          
+        case 'POST':
+          message = 'Posting ...';
+          break;
+
+	    case 'DELETE':
+          message = 'Deleting ...';
+          break;
+
+	    case 'PUT':
+          message = 'Putting ...';
+          break;
+	  };
+	  
+	  return message;
+	  
+	};
+
+
 #### autoInjectBodyBlock
 When the module is started it will inject the _main block element_ by adding the `block-ui` directive to the `body` element.
 

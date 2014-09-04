@@ -52,6 +52,20 @@ describe('block-ui-http-interceptor', function() {
 
     });
 
+    it('should set the message returned by the requestFilter', function() {
+
+      var message = "Saving ...";
+
+      config.requestFilter = function(config) {
+        return message;
+      };
+
+      interceptor.request({ url: '/api/quote/1' });
+
+      expect(blockUI.state().message).toBe(message);
+
+    });
+
     it('should block instances that match the pattern', function() {
 
       var myInstance1 = blockUI.instances.get('myInstance1');

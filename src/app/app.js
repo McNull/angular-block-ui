@@ -51,6 +51,34 @@ angular.module('myApp', [
     delayConfig.enabled = true;
     delayConfig.timeout.min = 750;
     delayConfig.timeout.max = 1500;
+
+//    // Change the displayed message based on the http verbs being used.
+//    blockUIConfig.requestFilter = function(config) {
+//
+//      var message;
+//
+//      switch(config.method) {
+//
+//        case 'GET':
+//          message = 'Getting ...';
+//          break;
+//
+//        case 'POST':
+//          message = 'Posting ...';
+//          break;
+//
+//        case 'DELETE':
+//          message = 'Deleting ...';
+//          break;
+//
+//        case 'PUT':
+//          message = 'Putting ...';
+//          break;
+//      }
+//
+//      return message;
+//
+//    };
   }
 
 //  blockUIConfig.template = '<pre><code>{{ state | json }}</code></pre>';

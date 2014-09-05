@@ -11,8 +11,12 @@ blkUI.config(function($provide, $httpProvider) {
         blockUIConfig = blockUIConfig || $injector.get('blockUIConfig');
 
         if (blockUIConfig.resetOnException) {
-          blockUI = blockUI || $injector.get('blockUI');
-          blockUI.instances.reset();
+          try {
+            blockUI = blockUI || $injector.get('blockUI');
+            blockUI.instances.reset();
+          } catch(ex) {
+            console.log('Exception occured while handling exception :S', exception);
+          }
         }
 
         $delegate(exception, cause);

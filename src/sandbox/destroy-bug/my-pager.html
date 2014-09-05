@@ -1,0 +1,11 @@
+<div class="my-pager center-block">
+  <ul class="pagination">
+    <li><a href="#" ng-click="move(-1)">&laquo;</a>
+    </li>
+    <li ng-repeat="page in pages" ng-class="{ active: index() == page }">
+      <a href="#" ng-click="index(page)">{{ page + 1 }}</a>
+    </li>
+    <li><a href="#" ng-click="move(1)">&raquo;</a>
+    </li>
+  </ul>
+</div>

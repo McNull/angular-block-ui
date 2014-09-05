@@ -13,6 +13,8 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
       blocking: false
     }, startPromise, doneCallbacks = [];
 
+    this._id = id;
+
     this._refs = 0;
 
     this.start = function(message) {
@@ -134,6 +136,11 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
   var instances = [];
 
   instances.get = function(id) {
+
+    if(!isNaN(id)) {
+      throw new Error('BlockUI id cannot be a number');
+    }
+
     var instance = instances[id];
 
     if(!instance) {

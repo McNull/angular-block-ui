@@ -20,13 +20,25 @@ require('./gulp-tasks/index-task.js')(gulp);
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 // Builds the whole kitchensink including example website
 
-gulp.task('kitchensink', [ 'modules', 'bower', 'index' ], function () {
+gulp.task('kitchensink', [ 'modules', 'bower', 'index', 'sandbox' ], function () {
 
   var path = require('path');
 
   return gulp.src('README.md')
     .pipe(gulp.dest(path.join(config.folders.dest, 'app')));
 
+});
+
+// - - - - 8-< - - - - - - - - - - - - - - - - - - -
+
+gulp.task('sandbox-clean', [ 'modules', 'bower' ], function () {
+  return gulp.src(path.join(config.folders.dest, 'sandbox'))
+    .pipe(clean());
+});
+
+gulp.task('sandbox', [ 'sandbox-clean', 'modules', 'bower' ], function () {
+  return gulp.src(path.join(config.folders.src, 'sandbox/**/*'))
+    .pipe(gulp.dest(path.join(config.folders.dest, 'sandbox')));
 });
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
@@ -42,7 +54,7 @@ gulp.task('test-run', ['angular-block-ui'], function () {
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
-    })).on('error', function(err) {
+    })).on('error', function (err) {
       throw err;
     });
 
@@ -57,10 +69,10 @@ gulp.task('test-watch', ['angular-block-ui'], function () {
     path.join(config.folders.dest, 'angular-block-ui/angular-block-ui-templates.js'),
     path.join(config.folders.src, 'angular-block-ui/**/*.js')
   ])
-  .pipe(karma({
-    configFile: 'karma.conf.js',
-    action: 'watch'
-  }));
+    .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'watch'
+    }));
 
 });
 

@@ -70,7 +70,7 @@ describe('block-ui-service', function() {
 
     });
 
-    describe('add', function() {
+    describe('get', function() {
 
       it('should add new block-ui instance', function() {
 
@@ -92,6 +92,28 @@ describe('block-ui-service', function() {
         var result2 = instances.get('myId');
 
         expect(result2).toBe(result1);
+
+      });
+
+      it('should not allow numeric instance ids', function() {
+
+        var idString = '123', idInt = 123;
+        var idStringException, idIntException;
+
+        try {
+          blockUI.instances.get(idString);
+        } catch(ex) {
+          idStringException = ex;
+        }
+
+        try {
+          blockUI.instances.get(idInt);
+        } catch(ex) {
+          idIntException = ex;
+        }
+
+        expect(idStringException).toBeDefined();
+        expect(idIntException).toBeDefined();
 
       });
 

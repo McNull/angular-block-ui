@@ -7,7 +7,7 @@ blkUI.factory('blockUIHttpInterceptor', function($q, $injector, blockUIConfig, $
   }
 
   function stopBlockUI(config) {
-    if (blockUIConfig.autoBlock && !config.$_noBlock && config.$_blocks) {
+    if (blockUIConfig.autoBlock && (config && !config.$_noBlock && config.$_blocks)) {
       injectBlockUI();
       config.$_blocks.stop();
     }

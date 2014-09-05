@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link data-require="angular-inform@0.0.9" data-semver="0.0.9" rel="stylesheet" href="https://cdn.rawgit.com/McNull/angular-inform/v0.0.9/dist/angular-inform.min.css" />
+    <link data-require="bootstrap-css@*" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link data-require="angular-block-ui@*" data-semver="0.1.0-beta.3" rel="stylesheet" href="https://cdn.rawgit.com/McNull/angular-block-ui/v0.1.0-beta.3/dist/angular-block-ui.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script data-require="angular.js@1.2.*" data-semver="1.2.22" src="https://code.angularjs.org/1.2.22/angular.js"></script>
+    <!-- <script data-require="angular-block-ui@*" data-semver="0.1.0-beta.3" src="https://cdn.rawgit.com/McNull/angular-block-ui/v0.1.0-beta.3/dist/angular-block-ui.min.js"></script> -->
+    <script src="/angular-block-ui/angular-block-ui.js"></script>
+    <script data-require="angular-inform@0.0.9" data-semver="0.0.9" src="https://cdn.rawgit.com/McNull/angular-inform/v0.0.9/dist/angular-inform.min.js"></script>
+    <script data-require="angular-response-lag@0.0.1" data-semver="0.0.1" src="https://cdn.rawgit.com/McNull/angular-response-lag/master/angular-response-lag.min.js"></script>
+    <script src="script.js"></script>
+  </head>
+
+  <body ng-app="myApp">
+    <div inform class="inform-fixed"></div>
+    <div class="jumbotron">
+      <h1>Blocking Table Rows</h1>
+      <p>With <a href="https://github.com/McNull/angular-block-ui" target="_blank">angular-block-ui</a>
+      </p>
+    </div>
+    <div class="container container-border" 
+         ng-controller="PeopleCtrl" 
+         block-ui block-ui-pattern="/people-data.json/">
+      <div ng-if="grid.items.length">
+      <div my-pager page-count="grid.pager.count" page-index="grid.pager.index"></div>
+        <div class="people-list">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th></th>
+              </tr>
+              <tr ng-repeat="person in grid.items" block-ui="person{{ person.id }}">
+                <td>{{ person.id }}</td>
+                <td>{{ person.firstName }}</td>
+                <td>{{ person.lastName }}</td>
+                <td>{{ person.email }}</td>
+                <td>
+                  <button class="btn btn-default" ng-click="click(person)">Click</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

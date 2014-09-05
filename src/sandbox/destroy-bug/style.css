@@ -1,0 +1,16 @@
+/* Styles go here */
+
+.my-pager {
+  max-width: 250px;
+}
+
+.people-list {
+  overflow-y: scroll;
+  height: 300px;
+}
+
+.container-border {
+  border: solid 1px #ddd;
+  height: 400px;
+  
+}

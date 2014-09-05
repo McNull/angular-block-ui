@@ -135,6 +135,7 @@ describe('block-ui-service', function() {
     describe('_destroy', function() {
 
       beforeEach(function() {
+        blockUI.instances.length = 0;
         blockUI.instances.get('removeMe');
       });
 
@@ -160,19 +161,55 @@ describe('block-ui-service', function() {
 
       it('should call reset on the removed instance', function() {
 
-        var instance = blockUI.instances.removeMe;
+        expect(blockUI.instances.length).toBe(1);
 
-        expect(instance).toBeDefined();
+        blockUI.instances._destroy(blockUI.instances.removeMe);
 
-        spyOn(instance, 'reset');
-
-        blockUI.instances._destroy(instance);
-
-        expect(instance.reset).toHaveBeenCalled();
+        expect(blockUI.instances.length).toBe(0);
 
       });
 
-    }); // remove
+      it('should remove instance from the instance array', function() {
+
+        expect(blockUI.instances.length).toBe(1);
+
+        blockUI.instances._destroy(blockUI.instances.removeMe);
+
+        expect(blockUI.instances.length).toBe(0);
+
+      });
+
+      it('should remove instance from the instance array (2)', function() {
+
+        blockUI.instances.get('anotherOne');
+        blockUI.instances.get('andAnotherOne');
+
+        expect(blockUI.instances.length).toBe(3);
+
+        blockUI.instances._destroy(blockUI.instances.removeMe);
+
+        expect(blockUI.instances.length).toBe(2);
+
+      });
+
+
+//      it('should remove the instance from the instance array', function() {
+//
+//        var instance = blockUI.instances.removeMe;
+//
+//        expect(instance).toBeDefined();
+//
+//        spyOn(instance, 'reset');
+//
+//        blockUI.instances._destroy(instance);
+//
+//        expect(instance.reset).toHaveBeenCalled();
+//
+//      });
+
+
+
+    }); // _destroy
 
     describe('locate', function() {
 

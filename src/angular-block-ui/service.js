@@ -152,14 +152,11 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
 
     if (idOrInstance) {
       idOrInstance.reset();
+
+      var i = blockUIUtils.indexOf(instances, idOrInstance);
+      instances.splice(i, 1);
+
       delete instances[idOrInstance.state().id];
-      var i = instances.length;
-      while(--i) {
-        if(instances[i] === idOrInstance) {
-          instances.splice(i, 1);
-          break;
-        }
-      }
     }
   };
   

@@ -62,6 +62,19 @@ blkUI.factory('blockUIUtils', function() {
       }
 
       return ret;
+    },
+    indexOf: function(arr, obj, start) {
+//      if(Array.prototype.indexOf) {
+//        return arr.indexOf(obj, start);
+//      }
+
+      for (var i = (start || 0), j = arr.length; i < j; i++) {
+        if (arr[i] === obj) {
+          return i;
+        }
+      }
+
+      return -1;
     }
   };
 

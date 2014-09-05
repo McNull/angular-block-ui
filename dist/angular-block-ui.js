@@ -1,5 +1,5 @@
 /*!
-   angular-block-ui v0.1.0-beta.3
+   angular-block-ui v0.1.0-beta.4
    (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
@@ -437,14 +437,11 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
 
     if (idOrInstance) {
       idOrInstance.reset();
+
+      var i = blockUIUtils.indexOf(instances, idOrInstance);
+      instances.splice(i, 1);
+
       delete instances[idOrInstance.state().id];
-      var i = instances.length;
-      while(--i) {
-        if(instances[i] === idOrInstance) {
-          instances.splice(i, 1);
-          break;
-        }
-      }
     }
   };
   
@@ -552,6 +549,19 @@ blkUI.factory('blockUIUtils', function() {
       }
 
       return ret;
+    },
+    indexOf: function(arr, obj, start) {
+//      if(Array.prototype.indexOf) {
+//        return arr.indexOf(obj, start);
+//      }
+
+      for (var i = (start || 0), j = arr.length; i < j; i++) {
+        if (arr[i] === obj) {
+          return i;
+        }
+      }
+
+      return -1;
     }
   };
 

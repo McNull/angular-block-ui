@@ -1,7 +1,7 @@
 {
   "name": "angular-block-ui",
   "description": "An AngularJS module that allows you to block user interaction on AJAX requests.",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "keywords": [
     "angular",
     "angularjs",

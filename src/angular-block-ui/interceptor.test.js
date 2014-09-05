@@ -1,15 +1,16 @@
 describe('block-ui-http-interceptor', function() {
 
-  var blockUI, interceptor, config, configSrc;
+  var blockUI, interceptor, config, configSrc, $templateCache;
 
   beforeEach(function() {
     
     module('blockUI');
 
-    inject(function(_blockUI_, _blockUIHttpInterceptor_, _blockUIConfig_) {
+    inject(function(_blockUI_, _blockUIHttpInterceptor_, _blockUIConfig_, _$templateCache_) {
       blockUI = _blockUI_;
       interceptor = _blockUIHttpInterceptor_;
       config = _blockUIConfig_;
+      $templateCache = _$templateCache_;
     });
 
     configSrc = angular.copy(config);
@@ -50,6 +51,16 @@ describe('block-ui-http-interceptor', function() {
       
       expect(blockUI.state().blockCount).toBe(0);
 
+    });
+
+    it('should not block cached template requests', function() {
+
+      var url = '/my/template.html';
+      $templateCache.put(url, '<div>my template</div>');
+
+      interceptor.request({ method: 'GET', url: url });
+
+      expect(blockUI.state().blockCount).toBe(0);
     });
 
     it('should set the message returned by the requestFilter', function() {

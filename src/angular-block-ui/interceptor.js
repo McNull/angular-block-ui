@@ -1,4 +1,4 @@
-blkUI.factory('blockUIHttpInterceptor', function($q, $injector, blockUIConfig) {
+blkUI.factory('blockUIHttpInterceptor', function($q, $injector, blockUIConfig, $templateCache) {
 
   var blockUI;
 
@@ -21,7 +21,11 @@ blkUI.factory('blockUIHttpInterceptor', function($q, $injector, blockUIConfig) {
   return {
     request: function(config) {
 
-      if (blockUIConfig.autoBlock) {
+      // Only block when autoBlock is enabled ...
+      // ... and the request doesn't match a cached template.
+
+      if (blockUIConfig.autoBlock &&
+        !(config.method == 'GET' && $templateCache.get(config.url))) {
 
         // Don't block excluded requests
 

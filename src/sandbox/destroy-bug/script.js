@@ -12,7 +12,7 @@ app.config(function(blockUIConfig) {
 // Our people controller for the main view. It monitors the pager.index
 // property and reflects the data by querying the myPeopleResource.
 
-app.controller('PeopleCtrl', function($scope, blockUI, myPeopleResource, inform) {
+app.controller('PeopleCtrl', function($scope, blockUI, myPeopleResource, inform, $timeout) {
 
   $scope.grid = {
     pager: {
@@ -35,9 +35,15 @@ app.controller('PeopleCtrl', function($scope, blockUI, myPeopleResource, inform)
     }
     
   });
-  
+
   $scope.click = function(person) {
-    console.log(blockUI.instances.length);
+    var personBlock = blockUI.instances.get('person-block-' + person.id);
+
+    personBlock.start();
+
+    $timeout(function() {
+//      personBlock.stop();
+    }, 1000);
   };
 });
 

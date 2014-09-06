@@ -21,6 +21,24 @@
       <p>With <a href="https://github.com/McNull/angular-block-ui" target="_blank">angular-block-ui</a>
       </p>
     </div>
+
+    <style>
+
+      .overlay-row {
+        position: relative;
+      }
+
+      .overlay-cell {
+        display: block;
+        position: relative;
+      }
+
+      .overlay {
+        position: absolute;
+        left: 0; right: 0; top: 0; bottom: 0;
+        background-color: yellow;
+      }
+    </style>
     <div class="container container-border" 
          ng-controller="PeopleCtrl" 
          block-ui block-ui-pattern="/people-data.json/">
@@ -36,13 +54,17 @@
                 <th>Email</th>
                 <th></th>
               </tr>
-              <tr ng-repeat="person in grid.items" block-ui="person{{ person.id }}">
+              <!--<tr ng-repeat="person in grid.items" block-ui="person-block-{{ person.id }}">-->
+              <tr ng-repeat="person in grid.items" class="overlay-row">
                 <td>{{ person.id }}</td>
                 <td>{{ person.firstName }}</td>
                 <td>{{ person.lastName }}</td>
                 <td>{{ person.email }}</td>
                 <td>
                   <button class="btn btn-default" ng-click="click(person)">Click</button>
+                </td>
+                <td class="overlay-cell">
+                  <div class="overlay"><p>njeke ekljelk</p></div>
                 </td>
               </tr>
             </tbody>

@@ -14,7 +14,13 @@ blkUI.factory('blockUIHttpInterceptor', function($q, $injector, blockUIConfig, $
   }
 
   function error(rejection) {
-    stopBlockUI(rejection.config);
+
+    try {
+      stopBlockUI(rejection.config);
+    } catch(ex) {
+      console.log('httpRequestError', ex);
+    }
+
     return $q.reject(rejection);
   }
 

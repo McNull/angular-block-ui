@@ -1,5 +1,5 @@
 /*!
-   angular-block-ui v0.1.0-beta.4
+   angular-block-ui v0.1.0-beta.5
    (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
@@ -18,8 +18,12 @@ blkUI.config(["$provide", "$httpProvider", function($provide, $httpProvider) {
         blockUIConfig = blockUIConfig || $injector.get('blockUIConfig');
 
         if (blockUIConfig.resetOnException) {
-          blockUI = blockUI || $injector.get('blockUI');
-          blockUI.instances.reset();
+          try {
+            blockUI = blockUI || $injector.get('blockUI');
+            blockUI.instances.reset();
+          } catch(ex) {
+            console.log('$exceptionHandler', exception);
+          }
         }
 
         $delegate(exception, cause);
@@ -232,14 +236,20 @@ blkUI.factory('blockUIHttpInterceptor', ["$q", "$injector", "blockUIConfig", "$t
   }
 
   function stopBlockUI(config) {
-    if (blockUIConfig.autoBlock && !config.$_noBlock && config.$_blocks) {
+    if (blockUIConfig.autoBlock && (config && !config.$_noBlock && config.$_blocks)) {
       injectBlockUI();
       config.$_blocks.stop();
     }
   }
 
   function error(rejection) {
-    stopBlockUI(rejection.config);
+
+    try {
+      stopBlockUI(rejection.config);
+    } catch(ex) {
+      console.log('httpRequestError', ex);
+    }
+
     return $q.reject(rejection);
   }
 
@@ -297,6 +307,8 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
       message: blockUIConfig.message,
       blocking: false
     }, startPromise, doneCallbacks = [];
+
+    this._id = id;
 
     this._refs = 0;
 
@@ -419,6 +431,11 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
   var instances = [];
 
   instances.get = function(id) {
+
+    if(!isNaN(id)) {
+      throw new Error('BlockUI id cannot be a number');
+    }
+
     var instance = instances[id];
 
     if(!instance) {

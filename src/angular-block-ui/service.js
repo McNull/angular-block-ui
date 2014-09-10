@@ -100,6 +100,13 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
         self._restoreFocus.focus();
         self._restoreFocus = null;
       }
+      else {
+         if(typeof(self._restoreFocus) != "undefined")
+         {
+            self._restoreFocus.focus();
+            self._restoreFocus = null;
+         }
+      }
       
       try {
         if (executeCallbacks) {

@@ -1,6 +1,6 @@
 {
   "name": "angular-block-ui",
-  "description": "An AngularJS module that allows you to block user interaction on AJAX requests.",
+  "description": "An AngularJS module that allows you to block user interaction on AJAX requests.It can be used with angular ui bootstrap typeahead.",
   "version": "0.1.0-beta.1",
   "keywords": [
     "angular",

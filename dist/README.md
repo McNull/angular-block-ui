@@ -6,7 +6,13 @@ An AngularJS module that allows you to block user interaction on AJAX requests. 
 Besides AngularJS (~1.2.4), none.  
 
 #### Demos
-Live demos can be found on [Plunker](http://plnkr.co/edit/XWRfHX?p=preview) or by executing the website included in the [GitHub project](https://github.com/McNull/angular-block-ui) .
+Live demos can be found on the [block-ui website](http://angular-block-ui.nullest.com) or by executing the website included in the [GitHub project](https://github.com/McNull/angular-block-ui) .
+
+#### Breaking Changes
+There are two breaking changes for users upgrading from `0.0.x` to `0.1.x`.
+
+1. The `blockUIConfig` is no longer a provider instance but a plain simple javascript object.
+2. The markdown has been simplified.
 
 #### Installation
 Either copy the contents of the `dist` directory of the [Github](https://github.com/McNull/angular-block-ui) project or install with _bower_ from the command line (**recommended**):

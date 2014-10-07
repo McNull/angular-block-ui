@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="gulpfile.js kitchensink" type="NodeJSConfigurationType" factoryName="Node.js" singleton="false" path-to-node="/usr/local/bin/node" path-to-js-file="/usr/local/bin/gulp" application-parameters="kitchensink" working-dir="$PROJECT_DIR$">
+  <configuration default="false" name="gulpfile.js build" type="NodeJSConfigurationType" factoryName="Node.js" singleton="false" path-to-node="/usr/local/bin/node" path-to-js-file="/usr/local/bin/gulp" application-parameters="build" working-dir="$PROJECT_DIR$">
     <RunnerSettings RunnerId="NodeJS.debug" />
     <RunnerSettings RunnerId="NodeJS.run" />
     <ConfigurationWrapper RunnerId="NodeJS.debug" />

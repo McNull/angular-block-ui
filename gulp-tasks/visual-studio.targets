@@ -1,0 +1,22 @@
+<!--
+	<Project>
+		<Import Project="node_modules\gulp-angular\visual-studio.targets" />
+	</Project>
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BuildTarget Condition=" '$(DebugSymbols)' == '' ">release</BuildTarget>
+    <BuildTarget Condition=" '$(DebugSymbols)' == 'true' ">debug</BuildTarget>
+    <NodeExePath Condition=" '$(NodeExePath)' == '' ">c:\program files (x86)\nodejs\node.exe</NodeExePath>
+  </PropertyGroup>
+  <Target Name="Dump">
+    <Message Text="DebugSymbols: $(DebugSymbols)" Importance="high"></Message>
+    <Message Text="Configuration: $(Configuration)" Importance="high"></Message>
+    <Message Text="BuildTarget: $(BuildTarget)" Importance="high"></Message>
+  </Target>
+  <Target Name="AfterBuild">
+    <!--<CallTarget Targets="Dump"></CallTarget>-->
+    <!--<Exec Command="node_modules/.bin/gulp \-\-target $(BuildTarget)" ContinueOnError="false"/>-->
+    <Exec Command="gulp" ContinueOnError="false"/>
+  </Target>
+</Project>

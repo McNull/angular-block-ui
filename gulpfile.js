@@ -20,14 +20,19 @@ require('./gulp-tasks/index-task.js')(gulp);
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 // Builds the whole kitchensink including example website
 
-gulp.task('kitchensink', [ 'modules', 'bower', 'index', 'sandbox' ], function () {
+gulp.task('build', [ 'modules', 'bower', 'index', 'sandbox' ]);
 
+// - - - - 8-< - - - - - - - - - - - - - - - - - - -
+
+gulp.task('app-copy-readme', ['app-copy-clean'], function() {
   var path = require('path');
 
   return gulp.src('README.md')
     .pipe(gulp.dest(path.join(config.folders.dest, 'app')));
-
 });
+
+var appCopy = gulp.tasks['app-copy'];
+appCopy.dep.push('app-copy-readme');
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
@@ -78,7 +83,7 @@ gulp.task('test-watch', ['angular-block-ui'], function () {
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
-gulp.task('dist-clean', ['angular-block-ui-clean'], function () {
+gulp.task('dist-clean', function () {
 
   return gulp.src('dist/**/*', { read: false }).pipe(clean());
 
@@ -94,6 +99,7 @@ gulp.task('dist', ['dist-clean', 'angular-block-ui', 'test-run'], function () {
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
+gulp.task('watch', [ 'modules-watch']);
 gulp.task('default', [ 'dist' ]);
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -

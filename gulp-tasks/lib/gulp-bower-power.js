@@ -33,7 +33,7 @@ function src(gulp, options) {
         var basename = path.basename(glob);
 
         var minified = basename.split('.');
-        minified.splice(1, 0, 'min');
+        minified.splice(minified.length - 1, 0, 'min');
         minified = minified.join('.');
         minified = path.join(dirname, minified);
 

@@ -3,7 +3,7 @@
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
 var path = require('path');
-var clean = require('gulp-clean');
+var clean = require('gulp-rimraf');
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 

@@ -15,11 +15,41 @@ var config = require('../../build-config.js');
 
 module.exports = function(gulp, module) {
 
-  module.task('templates', 'clean', function () {
+  var inputFiles = [
+    path.join(module.folders.src, '**/*.ng.html'),
+    path.join(module.folders.src, '**/*.ng.svg')
+  ];
+
+  module.watch('templates', function() {
+    return {
+      glob: inputFiles,
+      tasks: ['scripts']
+    };
+  });
+
+  module.task('templates-clean', function() {
+
+    var outputFiles = [
+      path.join(module.folders.dest, module.name + '-templates.js')
+    ];
+
+    var clean = require('gulp-rimraf');
+
+    return gulp.src(outputFiles, { read: false })
+      .pipe(clean({ force: true }));
+
+  });
+
+  module.task('templates', 'templates-clean', function () {
 
     var ngHtmlGlob = [
       path.join(module.folders.src, '**/*.ng.html'),
       '!**/*.ignore.ng.html'
+    ];
+
+    var ngSvgGlob = [
+      path.join(module.folders.src, '/**/*.ng.svg'),
+      '!**/*.ignore.ng.svg'
     ];
 
     var ngHtmlStream = gulp.src(ngHtmlGlob)
@@ -29,11 +59,6 @@ module.exports = function(gulp, module) {
         spare: true,
         quotes: true
       }));
-
-    var ngSvgGlob = [
-      path.join(module.folders.src, '/**/*.ng.svg'),
-      '!**/*.ignore.ng.svg'
-    ];
 
     var ngSvgStream = gulp.src(ngSvgGlob)
       .pipe(module.touch())

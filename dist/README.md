@@ -220,10 +220,17 @@ When the module is started it will inject the _main block element_ by adding the
     <body block-ui="main">
     </body>
     
-This behaviour can be disabled if there no need for any _fullscreen_ blocking or if there's more control required.
+This behaviour can be disabled if there no need for any _fullscreen_ blocking or if there's more control required. For instance when your `ng-app` directive is a child element of the `body` element it is impossible for the `blockUI` resolve the main instance. In such a case the auto injection of the main block scope should be disabled and the main block element should be relocated.
 
-    blockUIConfig.autoInjectBodyBlock = false; // Disable auto body block
-    
+	// Disable auto body block
+    blockUIConfig.autoInjectBodyBlock = false;
+
+	<div ng-app="myApp">
+		<div block-ui="main" class="block-ui-main"></div>
+	</div>
+	
+More information and an example can be found in this [plunker](http://plnkr.co/edit/F9UauI?p=preview).
+
 #### cssClass
 A string containing the default css classes, separated by spaces, that should be applied to each block-ui element. The default value is `'block-ui block-ui-anim-fade'`. 
 

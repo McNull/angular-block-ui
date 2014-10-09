@@ -3,7 +3,7 @@
   position: relative;
 }
 
-body.block-ui > .block-ui-container {
+body.block-ui > .block-ui-container, .block-ui-main > .block-ui-container {
   position: fixed;
 }
 

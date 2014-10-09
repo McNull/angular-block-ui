@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="http://localhost:8080/sandbox/" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="false" engineId="3c0063a0-6406-470a-b490-6a919f60c12b" uri="http://localhost:8080/sandbox/">
+    <mapping url="http://localhost:8080/src" local-file="$PROJECT_DIR$/src" />
+    <RunnerSettings RunnerId="JavascriptDebugRunner" />
+    <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
+    <method />
+  </configuration>
+</component>

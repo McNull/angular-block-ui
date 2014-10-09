@@ -1,5 +1,5 @@
 /*!
-   angular-block-ui v0.1.0
+   angular-block-ui v0.1.1
    (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
@@ -9,7 +9,7 @@
   position: relative;
 }
 
-body.block-ui > .block-ui-container {
+body.block-ui > .block-ui-container, .block-ui-main > .block-ui-container {
   position: fixed;
 }
 

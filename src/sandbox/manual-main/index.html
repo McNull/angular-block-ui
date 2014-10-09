@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" data-semver="3.2.0" data-require="bootstrap-css@*" />
+  <script data-require="angular.js@1.2.*" data-semver="1.2.25" src="https://code.angularjs.org/1.2.25/angular.js"></script>
+  <!--<link data-require="angular-block-ui@*" data-semver="0.1.0" rel="stylesheet" href="https://cdn.rawgit.com/McNull/angular-block-ui/v0.1.0/dist/angular-block-ui.min.css" />-->
+
+  <!--<script data-require="angular-block-ui@*" data-semver="0.1.0" src="https://cdn.rawgit.com/McNull/angular-block-ui/v0.1.0/dist/angular-block-ui.min.js"></script>-->
+
+  <link rel="stylesheet" href="/angular-block-ui/angular-block-ui.min.css">
+  <script src="/angular-block-ui/angular-block-ui.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <a target="_blank" href="https://github.com/McNull/angular-block-ui" class="pull-right">
+        <span class="glyphicon glyphicon-new-window"></span>
+        GitHub Project</a>
+      <h1>angular-block-ui</h1>
+      <p>Setting the <em>main</em> block-ui instance manually.</p>
+    </div>
+  </div>
+
+  <div ng-controller="MyController" class="container">
+
+    <div block-ui="main" class="block-ui-main">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">I am the main block instance</h3>
+        </div>
+        <div class="panel-body">
+          <p>
+            By default the <em>block-ui</em> module marks the <em>body</em> element as the <em>main</em> block instance. 
+            But in some cases this behaviour is not desired. When for instance the <em>body</em> element is not accessible or your <em>ng-app</em> directive is
+            a child element of the <em>body</em> element.
+          </p>
+          <p>It is however quite simple to relocate the <em>main</em> block-ui instance by simply marking a different element as the main instance.</p>
+
+<pre><code>&lt;!-- Mark the desired containing element as the main block instance --&gt;
+&lt;div block-ui=&quot;main&quot; class=&quot;block-ui-main&quot;&gt;
+  &lt;p&gt;Lorem ipsum ... &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+          <pre><code>angular.module('myApp').config(function(blockUIConfig) {
+  // Tell blockUI not to mark the body element as the main block scope.
+  blockUIConfig.autoInjectBodyBlock = false;
+});</code></pre>
+
+          <div class="text-center">
+            <button class="btn btn-primary" ng-click="startBlock()">Start demo block</button>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+</body>
+
+</html>

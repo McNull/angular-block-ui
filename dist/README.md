@@ -49,6 +49,21 @@ It's also possible to do the blocking manually. The blockUI module exposes a ser
         });
       };
     });
+    
+##### Non-angular events
+Note that whenever you're starting or stopping a block in an event outside of _AngularJS_ you'll need to wrap this inside a `$apply` call to [make _AngularJS_ aware of changes on the scope](http://jimhoskins.com/2012/12/17/angularjs-and-apply.html).
+
+```
+var button = document.getElementById('clickMe');
+button.addEventListener('click', buttonClicked);
+
+function buttonClicked ()  {
+  // Event called without the knowledge of angular
+  $scope.$apply(function()  {
+    blockUI.stop();
+  });
+}
+```
 
 BlockUI service methods
 =======================

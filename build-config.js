@@ -28,10 +28,10 @@ var config = {
 //      name: 'angular-delay',
 //      alias: 'delay'
 //    },
-    {
-      name: 'angular-showdown',
-      alias: 'showdown'
-    },
+//    {
+//      name: 'angular-showdown',
+//      alias: 'showdown'
+//    },
     {
       name: 'app',
       alias: 'myApp'

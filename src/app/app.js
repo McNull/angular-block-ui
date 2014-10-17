@@ -1,9 +1,10 @@
 angular.module('myApp', [
   'ngRoute',
-  'ngResource',
-  'ngAnimate',
+  'ngSanitize',
+//  'ngResource',
+//  'ngAnimate',
   'blockUI',
-  'showdown',
+  'markdown',
   'responseLag',
   'inform',
   'inform-exception',

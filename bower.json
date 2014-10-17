@@ -46,7 +46,9 @@
     "respond": "~1.4.2",
     "html5shiv": "~3.7.2",
     "showdown": "~0.3.1",
-    "animate.css": "~3.2.0"
+    "animate.css": "~3.2.0",
+    "angular-markdown-text": "~0.0.2",
+    "angular-sanitize": "1.2.26"
   },
   "overrides": {
     "respond": {

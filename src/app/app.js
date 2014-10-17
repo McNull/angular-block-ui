@@ -4,7 +4,7 @@ angular.module('myApp', [
   'ngAnimate',
   'blockUI',
   'showdown',
-  'delay',
+  'responseLag',
   'inform',
   'inform-exception',
   'inform-http-exception'
@@ -32,7 +32,7 @@ angular.module('myApp', [
     redirectTo: '/'
   });
 
-}).config(function (blockUIConfig, delayConfig, $locationProvider) {
+}).config(function (blockUIConfig, responseLagConfig, $locationProvider) {
 
   // Enable hashbangs
 
@@ -42,15 +42,15 @@ angular.module('myApp', [
     window.location.search.indexOf('_escaped_fragment_')!=-1 ||
     window.navigator.userAgent.indexOf('Prerender')!=-1) {
 
-    delayConfig.enabled = false;
+    responseLagConfig.enabled = false;
     blockUIConfig.autoBlock = false;
     blockUIConfig.autoInjectBodyBlock = false;
 
   } else {
-    delayConfig.excludes.push(/.*\.md/i);
-    delayConfig.enabled = true;
-    delayConfig.timeout.min = 750;
-    delayConfig.timeout.max = 1500;
+    responseLagConfig.excludes.push(/.*\.md/i);
+    responseLagConfig.enabled = true;
+    responseLagConfig.timeout.min = 750;
+    responseLagConfig.timeout.max = 1500;
 
 //    // Change the displayed message based on the http verbs being used.
 //    blockUIConfig.requestFilter = function(config) {

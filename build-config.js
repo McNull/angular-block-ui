@@ -24,10 +24,10 @@ var config = {
       name: 'angular-block-ui',
       alias: 'blockUI'
     },
-    {
-      name: 'angular-delay',
-      alias: 'delay'
-    },
+//    {
+//      name: 'angular-delay',
+//      alias: 'delay'
+//    },
     {
       name: 'angular-showdown',
       alias: 'showdown'

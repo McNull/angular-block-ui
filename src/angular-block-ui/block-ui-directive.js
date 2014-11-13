@@ -57,12 +57,14 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
         // Unhook the view loaded and hook a function that will prevent
         // location changes while the block is active.
 
-        fn();
-        $scope.$on('$locationChangeStart', function(event) {
-          if (srvInstance.state().blockCount > 0) {
-            event.preventDefault();
-          }
-        });
+        if (blockUIConfig.preventRouting) {
+          fn();
+          $scope.$on('$locationChangeStart', function(event) {
+            if (srvInstance.state().blockCount > 0) {
+              event.preventDefault();
+            }
+          });
+        }
       });
     } else {
       // Locate the parent blockUI instance

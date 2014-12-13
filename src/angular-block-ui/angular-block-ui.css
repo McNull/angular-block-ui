@@ -3,6 +3,11 @@
   position: relative;
 }
 
+body.block-ui {
+  /* IE8 doesn't support .block-ui:not(body) */
+  position: static;
+}
+
 body.block-ui > .block-ui-container, .block-ui-main > .block-ui-container {
   position: fixed;
 }

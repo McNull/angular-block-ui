@@ -1,4 +1,4 @@
-blkUI.directive('blockUi', function(blockUiCompileFn) {
+blkUI.directive('blockUi', function (blockUiCompileFn) {
 
   return {
     scope: true,
@@ -6,9 +6,9 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
     compile: blockUiCompileFn
   };
 
-}).factory('blockUiCompileFn', function(blockUiPreLinkFn) {
+}).factory('blockUiCompileFn', function (blockUiPreLinkFn) {
 
-  return function($element, $attrs) {
+  return function ($element, $attrs) {
 
     // Class should be added here to prevent an animation delay error.
 
@@ -20,9 +20,9 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
 
   };
 
-}).factory('blockUiPreLinkFn', function(blockUI, blockUIUtils, blockUIConfig) {
+}).factory('blockUiPreLinkFn', function (blockUI, blockUIUtils, blockUIConfig) {
 
-  return function($scope, $element, $attrs) {
+  return function ($scope, $element, $attrs) {
 
     // If the element does not have the class "block-ui" set, we set the
     // default css classes from the config.
@@ -33,7 +33,7 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
 
     // Expose the blockUiMessageClass attribute value on the scope
 
-    $attrs.$observe('blockUiMessageClass', function(value) {
+    $attrs.$observe('blockUiMessageClass', function (value) {
       $scope.$_blockUiMessageClass = value;
     });
 
@@ -47,28 +47,30 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
     // If this is the main (topmost) block element we'll also need to block any
     // location changes while the block is active.
 
-    if (instanceId === 'main') {
+    if (instanceId === 'main' && blockUIConfig.preventRouting) {
 
       // After the initial content has been loaded we'll spy on any location
       // changes and discard them when needed.
 
-      var fn = $scope.$on('$viewContentLoaded', function($event) {
+      var fn = $scope.$on('$viewContentLoaded', function () {
 
         // Unhook the view loaded and hook a function that will prevent
         // location changes while the block is active.
 
         fn();
-        $scope.$on('$locationChangeStart', function(event) {
+
+        $scope.$on('$locationChangeStart', function (event) {
           if (srvInstance.state().blockCount > 0) {
             event.preventDefault();
           }
         });
+
       });
     } else {
       // Locate the parent blockUI instance
       var parentInstance = $element.inheritedData('block-ui');
 
-      if(parentInstance) {
+      if (parentInstance) {
         // TODO: assert if parent is already set to something else
         srvInstance._parent = parentInstance;
       }
@@ -76,7 +78,7 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
 
     // Ensure the instance is released when the scope is destroyed
 
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
       srvInstance.release();
     });
 
@@ -94,7 +96,7 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
       $element.toggleClass('block-ui-visible', !!value);
     });
 
-    $scope.$watch('$_blockUiState.blockCount > 0', function(value) {
+    $scope.$watch('$_blockUiState.blockCount > 0', function (value) {
       $element.toggleClass('block-ui-active', !!value);
     });
 
@@ -102,7 +104,7 @@ blkUI.directive('blockUi', function(blockUiCompileFn) {
 
     var pattern = $attrs.blockUiPattern;
 
-    if(pattern) {
+    if (pattern) {
       var regExp = blockUIUtils.buildRegExp(pattern);
       srvInstance.pattern(regExp);
     }

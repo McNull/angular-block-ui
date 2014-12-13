@@ -252,3 +252,10 @@ A string containing the default css classes, separated by spaces, that should be
 If this needs to be overridden for a certain element; set the desired classes on the element including the `block-ui` class. This way the directive will not apply the configured classes to the element.
 
     blockUIConfig.cssClass = 'block-ui my-custom-class'; // Apply these classes to al block-ui elements
+
+#### preventRouting
+By default, routing will be prevented while the main block-ui instance is blocking.
+
+If your app has programatic routing within a controller, it is suggested that you disable preventRouting because routing inside a controller is prevented as well.
+
+    blockUIConfig.preventRouting = false; // Disable preventRouting (enabled by default)

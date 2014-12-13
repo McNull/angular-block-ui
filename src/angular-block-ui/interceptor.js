@@ -55,7 +55,14 @@ blkUI.factory('blockUIHttpInterceptor', function($q, $injector, blockUIConfig, $
     requestError: error,
 
     response: function(response) {
-      stopBlockUI(response.config);
+
+      // If the connection to the website goes down the response interceptor gets and error with "cannot read property config of null".
+      // https://github.com/McNull/angular-block-ui/issues/53
+
+      if(response) {
+        stopBlockUI(response.config);
+      }
+
       return response;
     },
 

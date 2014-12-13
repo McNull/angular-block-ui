@@ -2,7 +2,7 @@ angular.module('myApp', [
   'ngRoute',
   'ngSanitize',
 //  'ngResource',
-//  'ngAnimate',
+  'ngAnimate',
   'blockUI',
   'markdown',
   'responseLag',

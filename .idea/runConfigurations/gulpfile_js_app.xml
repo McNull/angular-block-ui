@@ -1,6 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="gulpfile.js app" type="NodeJSConfigurationType" factoryName="Node.js" singleton="false" path-to-node="/usr/local/bin/node" path-to-js-file="/usr/local/bin/gulp" application-parameters="app" working-dir="$PROJECT_DIR$">
+    <RunnerSettings RunnerId="Basic" />
     <RunnerSettings RunnerId="NodeJS.run" />
+    <ConfigurationWrapper RunnerId="Basic" />
     <ConfigurationWrapper RunnerId="NodeJS.run" />
     <method />
   </configuration>

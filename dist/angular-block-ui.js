@@ -1,5 +1,5 @@
 /*!
-   angular-block-ui v0.1.1
+   angular-block-ui v0.1.2
    (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
@@ -287,7 +287,14 @@ blkUI.factory('blockUIHttpInterceptor', ["$q", "$injector", "blockUIConfig", "$t
     requestError: error,
 
     response: function(response) {
-      stopBlockUI(response.config);
+
+      // If the connection to the website goes down the response interceptor gets and error with "cannot read property config of null".
+      // https://github.com/McNull/angular-block-ui/issues/53
+
+      if(response) {
+        stopBlockUI(response.config);
+      }
+
       return response;
     },
 

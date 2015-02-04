@@ -1,6 +1,6 @@
 /*!
    angular-block-ui v0.1.2
-   (c) 2014 (null) McNull https://github.com/McNull/angular-block-ui
+   (c) 2015 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
 (function(angular) {

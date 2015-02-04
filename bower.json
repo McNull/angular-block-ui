@@ -60,5 +60,8 @@
     "angular-mocks": {
       "ignore": true
     }
+  },
+  "resolutions": {
+    "angular": "1.2.28"
   }
 }

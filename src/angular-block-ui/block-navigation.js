@@ -2,43 +2,43 @@ blkUI.config(function ($provide) {
   $provide.decorator('$location', decorateLocation);
 });
 
-function decorateLocation($delegate, blockUI, blockUIConfig) {
+var decorateLocation = [
+  '$delegate', 'blockUI', 'blockUIConfig',
+  function ($delegate, blockUI, blockUIConfig) {
 
-  if (blockUIConfig.blockBrowserNavigation) {
+    if (blockUIConfig.blockBrowserNavigation) {
 
-    blockUI.$_blockLocationChange = true;
+      blockUI.$_blockLocationChange = true;
 
-    var overrides = ['url', 'path', 'search', 'hash', 'state'];
+      var overrides = ['url', 'path', 'search', 'hash', 'state'];
 
-    function hook(f) {
-      var s = $delegate[f];
-      $delegate[f] = function () {
+      function hook(f) {
+        var s = $delegate[f];
+        $delegate[f] = function () {
 
-//        console.log(f, Date.now(), arguments);
+          //        console.log(f, Date.now(), arguments);
 
-        var result = s.apply($delegate, arguments);
+          var result = s.apply($delegate, arguments);
 
-        // The call was a setter if the $location service is returned.
+          // The call was a setter if the $location service is returned.
 
-        if (result === $delegate) {
+          if (result === $delegate) {
 
-          // Mark the mainblock ui to allow the location change.
+            // Mark the mainblock ui to allow the location change.
 
-          blockUI.$_blockLocationChange = false;
-        }
+            blockUI.$_blockLocationChange = false;
+          }
 
-        return result;
-      };
+          return result;
+        };
+      }
+
+      angular.forEach(overrides, hook);
+
     }
 
-    angular.forEach(overrides, hook);
-
-  }
-
-  return $delegate;
-};
-
-decorateLocation.$inject = ['$delegate', 'blockUI', 'blockUIConfig'];
+    return $delegate;
+}];
 
 // Called from block-ui-directive for the 'main' instance.
 
@@ -50,7 +50,7 @@ function blockNavigation($scope, mainBlockUI, blockUIConfig) {
 
       $scope.$on('$locationChangeStart', function (event) {
 
-//        console.log('$locationChangeStart', mainBlockUI.$_blockLocationChange + ' ' + mainBlockUI.state().blockCount);
+        //        console.log('$locationChangeStart', mainBlockUI.$_blockLocationChange + ' ' + mainBlockUI.state().blockCount);
 
         if (mainBlockUI.$_blockLocationChange && mainBlockUI.state().blockCount > 0) {
           event.preventDefault();
@@ -60,7 +60,7 @@ function blockNavigation($scope, mainBlockUI, blockUIConfig) {
       $scope.$on('$locationChangeSuccess', function () {
         mainBlockUI.$_blockLocationChange = blockUIConfig.blockBrowserNavigation;
 
-//        console.log('$locationChangeSuccess', mainBlockUI.$_blockLocationChange + ' ' + mainBlockUI.state().blockCount);
+        //        console.log('$locationChangeSuccess', mainBlockUI.$_blockLocationChange + ' ' + mainBlockUI.state().blockCount);
       });
     }
 

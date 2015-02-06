@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/angular-block-ui/angular-block-ui.min.css" />
+  <link rel="stylesheet" href="style.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.js"></script>
+  <script src="/angular-block-ui/angular-block-ui.js"></script>
+  <script src="script.js"></script>
+</head>
+
+<body ng-controller="MainCtrl">
+
+  <div class="jumbotron text-center">
+    <h1>Browser navigation block</h1>
+    <h2><a href="https://github.com/McNull/angular-block-ui" target="_blank">angular-block-ui</a></h2>
+  </div>
+
+  <div class="container">
+    <h2>Description</h2>
+    <p>
+       Whenever an async request has been made in a single page app to the backend server, you'll probably want to wait untill it has completed. 
+       The registered callbacks will execute even if the user has navigated away from the originating view/controller. The <em>angular-block-ui</em>
+       module can disable navigation until al the requests have been completed and still allows you to change the url whenever this is done via the 
+       <em>$location</em> service.
+    </p>
+    <h2>Demostration</h2>
+    <p>
+      The current <em>active</em> element in the <em>pagination</em> below is determined by the <em>index</em> search argument passed in the url. 
+      When this page is loaded the controller will add some history urls to the browser. Navigating back and forward should highlite the current index 
+      in the pagination. 
+    </p>
+    <p>
+      The button <em>"Start Block"</em> will start a user interface block and does not allow the user to navigate back and forward until
+      the block has been lifted.
+    </p>
+    <p>The button <em>"Start Block and Change Location"</em> also starts a user interface block, but changes with a certain interval the url search parameters.</p>
+  </div>
+  <div class="container text-center">
+    <ul class="pagination">
+      <li ng-repeat="item in indexItems" ng-class="{ active: $index == index }">
+        <a href="#?index={{ $index }}">{{ $index + 1 }}</a>
+      </li>
+    </ul>
+
+    <br>
+    <button class="btn btn-primary" ng-click="startBlock()">Start Block</button>
+    <button class="btn btn-primary" ng-click="startBlock(true)">Start Block and Change Location</button>
+
+  </div>
+
+  <div class="container">
+    <h2>Enable browser navigation block</h2>
+    <p>Navigation blocking can be enabled by setting the <em>blockBrowserNavigation</em> property of the <em>blockUIConfig</em> to <em>true</em>.</p>
+    <pre><code>angular.module('myApp').config(function(blockUIConfig) { 
+  blockUIConfig.blockBrowserNavigation = true;
+});</code></pre>
+  </div>
+  <br>
+  
+  <footer class="footer">
+   
+    <div class="container">
+     <br>
+      <a class="text-muted pull-right" href="https://github.com/McNull/angular-block-ui" target="_blank">angular-block-ui</a>
+    </div>
+   
+  </footer>
+</body>
+
+</html>

@@ -1,12 +1,12 @@
 var blkUI = angular.module('blockUI', []);
 
-blkUI.config(function($provide, $httpProvider) {
+blkUI.config(function ($provide, $httpProvider) {
 
   $provide.decorator('$exceptionHandler', ['$delegate', '$injector',
-    function($delegate, $injector) {
+    function ($delegate, $injector) {
       var blockUI, blockUIConfig;
 
-      return function(exception, cause) {
+      return function (exception, cause) {
 
         blockUIConfig = blockUIConfig || $injector.get('blockUIConfig');
 
@@ -14,7 +14,7 @@ blkUI.config(function($provide, $httpProvider) {
           try {
             blockUI = blockUI || $injector.get('blockUI');
             blockUI.instances.reset();
-          } catch(ex) {
+          } catch (ex) {
             console.log('$exceptionHandler', exception);
           }
         }
@@ -27,8 +27,8 @@ blkUI.config(function($provide, $httpProvider) {
   $httpProvider.interceptors.push('blockUIHttpInterceptor');
 });
 
-blkUI.run(function($document, blockUIConfig, $templateCache) {
-  if(blockUIConfig.autoInjectBodyBlock) {
+blkUI.run(function ($document, blockUIConfig, $templateCache) {
+  if (blockUIConfig.autoInjectBodyBlock) {
     $document.find('body').attr('block-ui', 'main');
   }
 
@@ -41,3 +41,12 @@ blkUI.run(function($document, blockUIConfig, $templateCache) {
     $templateCache.put(blockUIConfig.templateUrl, blockUIConfig.template);
   }
 });
+
+function moduleLoaded(name) {
+  try {
+    angular.module(name);
+  } catch(ex) {
+    return false;
+  }
+  return true;
+}

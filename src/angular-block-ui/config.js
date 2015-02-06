@@ -7,6 +7,6 @@ blkUI.constant('blockUIConfig', {
     requestFilter: angular.noop,
     autoInjectBodyBlock: true,
     cssClass: 'block-ui block-ui-anim-fade',
-    preventRouting: true
+    blockBrowserNavigation: false
 });
 

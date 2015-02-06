@@ -47,25 +47,8 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
     // If this is the main (topmost) block element we'll also need to block any
     // location changes while the block is active.
 
-    if (instanceId === 'main' && blockUIConfig.preventRouting) {
-
-      // After the initial content has been loaded we'll spy on any location
-      // changes and discard them when needed.
-
-      var fn = $scope.$on('$viewContentLoaded', function () {
-
-        // Unhook the view loaded and hook a function that will prevent
-        // location changes while the block is active.
-
-        fn();
-
-        $scope.$on('$locationChangeStart', function (event) {
-          if (srvInstance.state().blockCount > 0) {
-            event.preventDefault();
-          }
-        });
-
-      });
+    if (instanceId === 'main') {
+      blockNavigation($scope, srvInstance, blockUIConfig);
     } else {
       // Locate the parent blockUI instance
       var parentInstance = $element.inheritedData('block-ui');

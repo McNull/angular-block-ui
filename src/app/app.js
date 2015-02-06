@@ -39,6 +39,8 @@ angular.module('myApp', [
 
   $locationProvider.hashPrefix('!');
 
+  blockUIConfig.blockBrowserNavigation = true;
+  
   if(window.location.search.indexOf('delay=false')!=-1 ||
     window.location.search.indexOf('_escaped_fragment_')!=-1 ||
     window.navigator.userAgent.indexOf('Prerender')!=-1) {
@@ -46,7 +48,6 @@ angular.module('myApp', [
     responseLagConfig.enabled = false;
     blockUIConfig.autoBlock = false;
     blockUIConfig.autoInjectBodyBlock = false;
-
   } else {
     responseLagConfig.excludes.push(/.*\.md/i);
     responseLagConfig.enabled = true;

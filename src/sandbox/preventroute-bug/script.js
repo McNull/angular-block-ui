@@ -1,14 +1,44 @@
 // create the module and name it scotchApp
 var scotchApp = angular.module('scotchApp', ['ngRoute', 'blockUI']);
 
-var x = 0;
+
+//function decorateLocation($delegate) {
+//  window.ll = $delegate;
+//
+//  var overrides = [
+//    'url', 'path', 'search', 'hash', 'state'
+//  ];
+//  
+//  function hook(f) {
+//    var s = $delegate[f];
+//    $delegate[f] = function() {
+//      console.log(f);
+//      return s.apply($delegate, arguments);
+//    };
+//  }
+//  
+//  angular.forEach(overrides, hook);
+//  
+//  return $delegate;
+//}
+//
+//scotchApp.config(function ($provide) {
+//  $provide.decorator('$location', decorateLocation);
+//});
+
+
+scotchApp.config(function (blockUIConfig) {
+  //  blockUIConfig.preventRouting = false;
+});
+
 // configure our routes
 scotchApp.config(function ($routeProvider) {
   $routeProvider
   // route for the home page
-  .when('/', {
+    .when('/', {
     templateUrl: 'pages/home.html',
-    controller: 'mainController'
+    controller: 'mainController',
+    reloadOnSearch: false
   })
 
   // route for the about page
@@ -35,16 +65,39 @@ scotchApp.controller('mainController', function ($scope, $timeout, $location, bl
 
   blockUI.start();
 
-  $timeout(function () {
-    //$location.path('/about');
+  function tick(t) {
+    $location.search({
+      t: t
+    }).hash('gedoe' + t);
+    $timeout(function () {
+      tick(t + 1);
+    }, 500);
+  }
 
-//    blockUI.stop();
-  }, 1000);
+  $timeout(function() {
+    tick(0);  
+  });
+  
+
+  //  blockUI.start();
+
+  //  $timeout(function () {
+  //    $location.path('/about');
+  //
+  ////    blockUI.stop();
+  //  });
 
 });
 
-scotchApp.controller('aboutController', function ($scope) {
+scotchApp.controller('aboutController', function ($scope, $timeout, $location) {
   $scope.message = 'Look! I am an about page.';
+
+  //  $timeout(function () {
+  //    $location.path('/');  
+  //
+  ////    blockUI.stop();
+  //  }, 1000);
+
 });
 
 scotchApp.controller('contactController', function ($scope) {

@@ -1,5 +1,5 @@
 /*!
-   angular-block-ui v0.1.2
+   angular-block-ui v0.2.0
    (c) 2015 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
@@ -7,13 +7,13 @@
 
 var blkUI = angular.module('blockUI', []);
 
-blkUI.config(["$provide", "$httpProvider", function($provide, $httpProvider) {
+blkUI.config(["$provide", "$httpProvider", function ($provide, $httpProvider) {
 
   $provide.decorator('$exceptionHandler', ['$delegate', '$injector',
-    function($delegate, $injector) {
+    function ($delegate, $injector) {
       var blockUI, blockUIConfig;
 
-      return function(exception, cause) {
+      return function (exception, cause) {
 
         blockUIConfig = blockUIConfig || $injector.get('blockUIConfig');
 
@@ -21,7 +21,7 @@ blkUI.config(["$provide", "$httpProvider", function($provide, $httpProvider) {
           try {
             blockUI = blockUI || $injector.get('blockUI');
             blockUI.instances.reset();
-          } catch(ex) {
+          } catch (ex) {
             console.log('$exceptionHandler', exception);
           }
         }
@@ -34,8 +34,8 @@ blkUI.config(["$provide", "$httpProvider", function($provide, $httpProvider) {
   $httpProvider.interceptors.push('blockUIHttpInterceptor');
 }]);
 
-blkUI.run(["$document", "blockUIConfig", "$templateCache", function($document, blockUIConfig, $templateCache) {
-  if(blockUIConfig.autoInjectBodyBlock) {
+blkUI.run(["$document", "blockUIConfig", "$templateCache", function ($document, blockUIConfig, $templateCache) {
+  if (blockUIConfig.autoInjectBodyBlock) {
     $document.find('body').attr('block-ui', 'main');
   }
 
@@ -49,6 +49,102 @@ blkUI.run(["$document", "blockUIConfig", "$templateCache", function($document, b
   }
 }]);
 
+function moduleLoaded(name) {
+  try {
+    angular.module(name);
+  } catch(ex) {
+    return false;
+  }
+  return true;
+}
+blkUI.config(["$provide", function ($provide) {
+  $provide.decorator('$location', decorateLocation);
+}]);
+
+function decorateLocation($delegate, blockUI, blockUIConfig) {
+
+  if (blockUIConfig.blockBrowserNavigation) {
+
+    blockUI.$_blockLocationChange = true;
+
+    var overrides = ['url', 'path', 'search', 'hash', 'state'];
+
+    function hook(f) {
+      var s = $delegate[f];
+      $delegate[f] = function () {
+
+//        console.log(f, Date.now(), arguments);
+
+        var result = s.apply($delegate, arguments);
+
+        // The call was a setter if the $location service is returned.
+
+        if (result === $delegate) {
+
+          // Mark the mainblock ui to allow the location change.
+
+          blockUI.$_blockLocationChange = false;
+        }
+
+        return result;
+      };
+    }
+
+    angular.forEach(overrides, hook);
+
+  }
+
+  return $delegate;
+}
+decorateLocation.$inject = ["$delegate", "blockUI", "blockUIConfig"];;
+
+decorateLocation.$inject = ['$delegate', 'blockUI', 'blockUIConfig'];
+
+// Called from block-ui-directive for the 'main' instance.
+
+function blockNavigation($scope, mainBlockUI, blockUIConfig) {
+
+  if (blockUIConfig.blockBrowserNavigation) {
+
+    function registerLocationChange() {
+
+      $scope.$on('$locationChangeStart', function (event) {
+
+//        console.log('$locationChangeStart', mainBlockUI.$_blockLocationChange + ' ' + mainBlockUI.state().blockCount);
+
+        if (mainBlockUI.$_blockLocationChange && mainBlockUI.state().blockCount > 0) {
+          event.preventDefault();
+        }
+      });
+
+      $scope.$on('$locationChangeSuccess', function () {
+        mainBlockUI.$_blockLocationChange = blockUIConfig.blockBrowserNavigation;
+
+//        console.log('$locationChangeSuccess', mainBlockUI.$_blockLocationChange + ' ' + mainBlockUI.state().blockCount);
+      });
+    }
+
+    if (moduleLoaded('ngRoute')) {
+
+      // After the initial content has been loaded we'll spy on any location
+      // changes and discard them when needed.
+
+      var fn = $scope.$on('$viewContentLoaded', function () {
+
+        // Unhook the view loaded and hook a function that will prevent
+        // location changes while the block is active.
+
+        fn();
+        registerLocationChange();
+
+      });
+
+    } else {
+      registerLocationChange();
+    }
+
+  }
+}
 blkUI.directive('blockUiContainer', ["blockUIConfig", "blockUiContainerLinkFn", function (blockUIConfig, blockUiContainerLinkFn) {
   return {
     scope: true,
@@ -130,25 +226,8 @@ blkUI.directive('blockUi', ["blockUiCompileFn", function (blockUiCompileFn) {
     // If this is the main (topmost) block element we'll also need to block any
     // location changes while the block is active.
 
-    if (instanceId === 'main' && blockUIConfig.preventRouting) {
-
-      // After the initial content has been loaded we'll spy on any location
-      // changes and discard them when needed.
-
-      var fn = $scope.$on('$viewContentLoaded', function () {
-
-        // Unhook the view loaded and hook a function that will prevent
-        // location changes while the block is active.
-
-        fn();
-
-        $scope.$on('$locationChangeStart', function (event) {
-          if (srvInstance.state().blockCount > 0) {
-            event.preventDefault();
-          }
-        });
-
-      });
+    if (instanceId === 'main') {
+      blockNavigation($scope, srvInstance, blockUIConfig);
     } else {
       // Locate the parent blockUI instance
       var parentInstance = $element.inheritedData('block-ui');
@@ -226,7 +305,7 @@ blkUI.constant('blockUIConfig', {
     requestFilter: angular.noop,
     autoInjectBodyBlock: true,
     cssClass: 'block-ui block-ui-anim-fade',
-    preventRouting: true
+    blockBrowserNavigation: false
 });
 
 

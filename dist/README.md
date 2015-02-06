@@ -9,10 +9,16 @@ Besides AngularJS (~1.2.4), none.
 Live demos can be found on the [block-ui website](http://angular-block-ui.nullest.com) or by executing the website included in the [GitHub project](https://github.com/McNull/angular-block-ui) .
 
 #### Breaking Changes
-There are two breaking changes for users upgrading from `0.0.x` to `0.1.x`.
+
+Version __0.2__
+
+1. Browser navigation block has been disabled by default. This behaviour can be re-enabled by setting `blockBrowserNavigation` to `true`.
+2. The `preventRouting` configuration property has been removed.
+
+Version __0.1__
 
 1. The `blockUIConfig` is no longer a provider instance but a plain simple javascript object.
-2. The markdown has been simplified.
+2. The markup for the block-ui element has been simplified.
 
 #### Installation
 Either copy the contents of the `dist` directory of the [Github](https://github.com/McNull/angular-block-ui) project or install with _bower_ from the command line (**recommended**):
@@ -253,9 +259,15 @@ If this needs to be overridden for a certain element; set the desired classes on
 
     blockUIConfig.cssClass = 'block-ui my-custom-class'; // Apply these classes to al block-ui elements
 
-#### preventRouting
-By default, routing will be prevented while the main block-ui instance is blocking.
+#### blockBrowserNavigation
+Whenever a user interface block is active, because the single page application is still waiting for a response from the backend server, the user can still navigate away
+using the _back_ and _forward_ buttons of the browser. Callbacks registered to handle the responses from the server will be executed even if a different view/controller is 
+currently active.
 
-If your app has programatic routing within a controller, it is suggested that you disable preventRouting because routing inside a controller is prevented as well.
+By setting the `blockBrowserNavigation` property to `true` the _angular-block-ui_ module will prevent navigation while a fullscreen block is active. Programatic location
+changes via the `$location` service are still allowed however. A demonstration of this behaviour can be found [here](http://angular-block-ui.nullest.com/sandbox/history-block/). 
 
-    blockUIConfig.preventRouting = false; // Disable preventRouting (enabled by default)
+The navigation block is disabled by default.
+
+    // Enable browser navigation blocking
+    blockUIConfig.blockBrowserNavigation = true;

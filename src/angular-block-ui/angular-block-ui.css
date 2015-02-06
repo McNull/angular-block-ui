@@ -1,30 +1,34 @@
-
 .block-ui {
   position: relative;
 }
 
 body.block-ui {
   /* IE8 doesn't support .block-ui:not(body) */
+  
   position: static;
 }
 
-body.block-ui > .block-ui-container, .block-ui-main > .block-ui-container {
+body.block-ui > .block-ui-container,
+.block-ui-main > .block-ui-container {
   position: fixed;
 }
 
 .block-ui-container {
   position: absolute;
   z-index: 10000;
-  top: 0; right: 0; bottom: 0; left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   height: 0;
   overflow: hidden;
   opacity: 0;
   filter: alpha(opacity=00);
-  cursor: wait;
 }
 
 .block-ui-active > .block-ui-container {
   height: 100%;
+  cursor: wait;
 }
 
 .block-ui-active .block-ui-active > .block-ui-container {
@@ -64,5 +68,6 @@ body.block-ui > .block-ui-container, .block-ui-main > .block-ui-container {
   font-size: 20px;
   font-weight: bold;
   /* needed for IE */
+  
   filter: alpha(opacity=100);
 }

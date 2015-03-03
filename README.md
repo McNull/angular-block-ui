@@ -97,7 +97,7 @@ Allows the message shown in the overlay to be updated while to block is active.
 Queues a callback function to be called when the block has finished. This can be useful whenever you wish to redirect the user to a different location while there are still pending AJAX requests.
 
 #### isBlocking
-Returns wheter currently a block is shown for the instance or not.
+Returns whether currently a block is shown for the instance or not.
 
 **Arguments:**
 

@@ -4,10 +4,10 @@
     <option name="INTERPRETER_PATH" value="/bin/bash" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/" />
     <option name="PARENT_ENVS" value="true" />
-    <envs />
-    <module name="" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gulp-tasks/watch.sh" />
     <option name="PARAMETERS" value="" />
+    <module name="" />
+    <envs />
     <RunnerSettings RunnerId="BashRunner" />
     <ConfigurationWrapper RunnerId="BashRunner" />
     <method />

@@ -75,6 +75,10 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
       }
     };
 
+    this.isBlocking = function () {
+        return state.blocking;
+    };
+
     this.message = function(value) {
       state.message = value;
     };

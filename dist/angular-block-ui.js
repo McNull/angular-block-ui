@@ -393,6 +393,7 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
       id: id,
       blockCount: 0,
       message: blockUIConfig.message,
+      state: undefined,
       blocking: false
     }, startPromise, doneCallbacks = [];
 
@@ -400,7 +401,7 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
 
     this._refs = 0;
 
-    this.start = function(message) {
+    this.start = function(message, data) {
 
       if(state.blockCount > 0) {
         message = message || state.message || blockUIConfig.message;
@@ -409,7 +410,7 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
       }
 
       state.message = message;
-
+      state.data = data;
       state.blockCount++;
 
       // Check if the focused element is part of the block scope
@@ -456,6 +457,10 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
       if (state.blockCount === 0) {
         self.reset(true);
       }
+    };
+
+    this.isBlocking = function () {
+        return state.blocking;
     };
 
     this.message = function(value) {

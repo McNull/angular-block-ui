@@ -101,11 +101,13 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
       // before the block start, but not if the user has 
       // focused something else while the block was active.
 
-      if(self._restoreFocus && 
-         (!$document[0].activeElement || $document[0].activeElement === $body[0])) {
-        self._restoreFocus.focus();
-        self._restoreFocus = null;
-      }
+      $timeout(function () {
+        if(self._restoreFocus && 
+           (!$document[0].activeElement || $document[0].activeElement === $body[0])) {
+          self._restoreFocus.focus();
+          self._restoreFocus = null;
+        }
+      });
       
       try {
         if (executeCallbacks) {

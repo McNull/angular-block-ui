@@ -535,6 +535,7 @@ describe('block-ui-service', function() {
       expect($document[0].activeElement).not.toBe($input[0]);
 
       blockUI.stop();
+      $timeout.flush();
 
       expect($document[0].activeElement).toBe($input[0]);
     });
@@ -564,6 +565,7 @@ describe('block-ui-service', function() {
       expect($document[0].activeElement).not.toBe($input[0]);
 
       myInstance.stop();
+      $timeout.flush();
 
       expect($document[0].activeElement).toBe($input[0]);
 

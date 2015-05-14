@@ -458,6 +458,10 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
       }
     };
 
+    this.isBlocking = function () {
+        return state.blocking;
+    };
+
     this.message = function(value) {
       state.message = value;
     };
@@ -480,11 +484,13 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
       // before the block start, but not if the user has 
       // focused something else while the block was active.
 
-      if(self._restoreFocus && 
-         (!$document[0].activeElement || $document[0].activeElement === $body[0])) {
-        self._restoreFocus.focus();
-        self._restoreFocus = null;
-      }
+      $timeout(function () {
+        if(self._restoreFocus && 
+           (!$document[0].activeElement || $document[0].activeElement === $body[0])) {
+          self._restoreFocus.focus();
+          self._restoreFocus = null;
+        }
+      });
       
       try {
         if (executeCallbacks) {

@@ -103,7 +103,23 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
 
       if(self._restoreFocus && 
          (!$document[0].activeElement || $document[0].activeElement === $body[0])) {
-        self._restoreFocus.focus();
+
+        //IE8 will throw if element for setting focus is invisible
+        try {
+          self._restoreFocus.focus();
+        } catch(e1) {
+          (function () {
+              var elementToFocus = self._restoreFocus;
+              $timeout(function() { 
+                if(elementToFocus) { 
+                  try { 
+                    elementToFocus.focus(); 
+                  } catch(e2) { }
+              } 
+            },100);
+          })();
+        }
+
         self._restoreFocus = null;
       }
       

@@ -101,6 +101,9 @@ Queues a callback function to be called when the block has finished. This can be
 * **callback** (function)
 The callback function to queue.
 
+#### isBlocking
+Returns whether currently a block is shown for the instance or not.
+
 Blocking individual elements
 ============================
 

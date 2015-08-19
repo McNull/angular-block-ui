@@ -52,11 +52,15 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
         });
       }
 
-      if (!startPromise) {
-        startPromise = $timeout(function() {
-          startPromise = null;
-          state.blocking = true;
-        }, blockUIConfig.delay);
+      if (!startPromise && blockUIConfig.delay !== 0) {
+        startPromise = $timeout(block, blockUIConfig.delay);
+      } else if (blockUIConfig.delay === 0) {
+        block();
+      }
+
+      function block () {
+        startPromise = null;
+        state.blocking = true;
       }
     };
 

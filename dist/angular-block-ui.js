@@ -435,11 +435,15 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
         });
       }
 
-      if (!startPromise) {
-        startPromise = $timeout(function() {
-          startPromise = null;
-          state.blocking = true;
-        }, blockUIConfig.delay);
+      if (!startPromise && blockUIConfig.delay !== 0) {
+        startPromise = $timeout(block, blockUIConfig.delay);
+      } else if (blockUIConfig.delay === 0) {
+        block();
+      }
+
+      function block () {
+        startPromise = null;
+        state.blocking = true;
       }
     };
 
@@ -456,6 +460,10 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
       if (state.blockCount === 0) {
         self.reset(true);
       }
+    };
+
+    this.isBlocking = function () {
+        return state.blocking;
     };
 
     this.message = function(value) {

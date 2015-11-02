@@ -436,11 +436,15 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
         });
       }
 
-      if (!startPromise) {
-        startPromise = $timeout(function() {
-          startPromise = null;
-          state.blocking = true;
-        }, blockUIConfig.delay);
+      if (!startPromise && blockUIConfig.delay !== 0) {
+        startPromise = $timeout(block, blockUIConfig.delay);
+      } else if (blockUIConfig.delay === 0) {
+        block();
+      }
+
+      function block () {
+        startPromise = null;
+        state.blocking = true;
       }
     };
 
@@ -487,7 +491,23 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
 
       if(self._restoreFocus && 
          (!$document[0].activeElement || $document[0].activeElement === $body[0])) {
-        self._restoreFocus.focus();
+        
+        //IE8 will throw if element for setting focus is invisible
+        try {
+          self._restoreFocus.focus();
+        } catch(e1) {
+          (function () {
+              var elementToFocus = self._restoreFocus;
+              $timeout(function() { 
+                if(elementToFocus) { 
+                  try { 
+                    elementToFocus.focus(); 
+                  } catch(e2) { }
+              } 
+            },100);
+          })();
+        }
+        
         self._restoreFocus = null;
       }
       

@@ -429,7 +429,8 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
 
         $timeout(function() {
           // Ensure we still need to blur
-          if(self._restoreFocus) {
+          // Don't restore if active element is body, since this causes IE to switch windows (see http://tjvantoll.com/2013/08/30/bugs-with-document-activeelement-in-internet-explorer/)
+          if (self._restoreFocus && self._restoreFocus !== $body[0]) {
             self._restoreFocus.blur();
           }
         });

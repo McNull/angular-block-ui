@@ -1,12 +1,12 @@
-describe('block-ui-service', function() {
+describe('block-ui-service', function () {
 
   var blockUI, $document, blockUIConfig;
 
-  beforeEach(function() {
+  beforeEach(function () {
 
     module('blockUI');
 
-    beforeEach(function() {
+    beforeEach(function () {
       // $document = angular.element('<html><head></head><body></body></html>');
 
       // console.log($document[0]);
@@ -15,22 +15,22 @@ describe('block-ui-service', function() {
       // });
     });
 
-    inject(function(_blockUI_, _$document_, $rootScope, _blockUIConfig_) {
+    inject(function (_blockUI_, _$document_, $rootScope, _blockUIConfig_) {
       blockUI = _blockUI_;
       $document = _$document_;
       blockUIConfig = _blockUIConfig_;
-//      $rootScope.$apply();
+      //      $rootScope.$apply();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       $document.find('body').empty();
     });
 
   });
 
-  describe('construction', function() {
+  describe('construction', function () {
 
-    it('should create the service', function() {
+    it('should create the service', function () {
 
       expect(blockUI).toBeDefined();
       expect(blockUI).not.toBeNull();
@@ -38,7 +38,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should create main block-ui service with state', function() {
+    it('should create main block-ui service with state', function () {
 
       var state = blockUI.state();
 
@@ -51,9 +51,9 @@ describe('block-ui-service', function() {
 
   }); // construction
 
-  describe('instances', function() {
+  describe('instances', function () {
 
-    it('should create instances property', function() {
+    it('should create instances property', function () {
 
       var instances = blockUI.instances;
 
@@ -62,7 +62,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should set main block-ui instance property', function() {
+    it('should set main block-ui instance property', function () {
 
       var instances = blockUI.instances;
 
@@ -70,9 +70,9 @@ describe('block-ui-service', function() {
 
     });
 
-    describe('get', function() {
+    describe('get', function () {
 
-      it('should add new block-ui instance', function() {
+      it('should add new block-ui instance', function () {
 
         var instances = blockUI.instances;
         var result = instances.get('myId');
@@ -85,7 +85,7 @@ describe('block-ui-service', function() {
 
       });
 
-      it('should re-use existing instances', function() {
+      it('should re-use existing instances', function () {
 
         var instances = blockUI.instances;
         var result1 = instances.get('myId');
@@ -95,20 +95,20 @@ describe('block-ui-service', function() {
 
       });
 
-      it('should not allow numeric instance ids', function() {
+      it('should not allow numeric instance ids', function () {
 
         var idString = '123', idInt = 123;
         var idStringException, idIntException;
 
         try {
           blockUI.instances.get(idString);
-        } catch(ex) {
+        } catch (ex) {
           idStringException = ex;
         }
 
         try {
           blockUI.instances.get(idInt);
-        } catch(ex) {
+        } catch (ex) {
           idIntException = ex;
         }
 
@@ -119,9 +119,9 @@ describe('block-ui-service', function() {
 
     });
 
-    describe('release', function() {
+    describe('release', function () {
 
-      it('should _destroy the instance when there are no more references', function() {
+      it('should _destroy the instance when there are no more references', function () {
 
         spyOn(blockUI.instances, '_destroy').andCallThrough();
 
@@ -137,7 +137,7 @@ describe('block-ui-service', function() {
         expect(blockUI.instances._destroy).toHaveBeenCalled();
       });
 
-      it('should not _destroy the instance when there are references', function() {
+      it('should not _destroy the instance when there are references', function () {
 
         spyOn(blockUI.instances, '_destroy').andCallThrough();
 
@@ -154,14 +154,14 @@ describe('block-ui-service', function() {
 
     });
 
-    describe('_destroy', function() {
+    describe('_destroy', function () {
 
-      beforeEach(function() {
+      beforeEach(function () {
         blockUI.instances.length = 0;
         blockUI.instances.get('removeMe');
       });
 
-      it('should remove instance by id', function() {
+      it('should remove instance by id', function () {
 
         expect(blockUI.instances.removeMe).toBeDefined();
 
@@ -171,7 +171,7 @@ describe('block-ui-service', function() {
 
       });
 
-      it('should remove instance by instance', function() {
+      it('should remove instance by instance', function () {
 
         expect(blockUI.instances.removeMe).toBeDefined();
 
@@ -181,7 +181,7 @@ describe('block-ui-service', function() {
 
       });
 
-      it('should call reset on the removed instance', function() {
+      it('should call reset on the removed instance', function () {
 
         expect(blockUI.instances.length).toBe(1);
 
@@ -191,7 +191,7 @@ describe('block-ui-service', function() {
 
       });
 
-      it('should remove instance from the instance array', function() {
+      it('should remove instance from the instance array', function () {
 
         expect(blockUI.instances.length).toBe(1);
 
@@ -201,7 +201,7 @@ describe('block-ui-service', function() {
 
       });
 
-      it('should remove instance from the instance array (2)', function() {
+      it('should remove instance from the instance array (2)', function () {
 
         blockUI.instances.get('anotherOne');
         blockUI.instances.get('andAnotherOne');
@@ -215,27 +215,27 @@ describe('block-ui-service', function() {
       });
 
 
-//      it('should remove the instance from the instance array', function() {
-//
-//        var instance = blockUI.instances.removeMe;
-//
-//        expect(instance).toBeDefined();
-//
-//        spyOn(instance, 'reset');
-//
-//        blockUI.instances._destroy(instance);
-//
-//        expect(instance.reset).toHaveBeenCalled();
-//
-//      });
+      //      it('should remove the instance from the instance array', function() {
+      //
+      //        var instance = blockUI.instances.removeMe;
+      //
+      //        expect(instance).toBeDefined();
+      //
+      //        spyOn(instance, 'reset');
+      //
+      //        blockUI.instances._destroy(instance);
+      //
+      //        expect(instance.reset).toHaveBeenCalled();
+      //
+      //      });
 
 
 
     }); // _destroy
 
-    describe('locate', function() {
+    describe('locate', function () {
 
-      it('should return the main blockUI', function() {
+      it('should return the main blockUI', function () {
 
         var result = blockUI.instances.locate({
           url: '/api/quotes/123'
@@ -246,7 +246,7 @@ describe('block-ui-service', function() {
 
       });
 
-      it('should return the blockUI with the matching pattern', function() {
+      it('should return the blockUI with the matching pattern', function () {
 
         var myInstance = blockUI.instances.get('myInstance');
         myInstance.pattern(/^\/api\/quotes\/123/);
@@ -260,7 +260,7 @@ describe('block-ui-service', function() {
 
       });
 
-      it('should return multiple blockUI that match the pattern', function() {
+      it('should return multiple blockUI that match the pattern', function () {
 
         var myInstance1 = blockUI.instances.get('myInstance1');
         var myInstance2 = blockUI.instances.get('myInstance2');
@@ -279,7 +279,7 @@ describe('block-ui-service', function() {
 
       });
 
-      it('should return the main blockUI if none match the pattern', function() {
+      it('should return the main blockUI if none match the pattern', function () {
 
         var myInstance1 = blockUI.instances.get('myInstance1');
         var myInstance2 = blockUI.instances.get('myInstance2');
@@ -299,9 +299,9 @@ describe('block-ui-service', function() {
 
   }); // instances
 
-  describe('start', function() {
+  describe('start', function () {
 
-    it('should increase the block count', function() {
+    it('should increase the block count', function () {
 
       var state = blockUI.state();
 
@@ -315,7 +315,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should copy the default config message to the state if none is provided', function() {
+    it('should copy the default config message to the state if none is provided', function () {
 
       var state = blockUI.state();
 
@@ -325,7 +325,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should copy the provided message to the state', function() {
+    it('should copy the provided message to the state', function () {
 
       var customMessage = "My custom message ...";
       var state = blockUI.state();
@@ -336,7 +336,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should override the state message with the provided message', function() {
+    it('should override the state message with the provided message', function () {
 
       var customMessage = "My custom message ...";
       var state = blockUI.state();
@@ -348,7 +348,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should not revert back to default config message on active block if no message is provided', function() {
+    it('should not revert back to default config message on active block if no message is provided', function () {
 
       var customMessage = "My custom message ...";
       var state = blockUI.state();
@@ -360,7 +360,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should revert back to default config message after block has been stopped', function() {
+    it('should revert back to default config message after block has been stopped', function () {
 
       var customMessage = "My custom message ...";
       var state = blockUI.state();
@@ -374,40 +374,65 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should set the message from the provided message option property', function() {
-      
+    it('should set the message from the provided message option property', function () {
+
       var customMessage = "My custom message ...";
       var state = blockUI.state();
-      
+
       blockUI.start({
         message: customMessage
       });
-      
+
       expect(state.message).toBe(customMessage);
-      
+
     });
-    
-    it('should merge/extend custom properties', function() {
-      
-      var myOptions = {
-        data: {
-          prop: 'someValue'
-        }
-      };
-      
-      var state = blockUI.state();
-      
-      blockUI.start(myOptions);
-      
-      expect(state.data).toBe(myOptions.data);
-      
+
+    describe('extend/merge custom state properties', function () {
+
+      it('should merge/extend custom properties', function () {
+
+        var myOptions = {
+          data: {
+            prop: 'someValue'
+          }
+        };
+
+        var state = blockUI.state();
+
+        blockUI.start(myOptions);
+
+        expect(state.data).toBe(myOptions.data);
+
+      });
+
+      var reservedStateProperties = ['id', 'blockCount', 'blocking'];
+
+      angular.forEach(reservedStateProperties, function (x) {
+
+        it('should throw an exception when specifying the property ' + x + ' in the start options', function () {
+          var myOptions = {};
+          myOptions[x] = 'some value';
+            
+          var exception;
+
+          try {
+            blockUI.start(myOptions);
+          } catch (ex) {
+            exception = ex;
+          }
+
+          expect(exception).not.toBeUndefined();
+        });
+
+      });
+
     });
-    
+
   }); // start
 
-  describe('stop', function() {
+  describe('stop', function () {
 
-    it('should decrease the block count', function() {
+    it('should decrease the block count', function () {
 
       var state = blockUI.state();
 
@@ -423,7 +448,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should not decrease the block count < 0', function() {
+    it('should not decrease the block count < 0', function () {
 
       var state = blockUI.state();
 
@@ -435,7 +460,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should call reset when block count == 0', function() {
+    it('should call reset when block count == 0', function () {
 
       spyOn(blockUI, 'reset');
 
@@ -445,26 +470,26 @@ describe('block-ui-service', function() {
 
       blockUI.stop();
 
-      expect(blockUI.reset).toHaveBeenCalledWith(true /* executeCallbacks */ );
+      expect(blockUI.reset).toHaveBeenCalledWith(true /* executeCallbacks */);
 
     });
 
   }); // stop
 
-  describe('focus management', function() {
+  describe('focus management', function () {
 
     var $body, $timeout;
 
-    beforeEach(function() {
+    beforeEach(function () {
       $body = $document.find('body');
       $body.data('block-ui', blockUI);
 
-      inject(function(_$timeout_) {
+      inject(function (_$timeout_) {
         $timeout = _$timeout_;
       })
     });
 
-    it('should blur the focussed element if it is within the main block scope', function() {
+    it('should blur the focussed element if it is within the main block scope', function () {
 
       var $input = angular.element('<input/>');
       $body.append($input);
@@ -478,7 +503,7 @@ describe('block-ui-service', function() {
       expect($document[0].activeElement).not.toBe($input[0]);
     });
 
-    it('should blur the focussed element if it is a child of the main block scope', function() {
+    it('should blur the focussed element if it is a child of the main block scope', function () {
 
       // Create an instance with the _parent property set to the main block
 
@@ -487,7 +512,7 @@ describe('block-ui-service', function() {
 
       var $block = angular.element('<div><input/></div>');
       var $input = $block.find('input');
-      
+
       $body.append($block);
       $input[0].focus();
 
@@ -502,7 +527,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should blur the focussed element if it is within a block scope', function() {
+    it('should blur the focussed element if it is within a block scope', function () {
 
       // Create an instance with the _parent property set to the main block
 
@@ -511,7 +536,7 @@ describe('block-ui-service', function() {
 
       var $block = angular.element('<div><input/></div>');
       var $input = $block.find('input');
-      
+
       $body.append($block);
       $input[0].focus();
 
@@ -525,7 +550,7 @@ describe('block-ui-service', function() {
       expect($document[0].activeElement).not.toBe($input[0]);
     });
 
-    it('should NOT blur the focussed element if it is NOT within a block scope', function() {
+    it('should NOT blur the focussed element if it is NOT within a block scope', function () {
 
       // Create an instance with the _parent property set to the main block
 
@@ -534,7 +559,7 @@ describe('block-ui-service', function() {
 
       var $block = angular.element('<div></div>');
       var $input = angular.element('<input/>');
-      
+
       $body.append($block);
       $body.append($input);
 
@@ -550,14 +575,14 @@ describe('block-ui-service', function() {
       expect($document[0].activeElement).toBe($input[0]);
     });
 
-    it('should restore focus when the main block has finished', function() {
+    it('should restore focus when the main block has finished', function () {
 
       var $input = angular.element('<input/>');
       $body.append($input);
       $input[0].focus();
 
       expect($document[0].activeElement).toBe($input[0]);
-      
+
       blockUI.start();
       $timeout.flush();
 
@@ -568,7 +593,7 @@ describe('block-ui-service', function() {
       expect($document[0].activeElement).toBe($input[0]);
     });
 
-    it('should restore focus when the child block has finished', function() {
+    it('should restore focus when the child block has finished', function () {
 
       // Create an instance with the _parent property set to the main block
 
@@ -577,7 +602,7 @@ describe('block-ui-service', function() {
 
       var $block = angular.element('<div><input/></div>');
       var $input = $block.find('input');
-      
+
       $body.append($block);
       $input[0].focus();
 
@@ -586,10 +611,10 @@ describe('block-ui-service', function() {
       $input[0].focus();
 
       expect($document[0].activeElement).toBe($input[0]);
-      
+
       myInstance.start();
       $timeout.flush();
-      
+
       expect($document[0].activeElement).not.toBe($input[0]);
 
       myInstance.stop();
@@ -598,7 +623,7 @@ describe('block-ui-service', function() {
 
     });
 
-    it('should NOT restore focus when the focus has changed', function() {
+    it('should NOT restore focus when the focus has changed', function () {
 
       // Create an instance with the _parent property set to the main block
 
@@ -609,7 +634,7 @@ describe('block-ui-service', function() {
       $block.data('block-ui', myInstance);
 
       var $input = $block.find('input');
-      
+
       $body.append($block);
 
       var $otherInput = angular.element('<input/>');

@@ -1,7 +1,10 @@
 blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $document) {
 
   var $body = $document.find('body');
-
+  
+  // These properties are not allowed to be specified in the start method.
+  var reservedStateProperties = ['id', 'blockCount', 'blocking'];
+  
   function BlockUI(id) {
 
     var self = this;
@@ -25,6 +28,12 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
         messageOrOptions = {
           message: messageOrOptions
         };
+      } else {
+        angular.forEach(reservedStateProperties, function(x) {
+          if(messageOrOptions[x]) {
+            throw new Error('The property ' + x + ' is reserved for the block state.');
+          }
+        });
       } 
       
       angular.extend(state, messageOrOptions);

@@ -92,7 +92,7 @@ gulp.task('dist-clean', function () {
 gulp.task('dist', ['dist-clean', 'angular-block-ui', 'test-run'], function () {
 
   var destGlob = path.join(config.folders.dest, 'angular-block-ui/**/*');
-  return gulp.src([ destGlob, 'README.md', '!**/angular-block-ui-templates.js' ])
+  return gulp.src([ destGlob, 'README.md', 'LICENSE', '!**/angular-block-ui-templates.js' ])
     .pipe(gulp.dest('dist'));
 
 });

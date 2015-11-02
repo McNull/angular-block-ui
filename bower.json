@@ -32,13 +32,13 @@
     "dist/angular-block-ui.css"
   ],
   "dependencies": {
-    "angular": "~1.2.26"
+    "angular": "~1"
   },
   "devDependencies": {
-    "angular-route": "~1.2.26",
-    "angular-resource": "~1.2.26",
-    "angular-mocks": "~1.2.26",
-    "angular-animate": "1.2.26",
+    "angular-route": "~1",
+    "angular-resource": "~1",
+    "angular-mocks": "~1",
+    "angular-animate": "~1",
     "angular-inform": "~0.0.8",
     "angular-response-lag": "~0.0.1",
     "bootstrap": "~3.2.0",
@@ -48,7 +48,7 @@
     "showdown": "~0.3.1",
     "animate.css": "~3.2.0",
     "angular-markdown-text": "~0.0.2",
-    "angular-sanitize": "1.2.26"
+    "angular-sanitize": "~1"
   },
   "overrides": {
     "respond": {
@@ -62,6 +62,6 @@
     }
   },
   "resolutions": {
-    "angular": "1.2.29"
+    "angular": "~1"
   }
 }

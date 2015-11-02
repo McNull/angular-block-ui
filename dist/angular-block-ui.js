@@ -384,7 +384,10 @@ blkUI.factory('blockUIHttpInterceptor', ["$q", "$injector", "blockUIConfig", "$t
 blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$document", function(blockUIConfig, $timeout, blockUIUtils, $document) {
 
   var $body = $document.find('body');
-
+  
+  // These properties are not allowed to be specified in the start method.
+  var reservedStateProperties = ['id', 'blockCount', 'blocking'];
+  
   function BlockUI(id) {
 
     var self = this;
@@ -400,15 +403,37 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
 
     this._refs = 0;
 
-    this.start = function(message) {
-
-      if(state.blockCount > 0) {
-        message = message || state.message || blockUIConfig.message;
+    this.start = function(messageOrOptions) {
+      
+      messageOrOptions = messageOrOptions || {};
+      
+      if(angular.isString(messageOrOptions)) {
+        messageOrOptions = {
+          message: messageOrOptions
+        };
       } else {
-        message = message || blockUIConfig.message;
+        angular.forEach(reservedStateProperties, function(x) {
+          if(messageOrOptions[x]) {
+            throw new Error('The property ' + x + ' is reserved for the block state.');
+          }
+        });
+      } 
+      
+      angular.extend(state, messageOrOptions);
+      
+      if(state.blockCount > 0) {
+        state.message = messageOrOptions.message || state.message || blockUIConfig.message;
+      } else {
+        state.message = messageOrOptions.message || blockUIConfig.message;
       }
+      
+      // if(state.blockCount > 0) {
+      //   messageOrOptions = messageOrOptions || state.message || blockUIConfig.message;
+      // } else {
+      //   messageOrOptions = messageOrOptions || blockUIConfig.message;
+      // }
 
-      state.message = message;
+      // state.message = messageOrOptions;
 
       state.blockCount++;
 

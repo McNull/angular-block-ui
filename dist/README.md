@@ -81,9 +81,19 @@ The start method will start the user interface block. Because multiple user inte
 
 **Arguments:**
 
-* **message** (string)
-Indicates the message to be shown in the overlay. If none is provided, the default message from the configuration is used.
+* **messageOrOptions** | (string or object) | Either supply the message (string) to be show in the overlay or specify an object (see below) that will be merged/extended into the block ui instance state. If no argument is specified the default text message from the configuration is used.
 
+```
+blockUI.start('My loading message ...'); // Start the block with the custom text message
+```
+
+```
+blockUI.start({
+  message: 'My loading message',  // Text message to display
+  myProperty: 'My value'          // Any custom property that should be available in the template.
+                                  // See the template configuration for more info.
+});
+```
 #### stop
 This will decrease the block count. The block will end if the count is 0.
 
@@ -178,6 +188,14 @@ Specifies a custom template to use as the overlay.
 
     // Provide a custom template to use
     blockUIConfig.template = '<pre><code>{{ state | json }}</code></pre>';
+    
+Any custom properties provided to the `start` method of the blockUI instance can be accessed via the `state` object. For example:
+
+	// Start a block with custom property values
+    blockUI.start({ myProperty: 'My value' });
+    
+    // Display the property value in the custom template.
+    blockUIConfig.template = '<div>{{ state.myProperty }}</div>';
 
 #### templateUrl
 Specifies a url to retrieve the template from. *The current release only works with pre-cached templates, which means that this url should be known in the $templateCache service of Angular. If you're using the grunt with html2js or angular-templates, which I highly recommend, you're already set.*

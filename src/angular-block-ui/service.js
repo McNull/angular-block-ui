@@ -17,15 +17,31 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
 
     this._refs = 0;
 
-    this.start = function(message) {
-
+    this.start = function(messageOrOptions) {
+      
+      messageOrOptions = messageOrOptions || {};
+      
+      if(angular.isString(messageOrOptions)) {
+        messageOrOptions = {
+          message: messageOrOptions
+        };
+      } 
+      
+      angular.extend(state, messageOrOptions);
+      
       if(state.blockCount > 0) {
-        message = message || state.message || blockUIConfig.message;
+        state.message = messageOrOptions.message || state.message || blockUIConfig.message;
       } else {
-        message = message || blockUIConfig.message;
+        state.message = messageOrOptions.message || blockUIConfig.message;
       }
+      
+      // if(state.blockCount > 0) {
+      //   messageOrOptions = messageOrOptions || state.message || blockUIConfig.message;
+      // } else {
+      //   messageOrOptions = messageOrOptions || blockUIConfig.message;
+      // }
 
-      state.message = message;
+      // state.message = messageOrOptions;
 
       state.blockCount++;
 

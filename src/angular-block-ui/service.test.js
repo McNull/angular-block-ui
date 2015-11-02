@@ -374,6 +374,35 @@ describe('block-ui-service', function() {
 
     });
 
+    it('should set the message from the provided message option property', function() {
+      
+      var customMessage = "My custom message ...";
+      var state = blockUI.state();
+      
+      blockUI.start({
+        message: customMessage
+      });
+      
+      expect(state.message).toBe(customMessage);
+      
+    });
+    
+    it('should merge/extend custom properties', function() {
+      
+      var myOptions = {
+        data: {
+          prop: 'someValue'
+        }
+      };
+      
+      var state = blockUI.state();
+      
+      blockUI.start(myOptions);
+      
+      expect(state.data).toBe(myOptions.data);
+      
+    });
+    
   }); // start
 
   describe('stop', function() {

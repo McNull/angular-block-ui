@@ -606,6 +606,5 @@ describe('block-ui-service', function() {
       expect($document[0].activeElement).toBe($otherInput[0]);
 
     });
-
   }); // focus management
 });

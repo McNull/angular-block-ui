@@ -1,20 +1,20 @@
-describe('block-ui-directive', function() {
+describe('block-ui-directive', function () {
 
   var $ = angular.element, $attrs = {
-    $observe: function(key, cb) {
-      $scope.$watch(function() {
+    $observe: function (key, cb) {
+      $scope.$watch(function () {
         return $attrs[key];
-      }, function(value) {
+      }, function (value) {
         cb(value);
       });
 
     }
   }, $compile, $scope, blockUI, $timeout, config, configCopy, preLinkFn, postLinkFn, compileFn;
 
-  beforeEach(function() {
+  beforeEach(function () {
     module('blockUI');
 
-    inject(function(_blockUI_, _$timeout_, _$rootScope_, _$compile_, blockUIConfig, blockUiPreLinkFn, /*blockUiPostLinkFn,*/ blockUiCompileFn) {
+    inject(function (_blockUI_, _$timeout_, _$rootScope_, _$compile_, blockUIConfig, blockUiPreLinkFn, /*blockUiPostLinkFn,*/ blockUiCompileFn) {
 
       blockUI = _blockUI_;
       $timeout = _$timeout_;
@@ -22,7 +22,7 @@ describe('block-ui-directive', function() {
       $scope = _$rootScope_.$new();
       config = blockUIConfig;
       preLinkFn = blockUiPreLinkFn;
-//      postLinkFn = blockUiPostLinkFn;
+      //      postLinkFn = blockUiPostLinkFn;
       compileFn = blockUiCompileFn;
 
     });
@@ -30,14 +30,14 @@ describe('block-ui-directive', function() {
     configCopy = angular.copy(config, configCopy);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     // Reset the config back to its original settings
     config = angular.copy(configCopy, config);
   });
 
-  describe('compile', function() {
+  describe('compile', function () {
 
-    it('should append block-ui-container element', function() {
+    it('should append block-ui-container element', function () {
 
       var $element = $('<div></div>');
 
@@ -48,7 +48,7 @@ describe('block-ui-directive', function() {
       expect(child.attributes['block-ui-container']).toBeDefined();
     });
 
-    it('should compile the directive', function() {
+    it('should compile the directive', function () {
 
       var $element = $('<div block-ui></div>');
 
@@ -60,11 +60,11 @@ describe('block-ui-directive', function() {
 
   });
 
-  describe('pre-link', function() {
+  describe('pre-link', function () {
 
-    describe('element css class', function() {
+    describe('element css class', function () {
 
-      it('should apply the default classes from the config', function() {
+      it('should apply the default classes from the config', function () {
 
         var $element = $('<div></div>');
         config.cssClass = 'my-first-class my-second-class';
@@ -77,7 +77,7 @@ describe('block-ui-directive', function() {
 
       });
 
-      it('should noy apply the default classes from the config if block-ui class already set', function() {
+      it('should noy apply the default classes from the config if block-ui class already set', function () {
 
         var $element = $('<div class="block-ui my-other-class"></div>');
         config.cssClass = 'my-first-class my-second-class';
@@ -93,9 +93,9 @@ describe('block-ui-directive', function() {
     });
 
 
-    describe('block-ui service instance', function() {
+    describe('block-ui service instance', function () {
 
-      it('should create set the service instance as data on the element', function() {
+      it('should create set the service instance as data on the element', function () {
 
         var $element = $('<div></div>');
 
@@ -107,7 +107,7 @@ describe('block-ui-directive', function() {
 
       });
 
-      it('should use scope id when no id is provided', function() {
+      it('should use scope id when no id is provided', function () {
 
         // Prefix underscore to prevent integers:
         // https://github.com/McNull/angular-block-ui/pull/8
@@ -121,7 +121,7 @@ describe('block-ui-directive', function() {
         expect(blockUI.instances[expectedId]).toBeDefined();
       });
 
-      it('should use the provided service instance', function() {
+      it('should use the provided service instance', function () {
 
         var $element = $('<div></div>');
 
@@ -138,9 +138,9 @@ describe('block-ui-directive', function() {
 
     }); // block-ui service instance
 
-    describe('parent block-ui service', function() {
+    describe('parent block-ui service', function () {
 
-      it('should set the _parent property of the instance to the parent instance', function() {
+      it('should set the _parent property of the instance to the parent instance', function () {
 
         // arrange
 
@@ -167,20 +167,20 @@ describe('block-ui-directive', function() {
 
     }); // parent block-ui service
 
-    describe('service reference count', function() {
+    describe('service reference count', function () {
 
       var instanceName = 'myInstance';
       var instance;
 
-      beforeEach(function() {
+      beforeEach(function () {
         instance = blockUI.instances.get(instanceName);
       });
 
-      afterEach(function() {
+      afterEach(function () {
         blockUI.instances._destroy(instance);
       });
 
-      it('should increase the reference count of the service', function() {
+      it('should increase the reference count of the service', function () {
 
         expect(instance._refs).toBe(0);
 
@@ -193,7 +193,7 @@ describe('block-ui-directive', function() {
 
       });
 
-      it('should release the instance when the scope is destroyed', function() {
+      it('should release the instance when the scope is destroyed', function () {
 
         var $element = $('<div></div>');
         $attrs.blockUi = instanceName;
@@ -213,9 +213,9 @@ describe('block-ui-directive', function() {
 
     }); // service reference count
 
-    describe('pattern', function() {
+    describe('pattern', function () {
 
-      it('should create regexp instance', function() {
+      it('should create regexp instance', function () {
 
         var $element = $('<div></div>');
         var pattern = '^\/api\/quote($|\/).*';
@@ -235,39 +235,39 @@ describe('block-ui-directive', function() {
     }); // pattern
 
 
-    describe('block-ui-message-class', function() {
+    // describe('block-ui-message-class', function() {
 
-      it('should expose the block-ui-message-class attribute value on the scope', function() {
+    //   it('should expose the block-ui-message-class attribute value on the scope', function() {
 
-        var $element = $('<div></div>');
-        $attrs.blockUiMessageClass = 'my-class';
+    //     var $element = $('<div></div>');
+    //     $attrs.blockUiMessageClass = 'my-class';
 
-        preLinkFn($scope, $element, $attrs);
-        $scope.$digest();
+    //     preLinkFn($scope, $element, $attrs);
+    //     $scope.$digest();
 
-        expect($scope.$_blockUiMessageClass).toBe($attrs.blockUiMessageClass);
+    //     expect($scope.$_blockUiMessageClass).toBe($attrs.blockUiMessageClass);
 
-      });
+    //   });
 
-      it('should observe the block-ui-message-class attribute value', function() {
+    //   it('should observe the block-ui-message-class attribute value', function() {
 
-        var $element = $('<div></div>');
+    //     var $element = $('<div></div>');
 
-        preLinkFn($scope, $element, $attrs);
-        $scope.$digest();
+    //     preLinkFn($scope, $element, $attrs);
+    //     $scope.$digest();
 
-        $attrs.blockUiMessageClass = 'my-class';
-        $scope.$digest();
+    //     $attrs.blockUiMessageClass = 'my-class';
+    //     $scope.$digest();
 
-        expect($scope.$_blockUiMessageClass).toBe($attrs.blockUiMessageClass);
+    //     expect($scope.$_blockUiMessageClass).toBe($attrs.blockUiMessageClass);
 
-      });
+    //   });
 
-    });
+    // });
 
-    describe('block ui state', function() {
+    describe('block ui state', function () {
 
-      it('should expose the state on the scope', function() {
+      it('should expose the state on the scope', function () {
 
         var $element = $('<div></div>');
         var instance = blockUI.instances.get('my-instance');
@@ -281,7 +281,112 @@ describe('block-ui-directive', function() {
 
       });
 
-      it('should set aria-busy to true when block is visible', function() {
+      describe('block-ui-active events', function () {
+
+        it('should broadcast start event', function () {
+
+          var eventArgs, callCount = 0;
+          $scope.$on('block-ui-active-start', function (event, args) {
+            eventArgs = args;
+            callCount += 1;
+          });
+
+          var $element = $('<div></div>');
+          $attrs.blockUi = 'myInstance';
+          
+          preLinkFn($scope, $element, $attrs);
+          $scope.$digest();
+          
+          $scope.$_blockUiState.blockCount = 1;
+          $scope.$digest();          
+
+          expect(callCount).toBe(1);
+          expect(eventArgs).not.toBeUndefined();
+          expect(eventArgs.element).toBe($element);
+          expect(eventArgs.instance._id).toBe('myInstance');
+        });
+        
+        it('should broadcast end event', function () {
+
+          var eventArgs, callCount = 0;
+          $scope.$on('block-ui-active-end', function (event, args) {
+            eventArgs = args;
+            callCount += 1;
+          });
+
+          var $element = $('<div></div>');
+          $attrs.blockUi = 'myInstance';
+          
+          preLinkFn($scope, $element, $attrs);
+          $scope.$digest();
+          
+          $scope.$_blockUiState.blockCount = 1;
+          $scope.$digest(); // Will trigger start
+          
+          $scope.$_blockUiState.blockCount = 0;
+          $scope.$digest(); // Will trigger end
+                    
+          expect(callCount).toBe(1);
+          expect(eventArgs).not.toBeUndefined();
+          expect(eventArgs.element).toBe($element);
+          expect(eventArgs.instance._id).toBe('myInstance');
+        });
+      });
+
+
+      describe('block-ui-visible events', function () {
+
+        it('should broadcast start event', function () {
+
+          var eventArgs, callCount = 0;
+          $scope.$on('block-ui-visible-start', function (event, args) {
+            eventArgs = args;
+            callCount += 1;
+          });
+
+          var $element = $('<div></div>');
+          $attrs.blockUi = 'myInstance';
+          
+          preLinkFn($scope, $element, $attrs);
+          $scope.$digest();
+          
+          $scope.$_blockUiState.blocking = true;
+          $scope.$digest();          
+
+          expect(callCount).toBe(1);
+          expect(eventArgs).not.toBeUndefined();
+          expect(eventArgs.element).toBe($element);
+          expect(eventArgs.instance._id).toBe('myInstance');
+        });
+        
+        it('should broadcast end event', function () {
+
+          var eventArgs, callCount = 0;
+          $scope.$on('block-ui-visible-end', function (event, args) {
+            eventArgs = args;
+            callCount += 1;
+          });
+
+          var $element = $('<div></div>');
+          $attrs.blockUi = 'myInstance';
+          
+          preLinkFn($scope, $element, $attrs);
+          $scope.$digest();
+          
+          $scope.$_blockUiState.blocking = true;
+          $scope.$digest(); // Will trigger start
+          
+          $scope.$_blockUiState.blocking = false;
+          $scope.$digest(); // Will trigger end
+                    
+          expect(callCount).toBe(1);
+          expect(eventArgs).not.toBeUndefined();
+          expect(eventArgs.element).toBe($element);
+          expect(eventArgs.instance._id).toBe('myInstance');
+        });
+      });
+
+      it('should set aria-busy to true when block is visible', function () {
 
         var blockInstance = blockUI.instances.get('myInstance');
         var $element = $('<div></div>');
@@ -301,7 +406,7 @@ describe('block-ui-directive', function() {
         expect($element.attr('aria-busy')).toBe('false');
       });
 
-      it('should set block-ui-visible class when block is visible', function() {
+      it('should set block-ui-visible class when block is visible', function () {
 
         var blockInstance = blockUI.instances.get('myInstance');
         var $element = $('<div></div>');
@@ -322,7 +427,7 @@ describe('block-ui-directive', function() {
 
       });
 
-      it('should set block-ui-active class when blocking', function() {
+      it('should set block-ui-active class when blocking', function () {
 
         var blockInstance = blockUI.instances.get('myInstance');
         var $element = $('<div></div>');
@@ -345,65 +450,65 @@ describe('block-ui-directive', function() {
 
   }); // pre-link
 
-//  describe('post-link', function() {
-//
-//    describe('block-ui-message-class', function() {
-//
-//      it('should add css classes to the .block-ui-message element', function() {
-//
-//        // Arrange
-//
-//        //  <div block-ui>
-//        //    <div class="block-ui-message"></div>
-//        //  </div>
-//
-//        var messageClass = 'my-message-class';
-//        var $blockUi = $('<div block-ui></div>');
-//        var $message = $('<div class="block-ui-message"></div>');
-//
-//        $blockUi.append($message);
-//
-//        $attrs.blockUiMessageClass = messageClass;
-//
-//        // Act
-//
-//        postLinkFn($scope, $blockUi, $attrs);
-//        $scope.$digest();
-//
-//        // Assert
-//
-//        expect($message.hasClass(messageClass)).toBe(true);
-//
-//      });
-//
-//      it('should add css classes to the correct .block-ui-message element', function() {
-//
-//        // Arrange
-//
-//        //  <div block-ui>
-//        //    <div class="block-ui-message"></div>
-//        //  </div>
-//
-//        var messageClass = 'my-message-class';
-//        var $blockUi = $('<div block-ui></div>');
-//        var $message = $('<div class="block-ui-message"></div>');
-//
-//        $blockUi.append($message);
-//
-//        $attrs.blockUiMessageClass = messageClass;
-//
-//        // Act
-//
-//        postLinkFn($scope, $blockUi, $attrs);
-//        $scope.$digest();
-//
-//        // Assert
-//
-//        expect($message.hasClass(messageClass)).toBe(true);
-//
-//      });
-//    });
-//
-//
-//  });
+  //  describe('post-link', function() {
+  //
+  //    describe('block-ui-message-class', function() {
+  //
+  //      it('should add css classes to the .block-ui-message element', function() {
+  //
+  //        // Arrange
+  //
+  //        //  <div block-ui>
+  //        //    <div class="block-ui-message"></div>
+  //        //  </div>
+  //
+  //        var messageClass = 'my-message-class';
+  //        var $blockUi = $('<div block-ui></div>');
+  //        var $message = $('<div class="block-ui-message"></div>');
+  //
+  //        $blockUi.append($message);
+  //
+  //        $attrs.blockUiMessageClass = messageClass;
+  //
+  //        // Act
+  //
+  //        postLinkFn($scope, $blockUi, $attrs);
+  //        $scope.$digest();
+  //
+  //        // Assert
+  //
+  //        expect($message.hasClass(messageClass)).toBe(true);
+  //
+  //      });
+  //
+  //      it('should add css classes to the correct .block-ui-message element', function() {
+  //
+  //        // Arrange
+  //
+  //        //  <div block-ui>
+  //        //    <div class="block-ui-message"></div>
+  //        //  </div>
+  //
+  //        var messageClass = 'my-message-class';
+  //        var $blockUi = $('<div block-ui></div>');
+  //        var $message = $('<div class="block-ui-message"></div>');
+  //
+  //        $blockUi.append($message);
+  //
+  //        $attrs.blockUiMessageClass = messageClass;
+  //
+  //        // Act
+  //
+  //        postLinkFn($scope, $blockUi, $attrs);
+  //        $scope.$digest();
+  //
+  //        // Assert
+  //
+  //        expect($message.hasClass(messageClass)).toBe(true);
+  //
+  //      });
+  //    });
+  //
+  //
+  //  });
 });

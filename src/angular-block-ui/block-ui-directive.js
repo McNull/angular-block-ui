@@ -20,7 +20,7 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
 
   };
 
-}).factory('blockUiPreLinkFn', function (blockUI, blockUIUtils, blockUIConfig) {
+}).factory('blockUiPreLinkFn', function (blockUI, blockUIUtils, blockUIConfig, $rootScope) {
 
   return function ($scope, $element, $attrs) {
 
@@ -31,11 +31,11 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
       $element.addClass(blockUIConfig.cssClass);
     }
 
-    // Expose the blockUiMessageClass attribute value on the scope
-
-    $attrs.$observe('blockUiMessageClass', function (value) {
-      $scope.$_blockUiMessageClass = value;
-    });
+    //     // Expose the blockUiMessageClass attribute value on the scope
+    // 
+    //     $attrs.$observe('blockUiMessageClass', function (value) {
+    //       $scope.$_blockUiMessageClass = value;
+    //     });
 
     // Create the blockUI instance
     // Prefix underscore to prevent integers:
@@ -73,14 +73,33 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
 
     $scope.$_blockUiState = srvInstance.state();
 
-    $scope.$watch('$_blockUiState.blocking', function (value) {
+    $scope.$watch('$_blockUiState.blocking', function (value, prevValue) {
       // Set the aria-busy attribute if needed
       $element.attr('aria-busy', !!value);
       $element.toggleClass('block-ui-visible', !!value);
+
+      if (value !== prevValue) {
+        var event = 'block-ui-visible-' + (value ? 'start' : 'end');
+
+        $rootScope.$broadcast(event, {
+          instance: srvInstance,
+          element: $element
+        });
+      }
+
     });
 
-    $scope.$watch('$_blockUiState.blockCount > 0', function (value) {
+    $scope.$watch('$_blockUiState.blockCount > 0', function (value, prevValue) {
       $element.toggleClass('block-ui-active', !!value);
+
+      if (value !== prevValue) {
+        var event = 'block-ui-active-' + (value ? 'start' : 'end');
+
+        $rootScope.$broadcast(event, {
+          instance: srvInstance,
+          element: $element
+        });
+      }
     });
 
     // If a pattern is provided assign it to the state

@@ -2,11 +2,16 @@
 <html ng-app="myApp">
 
 <head>
-  <link data-require="bootstrap-css@*" data-semver="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
-  <link data-require="animate.css@*" data-semver="3.2.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css" />
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <link data-require="bootstrap-css@*" data-semver="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"
+  />
+  <link data-require="animate.css@*" data-semver="3.2.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css"
+  />
   <script data-require="angular.js@1.4.7" data-semver="1.4.7" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
-  <script src="https://cdn.rawgit.com/McNull/angular-block-ui/v0.2.1/dist/angular-block-ui.js"></script>
-  <link rel="stylesheet" href="https://cdn.rawgit.com/McNull/angular-block-ui/v0.2.1/dist/angular-block-ui.css" />
+  <!--<script src="https://cdn.rawgit.com/McNull/angular-block-ui/v0.2.1/dist/angular-block-ui.js"></script>-->
+  <script src="/dest/angular-block-ui/angular-block-ui.js"></script>
+  <!--<link rel="stylesheet" href="https://cdn.rawgit.com/McNull/angular-block-ui/v0.2.1/dist/angular-block-ui.css" />-->
+  <link rel="stylesheet" href="/dest/angular-block-ui/angular-block-ui.css">
   <link rel="stylesheet" href="style.css" />
   <script src="script.js"></script>
 </head>
@@ -16,7 +21,7 @@
 
 
     <!--<div block-ui="animateCssTest" block-ui-message-class="animated infinite {{ animateCss.selected.name }}">-->
-      <div block-ui="animateCssTest">
+    <div block-ui="animateCssTest">
       <div class="jumbotron">
         <h1>angular-block-ui</h1>
         <p>This example shows how to apply animations from animation.css to the block element.</p>
@@ -26,13 +31,24 @@
 
     <form>
       <div class="form-group">
-        <label>Animation</label>
-        <select class="form-control" ng-options="animation.name group by animation.group for animation in animateCss.options" ng-model="animateCss.selected"></select>
+        <label>Block Start</label>
+        <select class="form-control" ng-options="animation.name group by animation.group for animation in animateCss.options" ng-model="animateCss.blockStart"></select>
       </div>
-      
+
+      <div class="form-group">
+        <label>Block End</label>
+        <select class="form-control" ng-options="animation.name group by animation.group for animation in animateCss.options" ng-model="animateCss.blockEnd"></select>
+      </div>
+
       <button class="btn btn-primary" ng-click="toggleBlock()">Toggle Block</button>
     </form>
+
+    <!--<pre><code>{{ animateCss.blockStart  | json }}</code></pre>
+    <pre><code>{{ animateCss.blockEnd | json }}</code></pre>-->
+
   </div>
+
+
 </body>
 
 </html>

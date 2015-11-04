@@ -1,66 +1,191 @@
 // Code goes here
 
-var app = angular.module('myApp', ['blockUI']);
+var animations = angular.module('blockUIAnim', ['blockUI']);
 
+animations.config(function (blockUIConfig) {
+  blockUIConfig.animations = {
+    enabled: true,
+    start: 'flipInX',
+    end: 'flipOutY'
+  };
+});
 
+animations.directive('blockUiAnim', function (blockUIConfig, $timeout) {
 
-app.controller('AnimationController', function ($scope, $timeout, animationNames, blockUI) {
+  // function singleOrDefault(arr, predicate) {
+  //   for (var i = 0; i < arr.length; i++) {
+  //     var a = arr[i];
+  //     if (predicate(a, i)) {
+  //       return a;
+  //     }
+  //   }
+  // }
 
-  var animationBlockStart = "zoomIn", animationBlockEnd = "zoomOut";
-  var currentAnimation;
+  // function locateChildElement($parent, className) {
+  //   return angular.element(singleOrDefault($parent.children(), function (x) {
+  //     var classes = x.className.split(' ');
+  //     for (var i = 0; i < classes.length; i++) {
+  //       if (classes[i] == className) {
+  //         return true;
+  //       }
+  //     }
+  //   }));
+  // }
 
-  var $messageElement;
-  
-  function setAnimation(element, animation) {
-    if (!$messageElement) {
-      $messageElement = element.find('> .block-ui-container .block-ui-message');
-      $messageElement.addClass('animated');
+  // function applyVendorCss($element, property, value) {
+  //   $element.css('-webkit-' + property, value);
+  //   $element.css('-moz-' + property, value);
+  //   $element.css('-ms-' + property, value);
+  //   $element.css(property, value);
+  // }
+
+  function getChild(parent, selector) {
+    var child, needsId = !parent.id;
+
+    if (needsId) {
+      parent.id = 'TEMPID____' + (new Date()).getTime();
     }
 
-    if (currentAnimation) {
-      $messageElement.removeClass(currentAnimation);
+    child = document.querySelector('#' + parent.id + ' ' + selector);
+
+    if (needsId) {
+      parent.id = '';
     }
 
-    currentAnimation = animation;
-    $messageElement.addClass(currentAnimation);
+    return child;
   }
 
-  $scope.$on('block-ui-visible-start', function (event, args) {
+  return {
+    restrict: 'A',
+    priority: -100,
+    link: function ($scope, $element, $attrs) {
 
-    if (args.instance._id === 'animateCssTest') {
-      setAnimation(args.element, $scope.animateCss.blockStart.name);
+      if (document.querySelector) {
+
+        var instance = $element.data('block-ui'), $message, currentClass, settings = angular.copy(blockUIConfig.animations);
+
+        function setAnimation(source, animClass) {
+          if (source === instance) {
+              $message = $message || angular.element(getChild($element[0], '> .block-ui-container .block-ui-message'));
+              $message.removeClass(currentClass);
+              $message.addClass(animClass);
+              currentClass = animClass;
+            }
+        }
+        
+        if (instance) {
+          $scope.$on('block-ui-visible-start', function (e, args) {
+            setAnimation(args.instance, settings.start);
+          });
+
+          $scope.$on('block-ui-visible-end', function (e, args) {
+            setAnimation(args.instance, settings.end);
+          });
+          
+          $attrs.$observe('blockUiAnimStart', function(value) {
+            settings.start = value;
+          });
+          
+          $attrs.$observe('blockUiAnimEnd', function(value) {
+            settings.end = value;
+          });
+        }
+        
+        
+        
+      }
+      
+      // var settings = angular.copy(blockUIConfig.animations);
+
+      // function apply() {
+
+      //   var $blockUiContainer = locateChildElement($element, 'block-ui-container');
+      //   var $messageContainer = locateChildElement($blockUiContainer, 'block-ui-message-container');
+      //   var $message = locateChildElement($messageContainer, 'block-ui-message');
+
+      //   // console.log('Applying', settings);
+
+      //   // var duration = settings.duration + 'ms';
+
+      //   // var containerTransition = 'height 0s linear ' + duration + ', opacity ' + duration + ' ease 0s';
+
+      //   // applyVendorCss($blockUiContainer, 'transition', containerTransition);
+      //   // applyVendorCss($message, 'animation-duration', duration);
+      // }
+
+      // var applyInQueue;
+      // function queueApply() {
+      //   if (!applyInQueue) {
+      //     applyInQueue = $timeout(function () {
+      //       apply();
+      //       applyInQueue = null;
+      //     });
+      //   }
+      // }
+
+
+      // // $attrs.$observe('blockUiAnim', function (value, prevValue) {
+      // //   settings.enabled = value !== 'false';
+      // //   queueApply();
+      // // });
+
+      // // $attrs.$observe('blockUiAnimDuration', function (value, prevValue) {
+      // //   settings.duration = parseInt(value);
+      // //   queueApply();
+      // // });
+
+
+      // queueApply();
     }
+  };
+});
 
-  });
+var app = angular.module('myApp', ['blockUI', 'blockUIAnim']);
 
-  $scope.$on('block-ui-visible-end', function (event, args) {
+app.config(function (blockUIConfig) {
+  //
+});
 
-    if (args.instance._id === 'animateCssTest') {
-      setAnimation(args.element, $scope.animateCss.blockEnd.name);
-    }
-
-  });
-
+app.controller('AnimationController', function ($scope, $timeout, animationNames, blockUI, blockUIConfig) {
   
   (function () {
 
-    var options = [];
+    var options = [], blockStart, blockEnd;
 
     angular.forEach(animationNames, function (group, groupName) {
       angular.forEach(group, function (b, animName) {
-        options.push({
+        
+        var option = {
           name: animName, group: groupName
-        });
+        };
+        
+        options.push(option);
+        
+        if(blockUIConfig.animations.start == animName) {
+          blockStart = option;    
+        }
+        
+        if(blockUIConfig.animations.end == animName) {
+          blockEnd = option;    
+        }
+        
       });
     });
-
-
+    
     $scope.animateCss = {
       options: options,
-      blockStart: options[0],
-      blockEnd: options[1]
+      blockStart: blockStart,
+      blockEnd: blockEnd
     };
 
+    // $scope.$watch('animateCss.blockStart', function(value) {
+    //   blockUIConfig.animations.start = value.name;
+    // });
+    
+    // $scope.$watch('animateCss.blockEnd', function(value) {
+    //   blockUIConfig.animations.end = value.name;
+    // });
+    
   })();
 
   var blockInstance = blockUI.instances.get('animateCssTest');
@@ -72,7 +197,6 @@ app.controller('AnimationController', function ($scope, $timeout, animationNames
       blockInstance.start();
     }
   };
-
 
 });
 

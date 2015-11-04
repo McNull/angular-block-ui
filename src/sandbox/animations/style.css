@@ -1,2 +1,45 @@
 /* Styles go here */
 
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.block-ui-container {
+  transition: height 0s linear 1500ms, opacity 1500ms ease 0s;
+}
+
+.block-ui-active > .block-ui-container {
+  /*this resets the initial delay of the height */
+  /*and sizes the block to full height at once at the start of the block. */
+  transition-delay: 0s !important;
+}
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.block-ui-message {
+  -webkit-animation-duration: 1500ms;
+  animation-duration: 1500ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+/*.block-ui-message.infinite {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+.block-ui-message.hinge {
+  -webkit-animation-duration: 200ms;
+  animation-duration: 200ms;
+}*/
+
+/*.block-ui-message.bounceIn,
+.block-ui-message.bounceOut {
+  -webkit-animation-duration: .75s;
+  animation-duration: .75s;
+}
+
+.block-ui-message.flipOutX,
+.block-ui-message.flipOutY {
+  -webkit-animation-duration: .75s;
+  animation-duration: .75s;
+}*/

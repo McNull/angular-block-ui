@@ -8,7 +8,7 @@
 .block-ui-active > .block-ui-container {
   /*this resets the initial delay of the height */
   /*and sizes the block to full height at once at the start of the block. */
-  transition-delay: 0s;
+  transition-delay: 0s !important;
 }
 
 /* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

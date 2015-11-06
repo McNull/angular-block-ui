@@ -79,8 +79,11 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
       $element.toggleClass('block-ui-visible', !!value);
 
       if (value !== prevValue) {
+        
         var event = 'block-ui-visible-' + (value ? 'start' : 'end');
 
+        // TODO: Wrong place -- move to instance
+        
         $rootScope.$broadcast(event, {
           instance: srvInstance,
           element: $element

@@ -91,8 +91,6 @@ animations.directive('blockUiAnim', function (blockUIConfig, $timeout) {
           });
         }
         
-        
-        
       }
       
       // var settings = angular.copy(blockUIConfig.animations);

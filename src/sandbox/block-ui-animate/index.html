@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+  <link data-require="bootstrap-css@*" data-semver="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"
+  />
+  <script data-require="angular.js@1.4.7" data-semver="1.4.7" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+  <script src="/dest/angular-block-ui/angular-block-ui.js"></script>
+  <link rel="stylesheet" href="/dest/angular-block-ui/angular-block-ui.css">
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <div ng-controller="MyController" class="container">
+
+    <div block-ui="blockUIAnimated" class="block-ui-animate block-ui-animate-flip">
+      <div class="jumbotron">
+        <h1>angular-block-ui</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam soluta eos nam laudantium autem incidunt quas fugiat
+          nobis commodi, similique et, eius illum veniam necessitatibus vel reprehenderit aperiam neque esse.</p>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" ng-click="toggleBlock()">Toggle Block</button>
+
+  </div>
+
+
+</body>
+
+</html>

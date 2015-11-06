@@ -1,0 +1,74 @@
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.block-ui-container {
+  transition: height 0s linear 200ms, opacity 200ms ease 0s;
+}
+
+.block-ui-active > .block-ui-container {
+  /*this resets the initial delay of the height */
+  /*and sizes the block to full height at once at the start of the block. */
+  transition-delay: 0s !important;
+}
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.block-ui.block-ui-animate > .block-ui-container {
+  transition: height 0s linear 1s, opacity 1s ease 0s;
+}
+
+.block-ui.block-ui-animate > .block-ui-container .block-ui-message {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.block-ui.block-ui-animate-flip > .block-ui-container .block-ui-message {
+  backface-visibility: visible !important;
+  animation-name: flipOutY;  
+}
+
+.block-ui.block-ui-visible.block-ui-animate-flip > .block-ui-container .block-ui-message {
+  backface-visibility: visible !important;
+  animation-name: flipInX;  
+}
+
+
+@keyframes flipInX {
+  from {
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+  }
+
+  40% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+  }
+
+  60% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+  }
+
+  80% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  to {
+    transform: perspective(400px);
+  }
+}
+
+@keyframes flipOutY {
+  from {
+    transform: perspective(400px);
+  }
+
+  30% {
+    transform: perspective(400px) rotate3d(0, 1, 0, -15deg);
+  }
+
+  to {
+    transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+  }
+}
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

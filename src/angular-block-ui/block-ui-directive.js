@@ -78,31 +78,31 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
       $element.attr('aria-busy', !!value);
       $element.toggleClass('block-ui-visible', !!value);
 
-      if (value !== prevValue) {
+      // if (value !== prevValue) {
         
-        var event = 'block-ui-visible-' + (value ? 'start' : 'end');
+      //   var event = 'block-ui-visible-' + (value ? 'start' : 'end');
 
-        // TODO: Wrong place -- move to instance
+      //   // TODO: Wrong place -- move to instance
         
-        $rootScope.$broadcast(event, {
-          instance: srvInstance,
-          element: $element
-        });
-      }
+      //   $rootScope.$broadcast(event, {
+      //     instance: srvInstance,
+      //     element: $element
+      //   });
+      // }
 
     });
 
     $scope.$watch('$_blockUiState.blockCount > 0', function (value, prevValue) {
       $element.toggleClass('block-ui-active', !!value);
 
-      if (value !== prevValue) {
-        var event = 'block-ui-active-' + (value ? 'start' : 'end');
+      // if (value !== prevValue) {
+      //   var event = 'block-ui-active-' + (value ? 'start' : 'end');
 
-        $rootScope.$broadcast(event, {
-          instance: srvInstance,
-          element: $element
-        });
-      }
+      //   $rootScope.$broadcast(event, {
+      //     instance: srvInstance,
+      //     element: $element
+      //   });
+      // }
     });
 
     // If a pattern is provided assign it to the state

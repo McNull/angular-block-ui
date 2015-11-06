@@ -1,4 +1,4 @@
-blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $document) {
+blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $document, $rootScope) {
 
   var $body = $document.find('body');
   
@@ -54,6 +54,13 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
 
       state.blockCount++;
 
+      if(state.blockCount === 1) {
+        $rootScope.$broadcast('block-ui-active-start', {
+          instance: self,
+          id: self._id
+        });
+      }
+
       // Check if the focused element is part of the block scope
 
       var $ae = angular.element($document[0].activeElement);
@@ -87,6 +94,11 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
       function block () {
         startPromise = null;
         state.blocking = true;
+        
+        $rootScope.$broadcast('block-ui-visible-start', {
+          instance: self,
+          id: self._id
+        });
       }
     };
 
@@ -127,6 +139,13 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
       state.blockCount = 0;
       state.blocking = false;
 
+      var eventArgs = {
+        instance: self, id: self._id  
+      };
+      
+      $rootScope.$broadcast('block-ui-visible-end', eventArgs);
+      $rootScope.$broadcast('block-ui-active-end', eventArgs);
+      
       // Restore the focus to the element that was active
       // before the block start, but not if the user has 
       // focused something else while the block was active.

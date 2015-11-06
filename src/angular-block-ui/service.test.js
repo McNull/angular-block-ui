@@ -412,7 +412,7 @@ describe('block-ui-service', function () {
         it('should throw an exception when specifying the property ' + x + ' in the start options', function () {
           var myOptions = {};
           myOptions[x] = 'some value';
-            
+
           var exception;
 
           try {
@@ -424,6 +424,79 @@ describe('block-ui-service', function () {
           expect(exception).not.toBeUndefined();
         });
 
+      });
+
+    });
+
+    describe('events', function () {
+
+      var $scope, $timeout;
+
+      beforeEach(function () {
+        inject(function ($rootScope, _$timeout_) {
+          $scope = $rootScope.$new();
+          $timeout = _$timeout_;
+        });
+      });
+
+      describe('active', function () {
+        
+        it('should fire active start event', function () {
+
+          var eventFired = false;
+
+          $scope.$on('block-ui-active-start', function (e, args) {
+
+            expect(args.instance).toBe(blockUI);
+            expect(args.id).toBe('main');
+
+            eventFired = true;
+          });
+
+          blockUI.start();
+
+          expect(eventFired).toBe(true);
+
+        });
+
+        it('should fire active start event only once', function () {
+
+          var eventFired = 0;
+
+          $scope.$on('block-ui-active-start', function (e, args) {
+            eventFired += 1;
+          });
+
+          blockUI.start();
+          blockUI.start();
+
+          expect(eventFired).toBe(1);
+
+        });
+
+      });
+      
+      describe('visible', function() {
+        
+        it('should fire visible start event', function () {
+
+          var eventFired = false;
+
+          $scope.$on('block-ui-visible-start', function (e, args) {
+
+            expect(args.instance).toBe(blockUI);
+            expect(args.id).toBe('main');
+
+            eventFired = true;
+          });
+
+          blockUI.start();
+          $timeout.flush();
+          
+          expect(eventFired).toBe(true);
+
+        });
+        
       });
 
     });
@@ -472,6 +545,47 @@ describe('block-ui-service', function () {
 
       expect(blockUI.reset).toHaveBeenCalledWith(true /* executeCallbacks */);
 
+    });
+    
+    describe('events', function() {
+      
+      var $scope;
+      
+      beforeEach(function() {
+        inject(function($rootScope) {  
+          $scope = $rootScope.$new();
+        });
+      });
+      
+      it('should fire visible end event', function() {
+        
+        var eventFired = false;
+        
+        $scope.$on('block-ui-visible-end', function(e, args) {
+          
+          eventFired = true;
+          
+        });
+        
+        blockUI.stop();
+        
+        expect(eventFired).toBe(true);
+      });
+      
+      it('should fire active end event', function() {
+        
+        var eventFired = false;
+        
+        $scope.$on('block-ui-active-end', function(e, args) {
+          
+          eventFired = true;
+          
+        });
+        
+        blockUI.stop();
+        
+        expect(eventFired).toBe(true);
+      });
     });
 
   }); // stop

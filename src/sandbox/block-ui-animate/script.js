@@ -16,6 +16,20 @@ app.directive('blockUiAnimate', function () {
       var instance = $element.data('block-ui'),
         onStartEvent, onEndEvent, enabled;
 
+      // Handler for the transitionend event for the start animation
+      function startTransitionEnd() {
+        if (instance.isBlocking()) {
+          $element.addClass(visibleLoop);
+        }
+
+        $element.removeClass(startEvent);
+      }
+      
+      // Handler for the transitionend event for the end animation
+      function endTransitionEnd() {
+        $element.removeClass(endEvent);
+      }
+      
       function enable() {
 
         if (!enabled) {
@@ -24,28 +38,27 @@ app.directive('blockUiAnimate', function () {
           onStartEvent = $scope.$on(startEvent, function (e, args) {
             if (args.instance === instance) {
               
-              $element.one(transitionEndEvent, function () {
-                
-                if (instance.isBlocking()) {
-                  $element.addClass(visibleLoop);
-                }
-
-                $element.removeClass(startEvent);
-              });
+              // Remove any transitionend registration for the end animation and
+              // execute it manually to remove any classes
               
+              $element.off(transitionEndEvent, endTransitionEnd);
+              endTransitionEnd();
+              
+              $element.one(transitionEndEvent, startTransitionEnd);
               $element.addClass(startEvent);
-
-              
             }
           });
 
           onEndEvent = $scope.$on(endEvent, function (e, args) {
             if (args.instance === instance) {
               
-              $element.one(transitionEndEvent, function () {        
-                $element.removeClass(endEvent);
-              });
+              // Remove any transitionend registration for the start animation and
+              // execute it manually to remove any classes
               
+              $element.off(transitionEndEvent, startTransitionEnd);
+              startTransitionEnd();
+              
+              $element.one(transitionEndEvent, endTransitionEnd);
               $element.removeClass(visibleLoop);
               $element.addClass(endEvent);
             }
@@ -92,9 +105,10 @@ app.controller('MyController', function ($scope, blockUI) {
   $scope.model = {
     animate: true,
     startEndAnimations: [
+      'block-ui-animate-scale',
       'block-ui-animate-flip'
     ],
-    startEndAnimation: null,
+    startEndAnimation: 'block-ui-animate-scale',
     visibleAnimations: [
       'block-ui-animate-text-slide'
     ],
@@ -108,12 +122,12 @@ app.controller('MyController', function ($scope, blockUI) {
           ret += $scope.model.startEndAnimation + ' ';
         }
 
-        if($scope.model.visibleAnimation) {
+        if ($scope.model.visibleAnimation) {
           ret += $scope.model.visibleAnimation + ' ';
         }
-        
+
       }
-      
+
       return ret;
     }
   };

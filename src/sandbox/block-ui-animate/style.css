@@ -32,6 +32,23 @@
 }
 
 /* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* scale */
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.block-ui.block-ui-animate-scale > .block-ui-container .block-ui-message,
+.block-ui.block-ui-visible-end.block-ui-animate-scale > .block-ui-container .block-ui-message {
+  transition: transform 0.5s, opacity 0.5s;
+  transform: scale(4,4);
+  opacity: 0;
+}
+
+.block-ui.block-ui-visible-start.block-ui-animate-scale > .block-ui-container .block-ui-message,
+.block-ui.block-ui-visible-loop.block-ui-animate-scale > .block-ui-container .block-ui-message {
+  transform: scale(1,1);
+  opacity: 1;
+}
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* flip */
 /* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -107,3 +124,4 @@
   }
 }
 
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

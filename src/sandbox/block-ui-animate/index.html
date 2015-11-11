@@ -14,7 +14,7 @@
 <body>
   <div ng-controller="MyController" class="container">
 
-    <div block-ui="blockUIAnimated" class="block-ui-animate block-ui-animate-flip">
+    <div block-ui="blockUIAnimated" block-ui-animate="{{ model.animate }}" ng-class="model.cssClass()">
       <div class="jumbotron">
         <h1>angular-block-ui</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam soluta eos nam laudantium autem incidunt quas fugiat
@@ -22,7 +22,43 @@
       </div>
     </div>
 
-    <button class="btn btn-primary" ng-click="toggleBlock()">Toggle Block</button>
+    <form class="form-horizontal">
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Start & End Animation</label>
+        <div class="col-sm-8">
+          <select class="form-control" ng-model="model.startEndAnimation" ng-options="anim for anim in model.startEndAnimations">
+            <option value="">None</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Visible Animation</label>
+        <div class="col-sm-8">
+          <select class="form-control" ng-model="model.visibleAnimation" ng-options="anim for anim in model.visibleAnimations">
+            <option value="">None</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="model.animate">&nbsp;Animations enabled
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+          <button class="btn btn-primary" ng-click="toggleBlock()">Toggle Block</button>
+        </div>
+      </div>
+
+    </form>
 
   </div>
 

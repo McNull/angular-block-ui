@@ -29,7 +29,7 @@ app.directive('blockUiAnimate', function () {
       function endTransitionEnd() {
         $element.removeClass(endEvent);
       }
-      
+
       function enable() {
 
         if (!enabled) {
@@ -43,7 +43,7 @@ app.directive('blockUiAnimate', function () {
               
               $element.off(transitionEndEvent, endTransitionEnd);
               endTransitionEnd();
-              
+
               $element.one(transitionEndEvent, startTransitionEnd);
               $element.addClass(startEvent);
             }
@@ -57,7 +57,7 @@ app.directive('blockUiAnimate', function () {
               
               $element.off(transitionEndEvent, startTransitionEnd);
               startTransitionEnd();
-              
+
               $element.one(transitionEndEvent, endTransitionEnd);
               $element.removeClass(visibleLoop);
               $element.addClass(endEvent);
@@ -91,9 +91,7 @@ app.directive('blockUiAnimate', function () {
   };
 });
 
-
-
-app.controller('MyController', function ($scope, blockUI) {
+app.controller('MyController', function ($scope, blockUI, $timeout) {
   var block = blockUI.instances.get('blockUIAnimated');
 
   $scope.toggleBlock = function () {
@@ -106,13 +104,17 @@ app.controller('MyController', function ($scope, blockUI) {
     animate: true,
     startEndAnimations: [
       'block-ui-animate-scale',
-      'block-ui-animate-flip'
+      'block-ui-animate-flip',
+      'block-ui-animate-slide'
     ],
-    startEndAnimation: 'block-ui-animate-scale',
+    startEndAnimation: 'block-ui-animate-flip',
     visibleAnimations: [
-      'block-ui-animate-text-slide'
+      'block-ui-animate-text-slide',
+      'block-ui-animate-text-flash',
+      'block-ui-animate-text-flip',
+      'block-ui-animate-text-pulse'
     ],
-    visibleAnimation: null,
+    visibleAnimation: 'block-ui-animate-text-pulse',
     cssClass: function () {
       var ret = '';
 
@@ -125,11 +127,46 @@ app.controller('MyController', function ($scope, blockUI) {
         if ($scope.model.visibleAnimation) {
           ret += $scope.model.visibleAnimation + ' ';
         }
-
+        
+        if(ret.length > 1) {
+          ret = ret.substr(0, ret.length - 1);
+        }
       }
 
+      return ret;
+    },
+    htmlPreview: function() {
+      
+      var ret = '<div block-ui="myElementBlock"';
+      
+      if ($scope.model.animate) {
+        ret += ' class="block-ui-animate';
+        
+        var css = $scope.model.cssClass();
+        
+        if(css) {
+          ret += ' ' + css;
+        }
+        
+        ret += '"'; 
+      }
+      
+      ret += '>\n  <!-- ... -->\n  <p>Lorem ipsum dolor ...</p>\n  <!-- ... -->\n</div>';
+      
       return ret;
     }
   };
 
+  $scope.$watch('model.startEndAnimation', function (value, oldValue) {
+    if (value !== oldValue) {
+      $scope.toggleBlock();
+
+      $timeout(function () {
+        if (!block.isBlocking()) {
+          $scope.toggleBlock();
+        }
+      }, 500);
+    }
+  });
+ 
 });

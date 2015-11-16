@@ -22,13 +22,28 @@
 }
 
 .block-ui.block-ui-animate > .block-ui-container .block-ui-message {
-  animation-duration: 1s;
-  animation-fill-mode: both;
+  transition: transform 0.5s, opacity 0.5s;
+  opacity: 0;
 }
 
-.block-ui.block-ui-visible.block-ui-visible-start > .block-ui-container .block-ui-message,
-.block-ui.block-ui-visible.block-ui-visible-end > .block-ui-container .block-ui-message {
-  animation-iteration-count: 1 !important;
+.block-ui.block-ui-animate.block-ui-visible > .block-ui-container .block-ui-message {
+  opacity: 1;
+}
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* slide */
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.block-ui.block-ui-animate-slide > .block-ui-container .block-ui-message {
+  transform: translateX(200%);
+}
+
+.block-ui.block-ui-visible.block-ui-animate-slide > .block-ui-container .block-ui-message {
+  transform: translateX(0%);
+}
+
+.block-ui.block-ui-visible-end.block-ui-animate-slide > .block-ui-container .block-ui-message {
+  transform: translateX(-200%);
 }
 
 /* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
@@ -37,67 +52,41 @@
 
 .block-ui.block-ui-animate-scale > .block-ui-container .block-ui-message,
 .block-ui.block-ui-visible-end.block-ui-animate-scale > .block-ui-container .block-ui-message {
-  transition: transform 0.5s, opacity 0.5s;
   transform: scale(4,4);
-  opacity: 0;
 }
 
 .block-ui.block-ui-visible-start.block-ui-animate-scale > .block-ui-container .block-ui-message,
 .block-ui.block-ui-visible-loop.block-ui-animate-scale > .block-ui-container .block-ui-message {
   transform: scale(1,1);
-  opacity: 1;
 }
 
 /* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* flip */
 /* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-.block-ui.block-ui-visible.block-ui-animate-flip > .block-ui-container .block-ui-message {
-  backface-visibility: visible !important;
+.block-ui.block-ui-animate-flip > .block-ui-container .block-ui-message {
+  transform: perspective(350px) rotate3d(0, 1, 0, -90deg);
 }
 
-.block-ui.block-ui-visible-start.block-ui-animate-flip > .block-ui-container .block-ui-message {
-  animation-name: block-ui-flip-in;  
+.block-ui.block-ui-visible.block-ui-animate-flip > .block-ui-container .block-ui-message {
+  transform: perspective(350px) rotate3d(0, 1, 0, 0deg);
 }
 
 .block-ui.block-ui-visible-end.block-ui-animate-flip > .block-ui-container .block-ui-message {
-  animation-name: block-ui-flip-out;  
+  transform: perspective(350px) rotate3d(0, 1, 0, 90deg);
 }
 
-@keyframes block-ui-flip-in {
-  from {
-    transform: perspective(350px) rotate3d(1, 0, 0, 90deg);
-  }
 
-  30% {
-    transform: perspective(350px) rotate3d(1, 0, 0, -15deg);
-  }
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* text */
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-  50% {
-    transform: perspective(350px) rotate3d(1, 0, 0, 10deg);
-  }
-
-  80% {
-    transform: perspective(350px) rotate3d(1, 0, 0, -5deg);
-  }
-
-  to {
-    transform: perspective(350px);
-  }
-}
-
-@keyframes block-ui-flip-out {
-  from {
-    transform: perspective(350px);
-  }
-
-  30% {
-    transform: perspective(350px) rotate3d(0, 1, 0, -15deg);
-  }
-
-  to {
-    transform: perspective(350px) rotate3d(0, 1, 0, 90deg);
-  }
+.block-ui-animate.block-ui-visible > .block-ui-container .block-ui-message-text,
+.block-ui-animate.block-ui-visible-end > .block-ui-container .block-ui-message-text {
+  display: inline-block;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
 }
 
 /* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
@@ -106,8 +95,7 @@
 
 .block-ui-animate.block-ui-visible.block-ui-animate-text-slide > .block-ui-container .block-ui-message-text,
 .block-ui-animate.block-ui-visible-end.block-ui-animate-text-slide > .block-ui-container .block-ui-message-text {
-  display: inline-block;
-  animation: block-ui-text-slide 2s infinite;
+  animation-name: block-ui-text-slide; 
 }
 
 @keyframes block-ui-text-slide {
@@ -121,6 +109,87 @@
   
   100% {
     transform: translateX(150%);
+  }
+}
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* text-pulse */
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.block-ui-animate.block-ui-visible.block-ui-animate-text-flash > .block-ui-container .block-ui-message-text,
+.block-ui-animate.block-ui-visible-end.block-ui-animate-text-flash > .block-ui-container .block-ui-message-text {
+  animation-name: block-ui-text-flash; 
+}
+
+@keyframes block-ui-text-flash {
+  0% {
+    opacity: 0;
+  }
+  
+  10%, 90% {
+    opacity: 1;
+  }
+  
+  100% {
+    opacity: 0;
+  }
+}
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* text-flip */
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.block-ui-animate.block-ui-visible.block-ui-animate-text-flip > .block-ui-container .block-ui-message-text,
+.block-ui-animate.block-ui-visible-end.block-ui-animate-text-flip > .block-ui-container .block-ui-message-text {
+  animation-name: block-ui-text-flip; 
+}
+
+@keyframes block-ui-text-flip {
+  0% {
+    transform: perspective(350px) rotate3d(0, 1, 0, -90deg);
+  }
+  
+  15%, 85% {
+    transform: perspective(350px) rotate3d(0, 1, 0, 0deg);
+  }
+  
+  100% {
+    transform: perspective(350px) rotate3d(0, 1, 0, 90deg);
+  }
+}
+
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* text-scale */
+/* - - - - - - 8-< - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.block-ui-animate.block-ui-visible.block-ui-animate-text-pulse > .block-ui-container .block-ui-message-text,
+.block-ui-animate.block-ui-visible-end.block-ui-animate-text-pulse > .block-ui-container .block-ui-message-text {
+  animation-name: block-ui-text-pulse; 
+}
+
+@keyframes block-ui-text-pulse {
+  0% {
+    transform: scale(1.25, 1.25); 
+  }
+  
+  15% {
+    transform: scale(1,1);
+  }
+  
+  20% {
+    transform: scale(1.25, 1.25);
+  }
+  
+  30% {
+    transform: scale(1,1);
+  }
+ 
+  95% {
+    transform: scale(1,1);
+  }
+  
+  100% {
+    transform: scale(1.25, 1.25);
   }
 }
 

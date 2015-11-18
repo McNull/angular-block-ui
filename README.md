@@ -116,6 +116,28 @@ The callback function to queue.
 #### isBlocking
 Returns whether currently a block is shown for the instance or not.
 
+Events
+======
+The block-ui service instances will _broadcast_ the following events:
+
+* __block-ui-activate-start__ occurs when a block has been started
+* __block-ui-activate-end__ occurs when a block has been ended
+* __block-ui-visible-start__ occurs when a block is visible in the ui
+* __block-ui-visible-end__ occurs when a block was visible and is hidden again
+
+Event handlers can be registered via the scope _$on_ method. The event arguments contain both the id of the instance and the instance itself that fired the event.
+
+```
+$scope.$on('block-ui-visible-start', function(e, args) {
+  
+  console.log('The block-ui instance with id ' + args.id + ' is now visible');
+  args.instance.message('Visible start event handled!');
+
+});
+```
+
+
+
 Blocking individual elements
 ============================
 
@@ -276,7 +298,7 @@ This behaviour can be disabled if there no need for any _fullscreen_ blocking or
 More information and an example can be found in this [plunker](http://plnkr.co/edit/F9UauI?p=preview) and this [plunker](http://plnkr.co/edit/X4dTgE?p=preview).
 
 #### cssClass
-A string containing the default css classes, separated by spaces, that should be applied to each block-ui element. The default value is `'block-ui block-ui-anim-fade'`. 
+A string containing the default css classes, separated by spaces, that should be applied to each block-ui element. The default value is `'block-ui'`. 
 
 If this needs to be overridden for a certain element; set the desired classes on the element including the `block-ui` class. This way the directive will not apply the configured classes to the element.
 

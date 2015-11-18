@@ -37,12 +37,16 @@ angular.module('myApp').controller('ExamplesController', function($scope, $route
     name: 'Documentation',
     tmpl: 'app/examples/readme.html'
   }, {
-    name: 'Manual Blocking Examples',
+    name: 'Basics',
     tmpl: 'app/examples/manual-blocking.html'
   }, {
-    name: 'Element Blocking Examples',
+    name: 'Element Blocking',
     tmpl: 'app/examples/element-blocking.html'
   }, {
+    name: 'Events',
+    tmpl: 'app/examples/events.html'
+  },
+  {
     name: 'Focus Management',
     tmpl: 'app/examples/focus-input.html'
   }];

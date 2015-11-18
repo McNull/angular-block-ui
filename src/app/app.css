@@ -38,3 +38,7 @@ html {
 body {
   padding-bottom: 80px;
 }
+
+.inform-fixed {
+  z-index: 10010;
+}

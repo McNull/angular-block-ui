@@ -1,10 +1,10 @@
-blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $document, $rootScope) {
+blkUI.factory('blockUI', function (blockUIConfig, $timeout, blockUIUtils, $document, $rootScope) {
 
   var $body = $document.find('body');
   
   // These properties are not allowed to be specified in the start method.
   var reservedStateProperties = ['id', 'blockCount', 'blocking'];
-  
+
   function BlockUI(id) {
 
     var self = this;
@@ -20,25 +20,25 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
 
     this._refs = 0;
 
-    this.start = function(messageOrOptions) {
-      
+    this.start = function (messageOrOptions) {
+
       messageOrOptions = messageOrOptions || {};
-      
-      if(angular.isString(messageOrOptions)) {
+
+      if (angular.isString(messageOrOptions)) {
         messageOrOptions = {
           message: messageOrOptions
         };
       } else {
-        angular.forEach(reservedStateProperties, function(x) {
-          if(messageOrOptions[x]) {
+        angular.forEach(reservedStateProperties, function (x) {
+          if (messageOrOptions[x]) {
             throw new Error('The property ' + x + ' is reserved for the block state.');
           }
         });
-      } 
-      
+      }
+
       angular.extend(state, messageOrOptions);
-      
-      if(state.blockCount > 0) {
+
+      if (state.blockCount > 0) {
         state.message = messageOrOptions.message || state.message || blockUIConfig.message;
       } else {
         state.message = messageOrOptions.message || blockUIConfig.message;
@@ -54,7 +54,7 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
 
       state.blockCount++;
 
-      if(state.blockCount === 1) {
+      if (state.blockCount === 1) {
         $rootScope.$broadcast('block-ui-active-start', {
           instance: self,
           id: self._id
@@ -65,7 +65,7 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
 
       var $ae = angular.element($document[0].activeElement);
 
-      if($ae.length && blockUIUtils.isElementInBlockScope($ae, self)) {
+      if ($ae.length && blockUIUtils.isElementInBlockScope($ae, self)) {
 
         // Let the active element lose focus and store a reference 
         // to restore focus when we're done (reset)
@@ -76,7 +76,7 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
         // http://stackoverflow.com/questions/22698058/apply-already-in-progress-error-when-using-typeahead-plugin-found-to-be-relate
         // Queue the blur after any ng-blur expression.
 
-        $timeout(function() {
+        $timeout(function () {
           // Ensure we still need to blur
           // Don't restore if active element is body, since this causes IE to switch windows (see http://tjvantoll.com/2013/08/30/bugs-with-document-activeelement-in-internet-explorer/)
           if (self._restoreFocus && self._restoreFocus !== $body[0]) {
@@ -91,10 +91,10 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
         block();
       }
 
-      function block () {
+      function block() {
         startPromise = null;
         state.blocking = true;
-        
+
         $rootScope.$broadcast('block-ui-visible-start', {
           instance: self,
           id: self._id
@@ -102,30 +102,33 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
       }
     };
 
-    this._cancelStartTimeout = function() {
+    this._cancelStartTimeout = function () {
       if (startPromise) {
         $timeout.cancel(startPromise);
         startPromise = null;
       }
     };
 
-    this.stop = function() {
+    this.stop = function () {
+
+      var prevBlockCount = state.blockCount;
+
       state.blockCount = Math.max(0, --state.blockCount);
 
       if (state.blockCount === 0) {
-        self.reset(true);
+        self.reset(true, prevBlockCount);
       }
     };
 
     this.isBlocking = function () {
-        return state.blocking;
+      return state.blocking;
     };
 
-    this.message = function(value) {
+    this.message = function (value) {
       state.message = value;
     };
 
-    this.pattern = function(regexp) {
+    this.pattern = function (regexp) {
       if (regexp !== undefined) {
         self._pattern = regexp;
       }
@@ -133,48 +136,55 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
       return self._pattern;
     };
 
-    this.reset = function(executeCallbacks) {
+    this.reset = function (executeCallbacks, prevBlockCount) {
+
+      if (prevBlockCount) {
+      
+        var eventArgs = {
+          instance: self, id: self._id
+        };
+
+        if(state.blocking) {
+          $rootScope.$broadcast('block-ui-visible-end', eventArgs);  
+        }
+        
+        $rootScope.$broadcast('block-ui-active-end', eventArgs);
+      }
       
       self._cancelStartTimeout();
       state.blockCount = 0;
       state.blocking = false;
 
-      var eventArgs = {
-        instance: self, id: self._id  
-      };
-      
-      $rootScope.$broadcast('block-ui-visible-end', eventArgs);
-      $rootScope.$broadcast('block-ui-active-end', eventArgs);
       
       // Restore the focus to the element that was active
       // before the block start, but not if the user has 
       // focused something else while the block was active.
 
-      if(self._restoreFocus && 
-         (!$document[0].activeElement || $document[0].activeElement === $body[0])) {
+      if (self._restoreFocus &&
+        (!$document[0].activeElement || $document[0].activeElement === $body[0])) {
         
         //IE8 will throw if element for setting focus is invisible
         try {
           self._restoreFocus.focus();
-        } catch(e1) {
+        } catch (e1) {
           (function () {
-              var elementToFocus = self._restoreFocus;
-              $timeout(function() { 
-                if(elementToFocus) { 
-                  try { 
-                    elementToFocus.focus(); 
-                  } catch(e2) { }
-              } 
-            },100);
+            var elementToFocus = self._restoreFocus;
+            $timeout(function () {
+              if (elementToFocus) {
+                try {
+                  elementToFocus.focus();
+                } catch (e2) { }
+              }
+            }, 100);
           })();
         }
-        
+
         self._restoreFocus = null;
       }
-      
+
       try {
         if (executeCallbacks) {
-          angular.forEach(doneCallbacks, function(cb) {
+          angular.forEach(doneCallbacks, function (cb) {
             cb();
           });
         }
@@ -183,20 +193,20 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
       }
     };
 
-    this.done = function(fn) {
+    this.done = function (fn) {
       doneCallbacks.push(fn);
     };
 
-    this.state = function() {
+    this.state = function () {
       return state;
     };
 
-    this.addRef = function() {
+    this.addRef = function () {
       self._refs += 1;
     };
 
-    this.release = function() {
-      if(--self._refs <= 0) {
+    this.release = function () {
+      if (--self._refs <= 0) {
         mainBlock.instances._destroy(self);
       }
     };
@@ -204,15 +214,15 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
 
   var instances = [];
 
-  instances.get = function(id) {
+  instances.get = function (id) {
 
-    if(!isNaN(id)) {
+    if (!isNaN(id)) {
       throw new Error('BlockUI id cannot be a number');
     }
 
     var instance = instances[id];
 
-    if(!instance) {
+    if (!instance) {
       // TODO: ensure no array instance trashing [xxx] -- current workaround: '_' + $scope.$id
       instance = instances[id] = new BlockUI(id);
       instances.push(instance);
@@ -221,7 +231,7 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
     return instance;
   };
 
-  instances._destroy = function(idOrInstance) {
+  instances._destroy = function (idOrInstance) {
     if (angular.isString(idOrInstance)) {
       idOrInstance = instances[idOrInstance];
     }
@@ -235,8 +245,8 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
       delete instances[idOrInstance.state().id];
     }
   };
-  
-  instances.locate = function(request) {
+
+  instances.locate = function (request) {
 
     var result = [];
 
@@ -248,16 +258,16 @@ blkUI.factory('blockUI', function(blockUIConfig, $timeout, blockUIUtils, $docume
 
     var i = instances.length;
 
-    while(i--) {
+    while (i--) {
       var instance = instances[i];
       var pattern = instance._pattern;
 
-      if(pattern && pattern.test(request.url)) {
+      if (pattern && pattern.test(request.url)) {
         result.push(instance);
       }
     }
 
-    if(result.length === 0) {
+    if (result.length === 0) {
       result.push(mainBlock);
     }
 

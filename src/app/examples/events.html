@@ -1,0 +1,92 @@
+<div>
+  <p>
+    The block-ui service instances will <em>broadcast</em> the following events whenever a block is starting or ending. 
+  </p>
+  <ul>
+    <li><strong>block-ui-active-start</strong>: occurs when the block is activated</li>
+    <li><strong>block-ui-active-end</strong>: occurs when the block is deactivated</li>
+    <li><strong>block-ui-visible-start</strong>: occurs when the block is visible</li>
+    <li><strong>block-ui-visible-end</strong>: occurs when the block was visible but is hidden again</li>
+  </ul>
+  <p>
+    The arguments passed to the event handler contains the instance and the id of the block UI service. 
+  </p>
+  
+  <h2>Simple Example</h2>
+  <div class="example" ng-controller="SimpleEventHandlerController">
+    
+    <div style="max-width: 400px; margin: 0 auto 10px;">
+      <div block-ui="myBlock">
+        <div class="well">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+      </div>
+      <button ng-click="toggleBlock()" type="button" class="btn btn-primary btn-lg btn-block">Toggle Block</button>
+    </div>
+    
+    <h3>Markup</h3>
+  <pre><code>&lt;div block-ui=&quot;myBlock&quot;&gt;
+  &lt;!-- ... --&gt;
+  &lt;p&gt;Lorem del ipsum ...&lt;/p&gt;
+  &lt;!-- ... --&gt;
+&lt;/div&gt;</code></pre>
+  <h3>Code</h3>
+  <pre><code>$scope.$on('block-ui-active-start', function(e, args) {
+    
+  // Check if it is the correct block ui instance (skip if you don't care)
+  if(args.id === 'myBlock') {
+  
+    // Update the message displayed by the instance
+    args.instance.message('Activate start handled!');
+    
+  }
+       
+});</code></pre>  
+  </div>
+  
+  <h2>Multiple Instances</h2>
+  <p>The example below demonstrates monitoring multiple block-ui instances. 
+    When the start button is pressed all three block-ui instances will randomly start and stop blocking.</p>
+  
+  <div class="example" ng-controller="MonitorEventsController">
+
+    <form class="form">
+      <fieldset>
+        <legend>
+          Monitor events
+        </legend>
+        <div class="checkbox" ng-repeat="(event, value) in events">
+          <label>
+            <input type="checkbox" ng-model="events[event]"> {{ event }}
+          </label>
+        </div>
+      </fieldset>
+      <hr>
+    </form>
+
+    <div class="row">
+      <div class="col-sm-4" ng-repeat="(id, instance) in instances">
+        <div block-ui="{{ id }}">
+          <div class="alert alert-{{ instance.color }}">
+            <h3>Instance {{ id }}</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+              magna aliqua.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <button ng-click="toggleTimer()" type="button" class="btn btn-lg btn-block {{ running ? 'btn-danger' : 'btn-primary' }}">{{ running ? 'Stop' : 'Start' }}</button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -111,7 +111,15 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
 
     $element.data('block-ui', srvInstance);
 
-    blockUiAnimateLinkFn($scope, $element, $attrs);
+    // Setup animation support
+    
+    var animateAttr = $element.attr('block-ui-animate');
+    
+    if ($element.hasClass('block-ui-animate') || animateAttr !== undefined) {
+      $element.attr('block-ui-animate', animateAttr || 'true');
+      blockUiAnimateLinkFn($scope, $element, $attrs);
+    }
+
   }
 
   return link;

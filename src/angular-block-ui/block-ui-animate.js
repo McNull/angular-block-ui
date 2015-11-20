@@ -28,7 +28,7 @@ blkUI.factory('blockUiAnimateLinkFn', function() {
       function enable() {
 
         if (!enabled) {
-          //$element.addClass(cssClass);
+          $element.addClass(cssClass);
 
           onStartEvent = $scope.$on(startEvent, function (e, args) {
             if (args.instance === instance) {
@@ -86,7 +86,6 @@ blkUI.factory('blockUiAnimateLinkFn', function() {
       if($element.hasClass('block-ui-animate')) {
         enable();
       }
-    
   };
   
 });

@@ -298,7 +298,8 @@ This behaviour can be disabled if there no need for any _fullscreen_ blocking or
 More information and an example can be found in this [plunker](http://plnkr.co/edit/F9UauI?p=preview) and this [plunker](http://plnkr.co/edit/X4dTgE?p=preview).
 
 #### cssClass
-A string containing the default css classes, separated by spaces, that should be applied to each block-ui element. The default value is `'block-ui'`. 
+A string containing the default css classes, separated by spaces, that should be applied to each block-ui element. 
+The default value is `'block-ui-animate block-ui-animate-slide block-ui-animate-text-slide'`. 
 
 If this needs to be overridden for a certain element; set the desired classes on the element including the `block-ui` class. This way the directive will not apply the configured classes to the element.
 

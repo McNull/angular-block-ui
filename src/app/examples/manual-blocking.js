@@ -22,19 +22,19 @@ angular.module('myApp').controller('ManualBlockingController', function($scope, 
 
     $timeout(function() {
       blockUI.message('Still loading ...');
-    }, 1000);
-
-    $timeout(function() {
-      blockUI.message('Almost there ...');
     }, 2000);
 
     $timeout(function() {
+      blockUI.message('Almost there ...');
+    }, 4000);
+
+    $timeout(function() {
       blockUI.message('Cleaning up ...');
-    }, 3000);
+    }, 6000);
 
     $timeout(function() {
       blockUI.stop();
-    }, 4000);
+    }, 8000);
   };
 
   $scope.resetOnError = function() {

@@ -6,7 +6,7 @@ blkUI.constant('blockUIConfig', {
     resetOnException: true,
     requestFilter: angular.noop,
     autoInjectBodyBlock: true,
-    cssClass: 'block-ui',
+    cssClass: 'block-ui block-ui-animate block-ui-animate-slide block-ui-animate-text-slide',
     blockBrowserNavigation: false
 });
 

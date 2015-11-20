@@ -543,17 +543,19 @@ describe('block-ui-service', function () {
 
       blockUI.stop();
 
-      expect(blockUI.reset).toHaveBeenCalledWith(true /* executeCallbacks */);
-
+      //expect(blockUI.reset).toHaveBeenCalledWith(true /* executeCallbacks */);
+      expect(blockUI.reset).toHaveBeenCalled();
+      expect(blockUI.reset.calls[0].args[0]).toBe(true /* executeCallbacks */);
     });
     
     describe('events', function() {
       
-      var $scope;
+      var $scope, $timeout;
       
       beforeEach(function() {
-        inject(function($rootScope) {  
+        inject(function($rootScope, _$timeout_) {  
           $scope = $rootScope.$new();
+          $timeout = _$timeout_;
         });
       });
       
@@ -567,9 +569,28 @@ describe('block-ui-service', function () {
           
         });
         
+        blockUI.start();
+
+        $timeout.flush();
+
         blockUI.stop();
         
         expect(eventFired).toBe(true);
+      });
+
+      it('should NOT fire visible end event when not visible', function() {
+        
+        var eventFired = false;
+        
+        $scope.$on('block-ui-visible-end', function(e, args) {
+          
+          eventFired = true;
+          
+        });
+        
+        blockUI.stop();
+        
+        expect(eventFired).toBe(false);
       });
       
       it('should fire active end event', function() {
@@ -582,9 +603,27 @@ describe('block-ui-service', function () {
           
         });
         
+        blockUI.start();
         blockUI.stop();
         
         expect(eventFired).toBe(true);
+      });
+
+      it('should NOT fire active end event when not active', function() {
+        
+        var eventFired = false;
+        
+        $scope.$on('block-ui-active-end', function(e, args) {
+          
+          eventFired = true;
+          
+        });
+        
+        
+        blockUI.stop();
+        
+        expect(eventFired).toBe(false);
+        
       });
     });
 

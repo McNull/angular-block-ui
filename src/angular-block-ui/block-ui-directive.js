@@ -6,10 +6,17 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
     compile: blockUiCompileFn
   };
 
-}).factory('blockUiCompileFn', function (blockUiPreLinkFn) {
+}).factory('blockUiCompileFn', function (blockUiPreLinkFn, blockUIConfig, $compile) {
 
   return function ($element, $attrs) {
+    
+    // If the element does not have the class "block-ui" set, we set the
+    // default css classes from the config.
 
+    if (!$element.hasClass('block-ui')) {
+      $element.addClass(blockUIConfig.cssClass);
+    }
+    
     // Class should be added here to prevent an animation delay error.
 
     $element.append('<div block-ui-container class="block-ui-container"></div>');
@@ -20,22 +27,9 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
 
   };
 
-}).factory('blockUiPreLinkFn', function (blockUI, blockUIUtils, blockUIConfig, $rootScope) {
+}).factory('blockUiPreLinkFn', function (blockUI, blockUIUtils, blockUIConfig, $rootScope, blockUiAnimateLinkFn) {
 
-  return function ($scope, $element, $attrs) {
-
-    // If the element does not have the class "block-ui" set, we set the
-    // default css classes from the config.
-
-    if (!$element.hasClass('block-ui')) {
-      $element.addClass(blockUIConfig.cssClass);
-    }
-
-    //     // Expose the blockUiMessageClass attribute value on the scope
-    // 
-    //     $attrs.$observe('blockUiMessageClass', function (value) {
-    //       $scope.$_blockUiMessageClass = value;
-    //     });
+  function link($scope, $element, $attrs) {
 
     // Create the blockUI instance
     // Prefix underscore to prevent integers:
@@ -43,7 +37,6 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
 
     var instanceId = $attrs.blockUi || '_' + $scope.$id;
     var srvInstance = blockUI.instances.get(instanceId);
-
     // If this is the main (topmost) block element we'll also need to block any
     // location changes while the block is active.
 
@@ -118,24 +111,9 @@ blkUI.directive('blockUi', function (blockUiCompileFn) {
 
     $element.data('block-ui', srvInstance);
 
-  };
+    blockUiAnimateLinkFn($scope, $element, $attrs);
+  }
+
+  return link;
 
 });
-//.factory('blockUiPostLinkFn', function(blockUIUtils) {
-//
-//  return function($scope, $element, $attrs) {
-//
-//    var $message;
-//
-//    $attrs.$observe('blockUiMessageClass', function(value) {
-//
-//      $message = $message || blockUIUtils.findElement($element, function($e) {
-//        return $e.hasClass('block-ui-message');
-//      });
-//
-//      $message.addClass(value);
-//
-//    });
-//  };
-//
-//});

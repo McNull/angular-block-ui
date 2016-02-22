@@ -47,6 +47,10 @@ angular.module('myApp').controller('ExamplesController', function($scope, $route
     tmpl: 'app/examples/events.html'
   },
   {
+    name: 'Animations',
+    tmpl: 'app/examples/animations.html'
+  },
+  {
     name: 'Focus Management',
     tmpl: 'app/examples/focus-input.html'
   }];

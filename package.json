@@ -4,7 +4,7 @@
   "description": "An AngularJS module that allows you to block user interaction on AJAX requests.",
   "homepage": "https://github.com/McNull/angular-block-ui",
   "repository": "https://github.com/McNull/angular-block-ui",
-  "main": "gulp",
+  "main": "index.js",
   "scripts": {
     "test": "gulp test"
   },

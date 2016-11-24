@@ -495,6 +495,14 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
     this.message = function(value) {
       state.message = value;
     };
+    
+    this.img = function(value) {
+      state.img = value;
+    };
+    
+    this.classImg = function(value) {
+      state.classImg = value;
+    };
 
     this.pattern = function(regexp) {
       if (regexp !== undefined) {

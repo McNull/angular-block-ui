@@ -23,7 +23,7 @@ Version __0.1__
 #### Installation
 Either copy the contents of the `dist` directory of the [Github](https://github.com/McNull/angular-block-ui) project or install with _bower_ from the command line (**recommended**):
     
-    bower install angular-block-ui
+    bower install angular-block-ui --save
 
 Include both the JS and CSS file in your html:
 
